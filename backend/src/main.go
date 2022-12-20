@@ -16,6 +16,7 @@ func setUpRouter() *gin.Engine {
 }
 
 func main() {
+	runGoogleConnection()
 	r := setUpRouter()
 	err := r.Run(":8080");
 	if err != nil {

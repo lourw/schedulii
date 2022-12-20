@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	google "schedulii/src/google"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/static"
@@ -19,6 +20,7 @@ func setUpRouter(router *gin.Engine) {
 }
 
 func main() {
+	google.RunGoogleConnection()
 	r := gin.Default()
 	setUpRouter(r)
 	serveFrontend(r)

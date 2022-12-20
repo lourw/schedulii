@@ -69,7 +69,7 @@ func saveToken(path string, token *oauth2.Token) {
 	}
 }
 
-func runGoogleConnection() {
+func RunGoogleConnection() {
 	ctx := context.Background()
 	b, err := os.ReadFile("credentials.json")
 	if err != nil {

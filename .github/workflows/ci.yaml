@@ -27,9 +27,6 @@ jobs:
       - name: Setup Repo
         uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: go get
-
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:

@@ -1,7 +1,11 @@
 package main
 
-import "github.com/gin-gonic/gin"
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func setUpRouter() *gin.Engine {
 	r := gin.Default()
@@ -13,5 +17,8 @@ func setUpRouter() *gin.Engine {
 
 func main() {
 	r := setUpRouter()
-	r.Run(":8080");
+	err := r.Run(":8080");
+	if err != nil {
+		fmt.Println("Error starting server")
+	}
 }

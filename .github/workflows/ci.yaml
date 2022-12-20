@@ -34,7 +34,7 @@ jobs:
           working-directory: backend
 
       - name: Run Go Vet
-        run: go vet
+        run: go vet ./src
 
       - name: Run Tests
         run: go test ./...

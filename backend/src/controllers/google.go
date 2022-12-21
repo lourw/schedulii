@@ -71,7 +71,7 @@ func RunGoogleCallback(c *gin.Context) {
 	}
 
 	saveToken("token.json", tok)
-	c.Redirect(302, "http://localhost:8080/google")
+	c.Redirect(http.StatusFound, "/google")
 }
 
 func RunGoogleConnection(c *gin.Context) {
@@ -82,7 +82,7 @@ func RunGoogleConnection(c *gin.Context) {
 	tok, err := tokenFromFile(tokFile)
 	if err != nil {
 		authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline, oauth2.ApprovalForce)
-		c.Redirect(302, authURL)
+		c.Redirect(http.StatusFound, authURL)
 		return
 	}
 	
@@ -98,5 +98,5 @@ func RunGoogleConnection(c *gin.Context) {
 		log.Fatalf("Unable to retrieve data from calendars: %v", err)
 	}
 
-	c.String(200, "%v", cal)
+	c.String(http.StatusOK, "%v", cal)
 }

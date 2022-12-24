@@ -1,0 +1,15 @@
+CREATE TABLE Users(
+	UserEmail varchar(200) PRIMARY KEY
+);
+
+CREATE TABLE Team(
+	TeamID int PRIMARY KEY,
+	TeamName varchar(100) NOT NULL
+);
+
+CREATE TABLE BelongsTo(
+	TeamID int,
+	UserEmail varchar(200),
+	FOREIGN KEY (TeamID) References Team ON DELETE CASCADE,
+	FOREIGN KEY (UserEmail) References Users ON DELETE CASCADE
+);

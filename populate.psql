@@ -1,0 +1,12 @@
+INSERT INTO Users VALUES ('charliebrown14@gmail.com');
+INSERT INTO Users VALUES ('scoobydoo@gmail.com');
+INSERT INTO Users VALUES ('gogopher@gmail.com');
+INSERT INTO Event VALUES (1, 'Schedulii Meeting');
+INSERT INTO Event VALUES (2, 'Peanuts Christmas Party');
+INSERT INTO Event VALUES (3, 'Haunted House Investigation');
+INSERT INTO BelongsTo VALUES (1, 'gogopher@gmail.com');
+INSERT INTO BelongsTo VALUES (1, 'scoobydoo@gmail.com');
+INSERT INTO BelongsTo VALUES (1, 'charliebrown14@gmail.com');
+INSERT INTO BelongsTo VALUES (2, 'charliebrown14@gmail.com');
+INSERT INTO BelongsTo VALUES (3, 'scoobydoo@gmail.com');
+INSERT INTO BelongsTo VALUES (3, 'gogopher@gmail.com');

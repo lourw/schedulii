@@ -2,14 +2,14 @@ CREATE TABLE Users(
 	UserEmail varchar(200) PRIMARY KEY
 );
 
-CREATE TABLE Team(
-	TeamID int PRIMARY KEY,
-	TeamName varchar(100) NOT NULL
+CREATE TABLE Event(
+	EventID int PRIMARY KEY,
+	EventName varchar(100) NOT NULL
 );
 
 CREATE TABLE BelongsTo(
-	TeamID int,
+	EventID int,
 	UserEmail varchar(200),
-	FOREIGN KEY (TeamID) References Team ON DELETE CASCADE,
+	FOREIGN KEY (EventID) References Event ON DELETE CASCADE,
 	FOREIGN KEY (UserEmail) References Users ON DELETE CASCADE
 );

@@ -40,7 +40,7 @@ func RunGoogleConnection(c *gin.Context) {
 		log.Fatalf("Unable to retrieve data from calendars: %v", err)
 	}
 
-	c.String(http.StatusOK, "%v", cal)
+	c.JSON(200, cal.Items)
 }
 
 func RunGoogleCallback(c *gin.Context) {

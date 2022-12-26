@@ -22,6 +22,13 @@ clean:
 	cd ${BACKEND_DIR} && \
 	rm ${BINARY_NAME}
 
+ci_frontend: 
+	cd ${FRONTEND_DIR} && \
+	npm run lint && \
+	npm test
 
-
-
+ci_backend:
+	cd ${BACKEND_DIR} && \
+	golangci-lint run && \
+	go vet ./... && \
+	go test ./...

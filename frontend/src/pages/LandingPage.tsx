@@ -4,13 +4,13 @@ import '../App.css'
 const LandingPage = () => {
   return (
     <div className='wrapper'>
-        <div className='header'>header</div>
+        <div className='header'></div>
         <div className='title'>
             <span>Schedulii</span>            
-            <div className='loginButton'>loginButton</div>
+            <div className='loginButton'>Login with Google</div>
         </div>
         
-        <div className='footer'>footer</div>
+        <div className='footer'></div>
     </div>
   )
 }

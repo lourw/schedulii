@@ -1,8 +1,7 @@
-package controllers
+package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,6 +12,7 @@ import (
 	"google.golang.org/api/calendar/v3"
 	"google.golang.org/api/option"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,11 +20,11 @@ func RunGoogleConnection(c *gin.Context) {
 	ctx := context.Background()
 	config := readGoogleAPICredentials()
 
-	tokFile := "token.json"
-	tok, err := tokenFromFile(tokFile)
-	if err != nil {
+	tok, valid := tokenFromSession(c)
+	if !valid {
 		authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline, oauth2.ApprovalForce)
 		c.Redirect(http.StatusFound, authURL)
+		c.Abort()
 		return
 	}
 	
@@ -57,8 +57,8 @@ func RunGoogleCallback(c *gin.Context) {
 		log.Fatalf("Unable to retrieve token from web: %v", err)
 	}
 
-	saveToken("token.json", tok)
-	c.Redirect(http.StatusFound, "/google")
+	saveTokenToSession(c, tok)
+	c.Redirect(http.StatusFound, "/google/googleAuth")
 }
 
 func readGoogleAPICredentials() *oauth2.Config {
@@ -75,28 +75,22 @@ func readGoogleAPICredentials() *oauth2.Config {
 	return config
 }
 
-// Retrieves a token from a local file.
-func tokenFromFile(file string) (*oauth2.Token, error) {
-	f, err := os.Open(file)
-	if err != nil {
-		return nil, err
+func tokenFromSession(c *gin.Context) (*oauth2.Token, bool) {
+	session := sessions.Default(c)
+
+	tok, ok := session.Get("token").(oauth2.Token)
+	if !ok {
+		return nil, false
 	}
-	defer f.Close()
-	tok := &oauth2.Token{}
-	err = json.NewDecoder(f).Decode(tok)
-	return tok, err
+
+	return &tok, tok.Valid()
 }
 
-// Saves a token to a file path.
-func saveToken(path string, token *oauth2.Token) {
-	fmt.Printf("Saving credential file to: %s\n", path)
-	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
+func saveTokenToSession(c *gin.Context, token *oauth2.Token) {
+	session := sessions.Default(c)
+	session.Set("token", *token)
+	err := session.Save()
 	if err != nil {
-		log.Fatalf("Unable to cache OAuth token: %v", err)
-	}
-	defer f.Close()
-	err = json.NewEncoder(f).Encode(token)
-	if err != nil {
-		log.Fatalf("Error with encoding")
+		fmt.Printf("Error: %v", err)
 	}
 }

@@ -1,18 +1,28 @@
 package routes
 
 import (
-	controllers "schedulii/src/controllers"
+	handlers "schedulii/src/handlers"
+	"schedulii/src/middleware"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/static"
+	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(router *gin.Engine) {
+func SetupRoutes(engine *gin.Engine) {
 	// Serve frontend build
-	router.Use(static.Serve("/", static.LocalFile("../../frontend/build", true)))
+	engine.Use(static.Serve("/", static.LocalFile("../../frontend/build", true)))
 
-	// GET Routes
-	router.GET("/health", controllers.HealthCheckController)
-	router.GET("/google", controllers.RunGoogleConnection)
-	router.GET("/auth", controllers.RunGoogleCallback)
+	engine.GET("/health", handlers.HealthCheck)
+
+	googleAuth := engine.Group("/google")
+	{
+		googleAuth.GET("/googleAuth", handlers.RunGoogleConnection)
+		googleAuth.GET("/googleCallback", handlers.RunGoogleCallback)
+	}
+
+	authorized := engine.Group("/authorized")
+	authorized.Use(middleware.CheckAuthenticated) 
+	{
+		authorized.GET("/", handlers.GetCalendars)
+	}
 }

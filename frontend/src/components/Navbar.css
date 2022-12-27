@@ -1,0 +1,22 @@
+
+.navbar {
+    top: 0px;
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    background-color: #d3c7f5;
+}
+.nav-elements ul {
+    font-size: 20px;
+    display: flex;
+    justify-content: flex-start;
+    list-style-type: none;
+    font-family: Poppins;
+    padding-inline-start: 50px;
+    align-items: baseline;
+}
+
+.nav-elements ul li {
+    margin-right: 60px;
+}
+

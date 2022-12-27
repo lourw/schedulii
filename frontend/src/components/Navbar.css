@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
+
+.navbar {
+    top: 0px;
+    position: fixed;
+    width: 100%;
+    height: 10%;
+    background-color: #242038;
+}
+.nav-elements ul {
+    font-size: 20px;
+    display: flex;
+    justify-content: flex-start;
+    list-style-type: none;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.nav-elements li {
+    margin-right: 60px;
+}
+
+.nav-elements ul a {
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.nav-elements ul :visited {
+    color: whitesmoke;
+}
+
+.nav-elements ul :hover {
+    text-decoration: underline;
+}

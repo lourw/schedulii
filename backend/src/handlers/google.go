@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -99,18 +101,21 @@ func saveTokenToSession(c *gin.Context, token *oauth2.Token) {
 func getUserCalendarEvents(string userID) ([]CalendarEvent, error) {
 	client, err := google.DefaultClient(context.Background(), calendar.CalendarReadonlyScope)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	svc, err := calendar.New(client)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
+	today = time.Now().Format(time.RFC3339)
+	one_month = time.Now().Add(time.Month).Format(time.RFC3339)
+
 	events, err := svc.Events.List(userID).ShowDeleted(false.)
-		SingleEvents(true).MaxResults(10).OrderBy("startTime").Do()
+		SingleEvents(true).TimeMin(today).TimeMax(one_month).MaxResults(10).OrderBy("startTime").Do()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	var calendarEvents []CalendarEvent

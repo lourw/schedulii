@@ -11,7 +11,7 @@ const Navbar = () => {
                     <NavLink to="/home">Home</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/create-event"> Schedule New Event</NavLink> {/* this is a placeholder for events page */}
+                    <NavLink to="/create-event"> Create New Event</NavLink> 
                 </li>
             </ul>
         </div>

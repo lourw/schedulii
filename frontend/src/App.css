@@ -54,7 +54,7 @@ span {
 }
 
 .footer {
-  background: linear-gradient(180deg, rgb(252, 252, 252) 0%, rgba(183, 169, 222) 100%);
+  background: linear-gradient(180deg, #fdfcff 0%, #CBCAFC 100%);
   width:100%;
 }
 

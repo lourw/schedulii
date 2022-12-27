@@ -95,8 +95,8 @@ func saveTokenToSession(c *gin.Context, token *oauth2.Token) {
 	}
 }
 
-// Gets Calendar Events as a JSON file
-func getCalendarEvents() ([]CalendarEvent, error) {
+// Gets a User's Calendar Events as a JSON file
+func getUserCalendarEvents(string userID) ([]CalendarEvent, error) {
 	client, err := google.DefaultClient(context.Background(), calendar.CalendarReadonlyScope)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,8 @@ func getCalendarEvents() ([]CalendarEvent, error) {
 		return nil, err
 	}
 
-	events, err := svc.Events.List("primary").MaxResults(10).Do()
+	events, err := svc.Events.List(userID).ShowDeleted(false.)
+		SingleEvents(true).MaxResults(10).OrderBy("startTime").Do()
 	if err != nil {
 		return nil, err
 	}

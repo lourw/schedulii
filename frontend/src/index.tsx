@@ -4,7 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import { LandingPage, Homepage, CreateEvent } from './pages';
+import LandingPage from './pages/LandingPage';
+import Homepage from './pages/Homepage';
+import CreateEvent from './pages/CreateEvent';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -94,3 +94,37 @@ func saveTokenToSession(c *gin.Context, token *oauth2.Token) {
 		fmt.Printf("Error: %v", err)
 	}
 }
+
+// Gets Calendar Events as a JSON file
+func getCalendarEvents() ([]CalendarEvent, error) {
+	client, err := google.DefaultClient(context.Background(), calendar.CalendarReadonlyScope)
+	if err != nil {
+		return nil, err
+	}
+
+	svc, err := calendar.New(client)
+	if err != nil {
+		return nil, err
+	}
+
+	events, err := svc.Events.List("primary").MaxResults(10).Do()
+	if err != nil {
+		return nil, err
+	}
+
+	var calendarEvents []CalendarEvent
+	for _, item := range events.Items {
+		var ce CalendarEvent
+		ce.Start = item.Start.DateTime
+		ce.End = item.End.DateTime
+		ce.Summary = item.Summary
+		calendarEvents = append(calendarEvents, ce)
+	}
+
+	b, err := json.Marshal(calendarEvents)
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
+}

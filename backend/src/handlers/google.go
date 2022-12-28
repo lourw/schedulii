@@ -98,15 +98,15 @@ func saveTokenToSession(c *gin.Context, token *oauth2.Token) {
 }
 
 // Gets a User's Calendar Events as a JSON file
-func getUserCalendarEvents(userID string) ([]calendar.Event, error) {
+func getUserCalendarEvents(userID string) ([]byte, error) {
 	client, err := google.DefaultClient(context.Background(), calendar.CalendarReadonlyScope)
 	if err != nil {
-		return err
+		log.Fatalf("Unable to read client secret file: %v", err)
 	}
 
 	svc, err := calendar.New(client)
 	if err != nil {
-		return err
+		log.Fatalf("Unable to retrieve Calendar client: %v", err)
 	}
 
 	today := time.Now().Format(time.RFC3339)
@@ -115,7 +115,7 @@ func getUserCalendarEvents(userID string) ([]calendar.Event, error) {
 	events, err := svc.Events.List(userID).ShowDeleted(false).
 		SingleEvents(true).TimeMin(today).TimeMax(one_month).MaxResults(10).OrderBy("startTime").Do()
 	if err != nil {
-		return err
+		log.Fatalf("Unable to retrieve next ten of the user's events: %v", err)
 	}
 
 	var calendarEvents []calendar.Event

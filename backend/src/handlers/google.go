@@ -29,14 +29,14 @@ func RunGoogleConnection(c *gin.Context) {
 		c.Abort()
 		return
 	}
-	
+
 	client := config.Client(context.Background(), tok)
-	
+
 	srv, err := calendar.NewService(ctx, option.WithHTTPClient(client))
 	if err != nil {
 		log.Fatalf("Unable to retrieve calendar client: %v", err)
 	}
-	
+
 	cal, err := srv.CalendarList.List().Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from calendars: %v", err)
@@ -98,7 +98,7 @@ func saveTokenToSession(c *gin.Context, token *oauth2.Token) {
 }
 
 // Gets a User's Calendar Events as a JSON file
-func getUserCalendarEvents(string userID) ([]CalendarEvent, error) {
+func getUserCalendarEvents(userID string) ([]calendar.Event, error) {
 	client, err := google.DefaultClient(context.Background(), calendar.CalendarReadonlyScope)
 	if err != nil {
 		return err
@@ -109,20 +109,20 @@ func getUserCalendarEvents(string userID) ([]CalendarEvent, error) {
 		return err
 	}
 
-	today = time.Now().Format(time.RFC3339)
-	one_month = time.Now().Add(time.Month).Format(time.RFC3339)
+	today := time.Now().Format(time.RFC3339)
+	one_month := time.Now().AddDate(0, 1, 0).Format(time.RFC3339)
 
-	events, err := svc.Events.List(userID).ShowDeleted(false.)
+	events, err := svc.Events.List(userID).ShowDeleted(false).
 		SingleEvents(true).TimeMin(today).TimeMax(one_month).MaxResults(10).OrderBy("startTime").Do()
 	if err != nil {
 		return err
 	}
 
-	var calendarEvents []CalendarEvent
+	var calendarEvents []calendar.Event
 	for _, item := range events.Items {
-		var ce CalendarEvent
-		ce.Start = item.Start.DateTime
-		ce.End = item.End.DateTime
+		var ce calendar.Event
+		ce.Start.DateTime = item.Start.DateTime
+		ce.End.DateTime = item.End.DateTime
 		ce.Summary = item.Summary
 		calendarEvents = append(calendarEvents, ce)
 	}

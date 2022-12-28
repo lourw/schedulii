@@ -104,7 +104,7 @@ func getUserCalendarEvents(userID string) ([]byte, error) {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
 
-	svc, err := calendar.New(client)
+	svc, err := calendar.NewService(context.Background(), option.WithHTTPClient(client))
 	if err != nil {
 		log.Fatalf("Unable to retrieve Calendar client: %v", err)
 	}

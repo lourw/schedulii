@@ -1,0 +1,31 @@
+.card-container {
+    width: 300px;
+    height: 200px;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 5%;
+    overflow-y: scroll;
+    transition: transform 300ms;
+}
+
+.card-container:hover {
+    transform: scale(103%);
+}
+
+#card-title {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#card-description {
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}

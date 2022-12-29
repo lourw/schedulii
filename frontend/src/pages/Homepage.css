@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
+.container {
+    display: flex;
+    font-family: 'DM Sans', sans-serif;
+}
+
+#left {
+    flex: 1;
+    padding-top: 7%;
+    padding-left: 50px;
+}
+
+#right {
+    flex: 1;
+    padding-top: 7%;
+}

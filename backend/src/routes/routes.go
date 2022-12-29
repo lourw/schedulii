@@ -14,6 +14,7 @@ func SetupRoutes(engine *gin.Engine) {
 
 	engine.GET("/health", handlers.HealthCheck)
 	engine.GET("/events", handlers.GetUserCalendarEvents)
+	engine.GET("/calendars", handlers.GetCalendarList)
 
 	googleAuth := engine.Group("/google")
 	{

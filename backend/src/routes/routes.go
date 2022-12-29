@@ -24,13 +24,13 @@ func SetupRoutes(engine *gin.Engine) {
 	authorized := engine.Group("/authorized")
 	authorized.Use(middleware.CheckAuthenticated)
 	{
-		authorized.GET("/", handlers.GetCalendars)
+		authorized.GET("", handlers.GetCalendars)
 	}
 
 	login := engine.Group("/login")
 	{
 		login.POST("/register", handlers.RegisterUser)
-		login.POST("/login", handlers.Login)
+		login.POST("", handlers.Login)
 		login.POST("/validate", handlers.Validate)
 	}
 }

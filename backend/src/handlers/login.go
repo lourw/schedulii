@@ -38,7 +38,17 @@ func Login(c *gin.Context) {
 }
 
 func Validate(c *gin.Context) {
-	userId, err := utils.ExtractTokenId(c)
+	tokenString, err := utils.ExtractToken(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	token, err := utils.ValidateToken(tokenString)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	userId, err := utils.ExtractTokenField(token, "user_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}

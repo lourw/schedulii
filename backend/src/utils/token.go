@@ -1,10 +1,6 @@
 package utils
 
 import (
-	// "fmt"
-	// "os"
-	// "strconv"
-	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -13,45 +9,16 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
+var currentTime = time.Now
+
 func GenerateToken(user_id string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
 	claims["user_id"] = user_id
-	claims["expiry"] = time.Now().Add(time.Hour * 24).Unix()
+	claims["expiry"] = currentTime().Add(time.Hour * 24).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	return token.SignedString([]byte("secret_api_key"))
-}
-
-func ValidateToken(c *gin.Context) error {
-	tokenString, err := ExtractToken(c)
-	if err != nil {
-		return err
-	}
-
-	_, err = jwt.Parse(tokenString, jwtKeyValidator)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func ExtractTokenId(c *gin.Context) (string, error) {
-	tokenString, err := ExtractToken(c)
-	if err != nil {
-		return "", err
-	}
-
-	token, err := jwt.Parse(tokenString, jwtKeyValidator)
-	if err != nil {
-		return "", err
-	}
-
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if ok && token.Valid {
-		return claims["user_id"].(string), nil
-	}
-	return "", nil
 }
 
 func ExtractToken(c *gin.Context) (string, error) {
@@ -60,11 +27,26 @@ func ExtractToken(c *gin.Context) (string, error) {
 	if len(tokenStrings) == 2 {
 		return tokenStrings[1], nil
 	}
-	return "", errors.New("no token detected in request")
+	return "", fmt.Errorf("no token detected in request")
 }
 
+func ValidateToken(tokenString string) (*jwt.Token, error) {
+	token, err := jwt.Parse(tokenString, JwtKeyValidator)
+	if err != nil {
+		return nil, err
+	}
+	return token, nil
+}
 
-func jwtKeyValidator(token *jwt.Token) (interface{}, error) {
+func ExtractTokenField(token *jwt.Token, fieldName string) (string, error) {
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if ok && token.Valid {
+		return claims[fieldName].(string), nil
+	}
+	return "", fmt.Errorf("invalid token")
+}
+
+func JwtKeyValidator(token *jwt.Token) (interface{}, error) {
 	_, ok := token.Method.(*jwt.SigningMethodHMAC)
 	if !ok {
 		return nil, fmt.Errorf("unexpected signing method on token: %v", token.Header["alg"])

@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Homepage from './pages/Homepage';
 import CreateEvent from './pages/CreateEvent';
+import Calendar from './components/Calendar';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,6 +20,10 @@ root.render(
         <Route path="/" element={<LandingPage/>}/>
         <Route path="/home" element={<Homepage/>}/>
         <Route path="/create-event" element={<CreateEvent/>}/>
+        <Route path="/availability" element={<Calendar 
+                                                numDays={3}
+                                                startTime={9}
+                                                endTime={15} />}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

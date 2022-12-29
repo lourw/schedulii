@@ -22,8 +22,9 @@ root.render(
         <Route path="/create-event" element={<CreateEvent/>}/>
         <Route path="/availability" element={<Calendar 
                                                 numDays={3}
-                                                startTime={9}
-                                                endTime={15} />}/>
+                                                minTime={9}
+                                                maxTime={15} 
+                                                startDate={new Date()}/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

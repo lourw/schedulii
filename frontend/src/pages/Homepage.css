@@ -2,11 +2,10 @@
 .container {
     display: flex;
     font-family: 'DM Sans', sans-serif;
-    background-color: #fdfcff;
 }
 
 #left {
-    flex: 1.5;
+    flex: 1;
     padding-top: 7%;
     padding-left: 50px;
 }

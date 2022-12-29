@@ -1,6 +1,7 @@
-import React from 'react'
-import './Calendar.css'
+import React from 'react';
+import './Calendar.css';
 import { startOfDay, addMinutes, addHours, addDays } from 'date-fns';
+import formatDate from 'date-fns/format';
 
 type PropsType = {
   numDays: number;
@@ -70,8 +71,16 @@ export default class Calendar extends React.Component<PropsType, StateType> {
     return (
       <div className="date-cell"
         // selected={selected}
-        ref={refSetter}> a </div>
+        ref={refSetter}></div>
     )
+  }
+
+  renderTimeLabel = (time: Date): JSX.Element => { // eslint-disable-line
+    return <span className="timeText">{formatDate(time, 'ha')}</span>
+  }
+
+  renderDateLabel = (date: Date): JSX.Element => { // eslint-disable-line
+    return <span className="dateLabel">{formatDate(date, 'M/d')}</span>
   }
 
 
@@ -87,13 +96,16 @@ export default class Calendar extends React.Component<PropsType, StateType> {
     }
     const dateGridElements = flattenedDates.map(this.renderDateCellWrapper);
     for (let i = 0; i < numTimes; i++) {
-      // const index = i * numDays // index of flattenedArray
-      // const time = this.state.dates[0][i]
+      const index = i * numDays // index of flattenedArray
+      const time = this.state.dates[0][i]
       // insert a time label at the start of every row
-      // dateGridElements.splice(index + i, 0, this.renderTimeLabel(time))
+      dateGridElements.splice(index + i, 0, this.renderTimeLabel(time))
     }
     return [
       <div key="topleft" />,
+      ...this.state.dates.map((dayOfTimes, index) =>
+        React.cloneElement(this.renderDateLabel(dayOfTimes[0]), { key: `date-${index}`})
+      ),
       ...dateGridElements.map((element, index) => React.cloneElement(element, { key: `time-${index}`}))
     ]
   }

@@ -21,11 +21,24 @@
 .date-cell {
     width: 100%;
     height: 25px;
-    background-color: green;
-    
+    background-color: whitesmoke;
+    outline: 2px solid rgb(105, 100, 100);
 }
 
 .date-cell:hover {
-    background-color: lightgreen;
+    background-color: wheat;
+}
+
+.timeText {
+    font-size: 10px;
+    text-align: right;
+    margin: 0;
+    margin-right: 4px;
+}
+
+.dateLabel {
+    font-size: 12px;
+    margin: 0;
+    margin-bottom: 4px;
 }
 

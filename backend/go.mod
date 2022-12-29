@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.8.1
+	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/stretchr/testify v1.8.1
 )
 

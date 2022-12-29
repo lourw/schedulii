@@ -25,4 +25,11 @@ func SetupRoutes(engine *gin.Engine) {
 	{
 		authorized.GET("/", handlers.GetCalendars)
 	}
+
+	login := engine.Group("/login")
+	{
+		login.POST("/register", handlers.RegisterUser)
+		login.POST("/login", handlers.Login)
+		login.POST("/validate", handlers.Validate)
+	}
 }

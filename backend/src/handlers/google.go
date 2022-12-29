@@ -2,12 +2,10 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -95,42 +93,4 @@ func saveTokenToSession(c *gin.Context, token *oauth2.Token) {
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 	}
-}
-
-// Gets a User's Calendar Events as a JSON file
-func getUserCalendarEvents(userID string) ([]byte, error) {
-	client, err := google.DefaultClient(context.Background(), calendar.CalendarReadonlyScope)
-	if err != nil {
-		log.Fatalf("Unable to read client secret file: %v", err)
-	}
-
-	svc, err := calendar.NewService(context.Background(), option.WithHTTPClient(client))
-	if err != nil {
-		log.Fatalf("Unable to retrieve Calendar client: %v", err)
-	}
-
-	today := time.Now().Format(time.RFC3339)
-	one_month := time.Now().AddDate(0, 1, 0).Format(time.RFC3339)
-
-	events, err := svc.Events.List(userID).ShowDeleted(false).
-		SingleEvents(true).TimeMin(today).TimeMax(one_month).MaxResults(10).OrderBy("startTime").Do()
-	if err != nil {
-		log.Fatalf("Unable to retrieve next ten of the user's events: %v", err)
-	}
-
-	var calendarEvents []calendar.Event
-	for _, item := range events.Items {
-		var ce calendar.Event
-		ce.Start.DateTime = item.Start.DateTime
-		ce.End.DateTime = item.End.DateTime
-		ce.Summary = item.Summary
-		calendarEvents = append(calendarEvents, ce)
-	}
-
-	b, err := json.Marshal(calendarEvents)
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
 }

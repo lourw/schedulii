@@ -13,6 +13,7 @@ func SetupRoutes(engine *gin.Engine) {
 	engine.Use(static.Serve("/", static.LocalFile("../../frontend/build", true)))
 
 	engine.GET("/health", handlers.HealthCheck)
+	engine.GET("/events", handlers.GetUserCalendarEvents)
 
 	googleAuth := engine.Group("/google")
 	{
@@ -21,7 +22,7 @@ func SetupRoutes(engine *gin.Engine) {
 	}
 
 	authorized := engine.Group("/authorized")
-	authorized.Use(middleware.CheckAuthenticated) 
+	authorized.Use(middleware.CheckAuthenticated)
 	{
 		authorized.GET("/", handlers.GetCalendars)
 	}

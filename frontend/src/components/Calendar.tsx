@@ -1,21 +1,54 @@
 import React from 'react'
-import './Navbar.css'
+import './Calendar.css'
+import { startOfDay, addMinutes, addHours, addDays } from 'date-fns';
 
 type PropsType = {
   numDays: number;
-  startTime: number;
-  endTime: number;
+  minTime: number;
+  maxTime: number;
+  startDate: Date;
 }
 
 type StateType = {
   dates: Array<Array<Date>>
 }
 
+
+
 export default class Calendar extends React.Component<PropsType, StateType> {
   cellToDate: Map<Element, Date> = new Map();
-  renderDateCellWrapper = (time: Date): JSX.Element => {
-    // later, attach event handlers for clicking here
 
+  static getStateFromProps(props: PropsType, state: StateType): Partial<StateType> | null {
+    return {
+      dates: Calendar.computeDatesMatrix(props)
+    }
+  }
+
+  static computeDatesMatrix(props: PropsType): Array<Array<Date>> {
+    const startTime = startOfDay(props.startDate)
+    const dates: Array<Array<Date>> = [];
+    for (let d = 0; d < props.numDays; d++) {
+      // create all the chunks for each day in currentDay
+      const currentDay = [];
+      for (let h = props.minTime; h < props.maxTime; h++) {
+        // later, add logic for chunking it into fractions of hours
+        currentDay.push(addMinutes(addHours(addDays(startTime, d), h), 0));
+      }
+      dates.push(currentDay);
+    }
+    return dates;
+  }
+
+  constructor(props: PropsType) {
+    super(props);
+
+    this.state = {
+      dates: Calendar.computeDatesMatrix(props)
+    }
+  }
+
+  renderDateCellWrapper = (time: Date): JSX.Element => { // eslint-disable-line
+    // later, attach event handlers for clicking here
     return (
       <div className="grid-wrapper"
         role="presentation"
@@ -28,7 +61,7 @@ export default class Calendar extends React.Component<PropsType, StateType> {
     )
   }
 
-  renderDateCell = (time: Date): JSX.Element => {
+  renderDateCell = (time: Date): JSX.Element => { // eslint-disable-line
     const refSetter = (dateCell: HTMLElement | null) => {
       if (dateCell) {
         this.cellToDate.set(dateCell, time);
@@ -42,7 +75,7 @@ export default class Calendar extends React.Component<PropsType, StateType> {
   }
 
 
-  renderFullDateGrid(): Array<JSX.Element> {
+  renderFullDateGrid(): Array<JSX.Element> { // eslint-disable-line
     const flattenedDates = [];
     const numDays = 3;
     const numTimes = 6;

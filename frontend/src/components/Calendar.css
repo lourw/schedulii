@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  user-select: none;
+  margin: auto;
+}
+
+.grid {
+  display: grid;
+  width: 100%;
+  row-gap: 5px;
+  column-gap: 5px;
+  /* need to figure out dynamic styling later */
+  grid-template-columns: auto repeat(5, 1fr);
+  grid-template-rows: auto repeat(6, 1fr);
+}
+
+.grid-wrapper {
+  place-self: stretch;
+}
+
+.date-cell {
+  width: 100%;
+  height: 25px;
+  background-color: whitesmoke;
+  outline: 2px solid rgb(105, 100, 100);
+}
+
+.date-cell:hover {
+  background-color: wheat;
+}
+
+.timeText {
+  font-size: 10px;
+  text-align: right;
+  margin: 0;
+  margin-right: 4px;
+}
+
+.dateLabel {
+  font-size: 12px;
+  margin: 0;
+  margin-bottom: 4px;
+}

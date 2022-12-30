@@ -12,7 +12,7 @@
   row-gap: 5px;
   column-gap: 5px;
   /* need to figure out dynamic styling later */
-  grid-template-columns: auto repeat(3, 1fr);
+  grid-template-columns: auto repeat(5, 1fr);
   grid-template-rows: auto repeat(6, 1fr);
 }
 

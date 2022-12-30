@@ -21,11 +21,11 @@ root.render(
         <Route path="/home" element={<Homepage/>}/>
         <Route path="/create-event" element={<CreateEvent/>}/>
         <Route path="/availability" element={<Calendar 
-                                                numDays={3}
+                                                numDays={6}
                                                 minTime={9}
-                                                maxTime={15} 
+                                                maxTime={17} 
                                                 startDate={new Date()}
-                                                columns={3}
+                                                columns={6}
                                                 rows={6}/>}/>
       </Routes>
     </BrowserRouter>

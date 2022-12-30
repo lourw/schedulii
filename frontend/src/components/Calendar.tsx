@@ -2,6 +2,7 @@ import React from 'react';
 import './Calendar.css';
 import { startOfDay, addMinutes, addHours, addDays } from 'date-fns';
 import formatDate from 'date-fns/format';
+import styled from 'styled-components';
 
 type PropsType = {
   numDays: number;
@@ -16,9 +17,16 @@ type StateType = {
   dates: Array<Array<Date>>
 }
 
+const Grid = styled.div<{ columns: number; rows: number; }>`
+  display: grid;
+  grid-template-columns: auto repeat(${props => props.columns}, 1fr);
+  grid-template-rows: auto repeat(${props => props.rows}, 1fr);
+  width: 100%;
+`
+
 export default class Calendar extends React.Component<PropsType, StateType> {
   cellToDate: Map<Element, Date> = new Map();
-  
+
   static getStateFromProps(props: PropsType, state: StateType): Partial<StateType> | null {
     return {
       dates: Calendar.computeDatesMatrix(props)
@@ -103,19 +111,23 @@ export default class Calendar extends React.Component<PropsType, StateType> {
     }
     return [
       <div key="topleft" />,
+      // top row with the dates
       ...this.state.dates.map((dayOfTimes, index) =>
-        React.cloneElement(this.renderDateLabel(dayOfTimes[0]), { key: `date-${index}`})
+        React.cloneElement(this.renderDateLabel(dayOfTimes[0]), { key: `date-${index}` })
       ),
-      ...dateGridElements.map((element, index) => React.cloneElement(element, { key: `time-${index}`}))
+      // every row below that
+      ...dateGridElements.map((element, index) => React.cloneElement(element, { key: `time-${index}` }))
     ]
   }
 
   render() {
     return (
       <div className='wrapper'>
-        <div className='grid'>
+        <Grid
+        columns={this.state.dates.length}
+        rows={this.state.dates[0].length}>
           {this.renderFullDateGrid()}
-        </div>
+        </Grid>
       </div>
     )
   }

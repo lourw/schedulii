@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"net/http"
 	models "schedulii/src/models"
@@ -67,12 +66,7 @@ func GetUserCalendarEvents(c *gin.Context) {
 		calendarEvents = append(calendarEvents, ce)
 	}
 
-	b, err := json.Marshal(calendarEvents)
-	if err != nil {
-		log.Fatalf("Unable to marshal events: %v", err)
-	}
-
-	c.JSON(http.StatusOK, b)
+	c.JSON(http.StatusOK, calendarEvents)
 }
 
 func GetCalendarList(c *gin.Context) {
@@ -113,10 +107,5 @@ func GetCalendarList(c *gin.Context) {
 		calendars = append(calendars, ce)
 	}
 
-	b, err := json.Marshal(calendars)
-	if err != nil {
-		log.Fatalf("Unable to marshal calendar: %v", err)
-	}
-
-	c.JSON(http.StatusOK, b)
+	c.JSON(http.StatusOK, calendars)
 }

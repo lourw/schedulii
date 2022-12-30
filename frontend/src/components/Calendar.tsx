@@ -8,17 +8,17 @@ type PropsType = {
   minTime: number;
   maxTime: number;
   startDate: Date;
+  columns: number;
+  rows: number;
 }
 
 type StateType = {
   dates: Array<Array<Date>>
 }
 
-
-
 export default class Calendar extends React.Component<PropsType, StateType> {
   cellToDate: Map<Element, Date> = new Map();
-
+  
   static getStateFromProps(props: PropsType, state: StateType): Partial<StateType> | null {
     return {
       dates: Calendar.computeDatesMatrix(props)
@@ -86,8 +86,8 @@ export default class Calendar extends React.Component<PropsType, StateType> {
 
   renderFullDateGrid(): Array<JSX.Element> { // eslint-disable-line
     const flattenedDates = [];
-    const numDays = 3;
-    const numTimes = 6;
+    const numDays = this.state.dates.length;
+    const numTimes = this.state.dates[0].length;
     for (let j = 0; j < numTimes; j++) {
       for (let i = 0; i < numDays; i++) {
         // turns 2d array into 1 for easier operations

@@ -3,24 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import Homepage from './pages/Homepage';
-import CreateEvent from './pages/CreateEvent';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-      <Routes>
-        <Route path="/" element={<LandingPage/>}/>
-        <Route path="/home" element={<Homepage/>}/>
-        <Route path="/create-event" element={<CreateEvent/>}/>
-      </Routes>
-    </BrowserRouter>
+    <App/>
   </React.StrictMode>
 );
 

@@ -24,7 +24,9 @@ root.render(
                                                 numDays={3}
                                                 minTime={9}
                                                 maxTime={15} 
-                                                startDate={new Date()}/>}/>
+                                                startDate={new Date()}
+                                                columns={3}
+                                                rows={6}/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

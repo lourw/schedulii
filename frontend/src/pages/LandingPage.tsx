@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React from "react";
 import "../App.css";
 import { useAuth } from "../context/AuthContext";
-import type { AppContextDataType } from "../context/AuthContext";
+import type AppContextDataType from "../context/AuthContextDataType";
 
 const LandingPage = (): ReactElement => {
     const appContext: AppContextDataType | null = useAuth();

@@ -4,6 +4,7 @@ import React from "react";
 import { startOfDay, addMinutes, addHours, addDays } from "date-fns";
 import formatDate from "date-fns/format";
 import styled from "styled-components";
+import "./Calendar.css";
 
 type CalendarPropsType = {
     numDays: number;
@@ -24,7 +25,7 @@ const Grid = styled.div<{ columns: number; rows: number }>`
 `;
 
 const Calendar = (props: CalendarPropsType): ReactElement => {
-    const [dates, setDates] = React.useState<CalendarDateType>([[]]);
+    const [dates, setDates] = React.useState<CalendarDateType>([[new Date(0)]]);
     const cellToDate: Map<Element, Date> = new Map();
 
     useEffect((): void => {

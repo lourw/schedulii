@@ -2,12 +2,9 @@ import type { ReactElement } from "react";
 import React from "react";
 import { AuthContext } from "./AuthContext";
 import type AppContextDataType from "./AuthContextDataType";
+import type AuthProviderPropsType from "./AuthProviderPropsType";
 
-type AuthProviderProps = {
-    children: ReactElement;
-};
-
-const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
+const AuthProvider = ({ children }: AuthProviderPropsType): ReactElement => {
     const [token, setToken] = React.useState(null);
 
     const handleLogin = async (): Promise<void> => {

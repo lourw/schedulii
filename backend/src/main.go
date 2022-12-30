@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/gob"
 	"log"
+	"schedulii/src/middleware"
 	router "schedulii/src/routes"
 
 	"github.com/gin-contrib/sessions"
@@ -28,6 +29,7 @@ func setUpEngine() *gin.Engine {
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("schedulii", store))
 	r.Use(gin.Logger())
+	r.Use(middleware.CORSMiddleware)
 	router.SetupRoutes(r)
 	return r
 }

@@ -1,22 +1,17 @@
-import React from 'react'
-import '../components/EventCard.css'
+import type { ReactElement } from "react";
+import React from "react";
+import "../components/EventCard.css";
 
 interface EventCardProps {
-  title: string,
-  description: string;
+    title: string;
+    description: string;
 }
 
-function EventCard({title, description}: EventCardProps)  {
-  return (
+const EventCard = ({ title, description }: EventCardProps): ReactElement => (
     <section className="card-container">
-      <div id="card-title">
-        {title}
-      </div>
-      <div id="card-description">
-        {description}
-      </div>
+        <div id="card-title">{title}</div>
+        <div id="card-description">{description}</div>
     </section>
-  )
-}
+);
 
-export default EventCard
+export default EventCard;

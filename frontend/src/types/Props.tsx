@@ -1,5 +1,7 @@
-import React from 'react'
+import type React from "react";
 
-export default interface Props {
+interface Props {
     children: React.ReactNode;
 }
+
+export default Props;

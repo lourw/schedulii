@@ -1,61 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&display=swap");
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #fdfcff;
-  font-family:Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #fdfcff;
+    font-family: Helvetica, sans-serif;
 }
 
-
 .title {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: Unbounded;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Unbounded;
 }
 
 .loginButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #1DB954;
-  color: white;
-  border-radius: 30px;
-  height: 40px;
-  width: 50%;
-  font-family:Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1db954;
+    color: white;
+    border-radius: 30px;
+    height: 40px;
+    width: 50%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .loginButton:hover {
-  background-color:#45d979
+    background-color: #45d979;
 }
 
 span {
-  font-size: 100px;
-  font-weight: 100;
-  margin-bottom: 10px;
+    font-size: 100px;
+    font-weight: 100;
+    margin-bottom: 10px;
 }
 
 .footer,
 .header {
-  flex: initial;
-  height: 20%;
-  justify-content: center;
-  align-items: center;
+    flex: initial;
+    height: 20%;
+    justify-content: center;
+    align-items: center;
 }
 
 .footer {
-  background: linear-gradient(180deg, #fdfcff 0%, #CBCAFC 100%);
-  width:100%;
+    background: linear-gradient(180deg, #fdfcff 0%, #cbcafc 100%);
+    width: 100%;
 }
-
-

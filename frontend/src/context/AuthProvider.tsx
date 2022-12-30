@@ -1,38 +1,37 @@
-import React from 'react'
-import Props from "../types/Props"
-import { AppContextInterface, AuthContext } from './AuthContext';
+import type { ReactElement } from "react";
+import React from "react";
+import { AuthContext } from "./AuthContext";
+import type Props from "../types/Props";
+import type { AppContextInterface } from "./AuthContext";
 
-const AuthProvider = ({ children }: Props) => {
+const AuthProvider = ({ children }: Props): ReactElement => {
     const [token, setToken] = React.useState(null);
 
-    const handleLogin = async () => {
+    const handleLogin = async (): Promise<void> => {
         const request = await fetch("http://localhost:8080/login", {
             method: "POST",
             body: JSON.stringify({
-                "username": "schedulii-user"
-            }),
+                username: "schedulii-user"
+            })
         });
 
         const data = await request.json();
         setToken(data.token);
     };
 
-    const handleLogout = () => {
+    const handleLogout = (): void => {
         setToken(null);
     };
 
     const value: AppContextInterface = {
-        token, 
+        token,
         onLogin: handleLogin,
         onLogout: handleLogout
     };
 
     return (
-        <AuthContext.Provider value={value}>
-            { children }
-        </AuthContext.Provider>
-    )
-}
+        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    );
+};
 
-
-export default AuthProvider
+export default AuthProvider;

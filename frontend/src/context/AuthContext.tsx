@@ -1,14 +1,12 @@
-import {createContext, useContext} from 'react'
+import { createContext, useContext } from "react";
 
 export interface AppContextInterface {
-    token: string | null,
-    onLogin: () => {};
+    token: string | null;
+    onLogin: () => void;
     onLogout: () => void;
 }
 
 export const AuthContext = createContext<AppContextInterface | null>(null);
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-}
-
+export const useAuth = (): AppContextInterface | null =>
+    useContext(AuthContext);

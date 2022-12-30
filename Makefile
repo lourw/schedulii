@@ -24,7 +24,7 @@ clean:
 
 ci_frontend: 
 	cd ${FRONTEND_DIR} && \
-	npm run lint && \
+	npm run lint-fix && \
 	npm test
 
 ci_backend:

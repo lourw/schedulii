@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	models "schedulii/src/models"
 	"time"
 
 	"golang.org/x/oauth2"
@@ -13,27 +14,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-// Define a struct that represents a Google calendar
-type calendarEntry struct {
-	Id       string `json:"id"`
-	Location     string `json:"location"`
-	Summary  string `json:"summary"`
-	TimeZone string `json:"timeZone"`
-}
-
-// Define a struct that represents a Google calendar event
-type calendarEvent struct {
-	Summary string `json:"summary"`
-	Start   Time   `json:"start"`
-	End     Time   `json:"end"`
-}
-
-// Define a struct that represents a time in a Google calendar event
-type Time struct {
-	DateTime string `json:"dateTime"`
-	TimeZone string `json:"timeZone"`
-}
 
 func GetCalendars(c *gin.Context) {
 	c.String(http.StatusOK, "Hello World")
@@ -71,15 +51,15 @@ func GetUserCalendarEvents(c *gin.Context) {
 		log.Fatalf("Unable to retrieve the user's events for the next month: %v", err)
 	}
 
-	var calendarEvents []calendarEvent
+	var calendarEvents []models.CalendarEvent
 	for _, item := range events.Items {
-		ce := calendarEvent{
+		ce := models.CalendarEvent{
 			Summary: item.Summary,
-			Start: Time{
+			Start: models.Time{
 				DateTime: item.Start.DateTime,
 				TimeZone: item.Start.TimeZone,
 			},
-			End: Time{
+			End: models.Time{
 				DateTime: item.End.DateTime,
 				TimeZone: item.End.TimeZone,
 			},
@@ -122,11 +102,11 @@ func GetCalendarList(c *gin.Context) {
 		log.Fatalf("Unable to retrieve the user's list of calendars: %v", err)
 	}
 
-	var calendars []calendarEntry
+	var calendars []models.CalendarEntry
 	for _, item := range calendarList.Items {
-		ce := calendarEntry{
+		ce := models.CalendarEntry{
 			Id:       item.Id,
-			Location:     item.Location,
+			Location: item.Location,
 			Summary:  item.Summary,
 			TimeZone: item.TimeZone,
 		}

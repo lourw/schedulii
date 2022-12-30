@@ -1,11 +1,11 @@
 import type { ReactElement } from "react";
+import { useEffect } from "react";
 import React from "react";
-import "./Calendar.css";
 import { startOfDay, addMinutes, addHours, addDays } from "date-fns";
 import formatDate from "date-fns/format";
 import styled from "styled-components";
 
-type PropsType = {
+type CalendarPropsType = {
     numDays: number;
     minTime: number;
     maxTime: number;
@@ -14,9 +14,7 @@ type PropsType = {
     rows: number;
 };
 
-type StateType = {
-    dates: Array<Array<Date>>;
-};
+type CalendarDateType = Date[][];
 
 const Grid = styled.div<{ columns: number; rows: number }>`
     display: grid;
@@ -25,18 +23,17 @@ const Grid = styled.div<{ columns: number; rows: number }>`
     width: 100%;
 `;
 
-export default class Calendar extends React.Component<PropsType, StateType> {
-    cellToDate: Map<Element, Date> = new Map();
+const Calendar = (props: CalendarPropsType): ReactElement => {
+    const [dates, setDates] = React.useState<CalendarDateType>([[]]);
+    const cellToDate: Map<Element, Date> = new Map();
 
-    static getStateFromProps(props: PropsType): Partial<StateType> | null {
-        return {
-            dates: Calendar.computeDatesMatrix(props)
-        };
-    }
+    useEffect((): void => {
+        setDates(computeDatesMatrix(props));
+    }, []);
 
-    static computeDatesMatrix(props: PropsType): Array<Array<Date>> {
+    const computeDatesMatrix = (props: CalendarPropsType): CalendarDateType => {
         const startTime = startOfDay(props.startDate);
-        const dates: Array<Array<Date>> = [];
+        const dates: Date[][] = [];
         for (let d = 0; d < props.numDays; d++) {
             // create all the chunks for each day in currentDay
             const currentDay = [];
@@ -49,35 +46,23 @@ export default class Calendar extends React.Component<PropsType, StateType> {
             dates.push(currentDay);
         }
         return dates;
-    }
+    };
 
-    constructor(props: PropsType) {
-        super(props);
-
-        this.state = {
-            dates: Calendar.computeDatesMatrix(props)
-        };
-    }
-
-    renderDateCellWrapper = (time: Date): JSX.Element => (
-        // eslint-disable-line
-        // later, attach event handlers for clicking here
+    const renderDateCellWrapper = (time: Date): ReactElement => (
         <div
             className="grid-wrapper"
             role="presentation"
             key={time.toISOString()}
             // mouse handlers later here
         >
-            {this.renderDateCell(time)}
+            {renderDateCell(time)}
         </div>
-        // signature of renderDateCell will need to have selected later
     );
 
-    renderDateCell = (time: Date): JSX.Element => {
-        // eslint-disable-line
+    const renderDateCell = (time: Date): ReactElement => {
         const refSetter = (dateCell: HTMLElement | null): void => {
             if (dateCell) {
-                this.cellToDate.set(dateCell, time);
+                cellToDate.set(dateCell, time);
             }
         };
         return (
@@ -89,39 +74,39 @@ export default class Calendar extends React.Component<PropsType, StateType> {
         );
     };
 
-    renderTimeLabel = (time: Date): JSX.Element => (
-        // eslint-disable-line
+    const renderTimeLabel = (time: Date): ReactElement => (
         <span className="timeText">{formatDate(time, "ha")}</span>
     );
 
-    renderDateLabel = (date: Date): JSX.Element => (
-        // eslint-disable-line
+    const renderDateLabel = (date: Date): ReactElement => (
         <span className="dateLabel">{formatDate(date, "M/d")}</span>
     );
 
-    renderFullDateGrid(): Array<JSX.Element> {
+    const renderFullDateGrid = (): ReactElement[] => {
         // eslint-disable-line
         const flattenedDates = [];
-        const numDays = this.state.dates.length;
-        const numTimes = this.state.dates[0].length;
+
+        const numDays = dates.length;
+        const numTimes = dates[0].length;
+
         for (let j = 0; j < numTimes; j++) {
             for (let i = 0; i < numDays; i++) {
                 // turns 2d array into 1 for easier operations
-                flattenedDates.push(this.state.dates[i][j]);
+                flattenedDates.push(dates[i][j]);
             }
         }
-        const dateGridElements = flattenedDates.map(this.renderDateCellWrapper);
+        const dateGridElements = flattenedDates.map(renderDateCellWrapper);
         for (let i = 0; i < numTimes; i++) {
             const index = i * numDays; // index of flattenedArray
-            const time = this.state.dates[0][i];
+            const time = dates[0][i];
             // insert a time label at the start of every row
-            dateGridElements.splice(index + i, 0, this.renderTimeLabel(time));
+            dateGridElements.splice(index + i, 0, renderTimeLabel(time));
         }
         return [
             <div key="topleft" />,
             // top row with the dates
-            ...this.state.dates.map((dayOfTimes, index) =>
-                React.cloneElement(this.renderDateLabel(dayOfTimes[0]), {
+            ...dates.map((dayOfTimes, index) =>
+                React.cloneElement(renderDateLabel(dayOfTimes[0]), {
                     key: `date-${index}`
                 })
             ),
@@ -130,18 +115,15 @@ export default class Calendar extends React.Component<PropsType, StateType> {
                 React.cloneElement(element, { key: `time-${index}` })
             )
         ];
-    }
+    };
 
-    render(): ReactElement {
-        return (
-            <div className="wrapper">
-                <Grid
-                    columns={this.state.dates.length}
-                    rows={this.state.dates[0].length}
-                >
-                    {this.renderFullDateGrid()}
-                </Grid>
-            </div>
-        );
-    }
-}
+    return (
+        <div className="wrapper">
+            <Grid columns={dates.length} rows={dates[0].length}>
+                {renderFullDateGrid()}
+            </Grid>
+        </div>
+    );
+};
+
+export default Calendar;

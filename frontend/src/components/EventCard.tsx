@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React from "react";
 import "../components/EventCard.css";
 
-interface EventCardProps {
+type EventCardProps = {
     title: string;
     description: string;
 }

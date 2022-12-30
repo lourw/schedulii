@@ -1,10 +1,13 @@
 import type { ReactElement } from "react";
 import React from "react";
 import { AuthContext } from "./AuthContext";
-import type Props from "../types/Props";
-import type { AppContextInterface } from "./AuthContext";
+import type AppContextDataType from "./AuthContextDataType";
 
-const AuthProvider = ({ children }: Props): ReactElement => {
+type AuthProviderProps = {
+    children: ReactElement;
+};
+
+const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
     const [token, setToken] = React.useState(null);
 
     const handleLogin = async (): Promise<void> => {
@@ -23,7 +26,7 @@ const AuthProvider = ({ children }: Props): ReactElement => {
         setToken(null);
     };
 
-    const value: AppContextInterface = {
+    const value: AppContextDataType = {
         token,
         onLogin: handleLogin,
         onLogout: handleLogout

@@ -2,10 +2,10 @@ import type { ReactElement } from "react";
 import React from "react";
 import "../App.css";
 import { useAuth } from "../context/AuthContext";
-import type { AppContextInterface } from "../context/AuthContext";
+import type { AppContextDataType } from "../context/AuthContext";
 
 const LandingPage = (): ReactElement => {
-    const appContext: AppContextInterface | null = useAuth();
+    const appContext: AppContextDataType | null = useAuth();
 
     return (
         <div className="wrapper">

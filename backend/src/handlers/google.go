@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
+	"runtime"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -62,9 +64,15 @@ func RunGoogleCallback(c *gin.Context) {
 }
 
 func readGoogleAPICredentials() *oauth2.Config {
-	b, err := os.ReadFile("credentials.json")
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		log.Fatalf("unable to get the current filename")
+	}
+	dirname := filepath.Dir(filename)
+
+	b, err :=  os.ReadFile(dirname + "/credentials.json")
 	if err != nil {
-		log.Fatalf("Unable to read client secret file: %v", err)
+		log.Fatalf("unable to get credentials file at %s/credentials.json", dirname)
 	}
 
 	config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/calendar.readonly")

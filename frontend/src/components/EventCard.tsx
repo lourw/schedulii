@@ -5,7 +5,7 @@ import "../components/EventCard.css";
 type EventCardProps = {
     title: string;
     description: string;
-}
+};
 
 const EventCard = ({ title, description }: EventCardProps): ReactElement => (
     <section className="card-container">

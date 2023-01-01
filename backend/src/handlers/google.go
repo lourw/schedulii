@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
-	_ "embed"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+	"runtime"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -15,9 +17,6 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
-
-//go:embed credentials.json
-var googleCredentials []byte
 
 func RunGoogleConnection(c *gin.Context) {
 	ctx := context.Background()
@@ -65,7 +64,18 @@ func RunGoogleCallback(c *gin.Context) {
 }
 
 func readGoogleAPICredentials() *oauth2.Config {
-	config, err := google.ConfigFromJSON(googleCredentials, "https://www.googleapis.com/auth/calendar.readonly")
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		log.Fatalf("unable to get the current filename")
+	}
+	dirname := filepath.Dir(filename)
+
+	b, err :=  os.ReadFile(dirname + "/credentials.json")
+	if err != nil {
+		log.Fatalf("unable to get credentials file at %s/credentials.json", dirname)
+	}
+
+	config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/calendar.readonly")
 	if err != nil {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}

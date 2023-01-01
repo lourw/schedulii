@@ -34,4 +34,4 @@ COPY --from=backend-build /app/backend/src/handlers/credentials.json ./backend/s
 # Run application
 EXPOSE 8080
 WORKDIR /app/backend/bin
-# CMD ["./schedulii"]
+CMD ["./schedulii"]

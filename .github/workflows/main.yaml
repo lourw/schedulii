@@ -1,0 +1,17 @@
+name: Semantic Versioning
+on:
+  push:
+    branches:
+      - 'main'
+      - 'erickexinlu-patch-1'
+      - 'sub_branch'
+
+jobs:
+  tag_project:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Github Tag with semantic versioning
+        uses: hennejg/github-tag-action@v4.3.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

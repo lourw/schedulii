@@ -2,10 +2,10 @@ import type { ReactElement } from "react";
 import React from "react";
 import Navbar from "../components/Navbar";
 
-const CreateEvent = (): ReactElement => (
+const CreateEventPage = (): ReactElement => (
     <div>
         <Navbar />
     </div>
 );
 
-export default CreateEvent;
+export default CreateEventPage;

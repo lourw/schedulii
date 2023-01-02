@@ -4,6 +4,7 @@ on:
     branches:
       - 'main'
       - 'erickexinlu-patch-1'
+      - 'sub_branch'
 
 jobs:
   tag_project:

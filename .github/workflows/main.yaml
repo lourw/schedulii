@@ -8,11 +8,12 @@ on:
       - sub_branch
 
 jobs:
-  tag_project:
-    runs-on: ubuntu-latest
+  build:
+  runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: GitHub Tag
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

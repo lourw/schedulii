@@ -2,9 +2,10 @@ name: Semantic Versioning
 on:
   push:
     branches:
-      - 'main'
-      - 'erickexinlu-patch-1'
-      - 'sub_branch'
+      - main
+      - master
+      - erickexinlu-patch-1
+      - sub_branch
 
 jobs:
   build:

@@ -20,7 +20,7 @@ RUN CGO_ENABLED=0 go build -o bin/schedulii ./src/main.go
 
 FROM alpine:latest
 # Configure for golang compatibility
-RUN apk add gcompat
+RUN apk add gcompat && apk add --update curl
 
 # Ensure server runs in production mode
 ENV GIN_MODE=release

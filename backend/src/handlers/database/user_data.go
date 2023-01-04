@@ -1,4 +1,4 @@
-package handlers
+package database
 
 import (
 	"context"
@@ -11,7 +11,7 @@ import (
 func CreateUser(env *models.Env) gin.HandlerFunc {
 
 	fn := func(c *gin.Context)  {
-		query := "INSERT INTO Users VALUES ('gogopher@gmail.com')"; // replace this with user email later
+		query := "INSERT INTO Users VALUES ('gogopher@gmail.com')";
 		row := env.DB.QueryRow(context.Background(), query)
 		fmt.Println(row)
 		c.String(200, "Query successful")

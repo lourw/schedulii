@@ -1,9 +1,10 @@
 package routes
 
 import (
-	handlers "schedulii/src/handlers"
-	models "schedulii/src/models"
-	google "schedulii/src/handlers/google"
+	handlers 	"schedulii/src/handlers"
+	models 		"schedulii/src/models"
+	google 		"schedulii/src/handlers/google"
+	database	"schedulii/src/handlers/database"
 	"schedulii/src/middleware"
 
 	"github.com/gin-gonic/contrib/static"
@@ -38,6 +39,6 @@ func SetupRoutes(engine *gin.Engine, env *models.Env) {
 
 	data := engine.Group("/data")
 	{
-		data.GET("/createUser", handlers.CreateUser(env))
+		data.GET("/createUser", database.CreateUser(env))
 	}
 }

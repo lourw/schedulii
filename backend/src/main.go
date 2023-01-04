@@ -39,7 +39,7 @@ func setUpEngine() *gin.Engine {
 		os.Exit(1)
 	}
 	fmt.Println("Successfully connected to database!")
-	defer db.Close()
+	// defer db.Close()
 	env := &models.Env{DB: db}
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("schedulii", store))

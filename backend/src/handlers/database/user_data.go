@@ -3,6 +3,8 @@ package database
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
 
 	models "schedulii/src/models"
 	"github.com/gin-gonic/gin"
@@ -11,10 +13,13 @@ import (
 func CreateUser(env *models.Env) gin.HandlerFunc {
 
 	fn := func(c *gin.Context)  {
-		query := "INSERT INTO Users VALUES ('gogopher@gmail.com')";
-		row := env.DB.QueryRow(context.Background(), query)
-		fmt.Println(row)
-		c.String(200, "Query successful")
+		query := "INSERT INTO Users VALUES ($1)"
+		row, err := env.DB.Exec(context.Background(), query, "testemail2@gmail.com")
+			if err != nil {
+				log.Fatalf("Unable to insert value: %v", err)
+			}
+			fmt.Println("\nRow inserted successfully!")
+			c.JSON(http.StatusOK, row)
 	}
 
 	return gin.HandlerFunc(fn)

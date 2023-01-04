@@ -3,8 +3,9 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
-	"testing"
+	"schedulii/src/models"
 	router "schedulii/src/routes"
+	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -12,7 +13,7 @@ import (
 
 func TestPingRoute(t *testing.T) {
 	ginEngine := gin.Default()
-	router.SetupRoutes(ginEngine)
+	router.SetupRoutes(ginEngine, &models.Env{})
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/health", nil)

@@ -1,0 +1,48 @@
+package google
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"net/http"
+	"schedulii/src/utils"
+	
+	"golang.org/x/oauth2"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
+)
+
+func RunGoogleConnection(c *gin.Context) {
+	session := sessions.Default(c)
+	config := utils.ReadGoogleAPICredentials()
+
+	authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline, oauth2.ApprovalForce)
+	session.Set("redirect", c.Request.URL)
+	c.Redirect(http.StatusFound, authURL)
+	c.Abort()
+}
+
+func RunGoogleCallback(c *gin.Context) {
+	session := sessions.Default(c)
+	status := c.Writer.Status()
+	if status != http.StatusOK {
+		fmt.Print("Status not 200 when getting auth callback from Google API")
+	}
+
+	config := utils.ReadGoogleAPICredentials()
+
+	authCode := c.Request.URL.Query().Get("code")
+	tok, err := config.Exchange(context.Background(), authCode)
+	if err != nil {
+		log.Fatalf("Unable to retrieve token from web: %v", err)
+	}
+
+	utils.SaveTokenToSession(session, tok)
+
+	redirect, ok := session.Get("redirect").(string)
+	if !ok {
+		fmt.Printf("HERE I AM")
+		redirect = "/"
+	}
+	c.Redirect(http.StatusFound, redirect)
+}

@@ -38,12 +38,12 @@ func Login(c *gin.Context) {
 }
 
 func Validate(c *gin.Context) {
-	tokenString, err := utils.ExtractUserJWT(c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	tokenString, ok := utils.ExtractUserJWT(c.Request)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JWT"})
 	}
 
-	token, err := utils.ValidateUserJWT(tokenString)
+	token, err := utils.DecryptJWT(tokenString)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}

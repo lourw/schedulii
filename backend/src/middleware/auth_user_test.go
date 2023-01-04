@@ -1,61 +1,45 @@
 package middleware
 
 import (
-	"fmt"
-	"os"
 	"net/http"
-	"net/http/httptest"
+	"os"
 	"testing"
+	"time"
 
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
-	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"golang.org/x/oauth2"
 )
 
-var engine *gin.Engine
-var session sessions.Session
+var dummyRequest *http.Request
+var dummyJWT string
+var dummyOauthTok *oauth2.Token
 
 func setup() {
-	engine = gin.Default()
-	store := cookie.NewStore([]byte("secret"))
+	dummyRequest, _ = http.NewRequest("POST", "/test", nil)
+	dummyJWT = "Token"
 
-	engine.Use(sessions.Sessions("schedulii", store))
-
-	engine.GET("/", func(c *gin.Context) {
-		session = sessions.Default(c)
-		session.Set("user", "hello")
-		err := session.Save()
-		if err != nil {
-			fmt.Print("Session save error")
-		}
-	})
-
-	auth := engine.Group("/auth")
-	auth.Use(CheckAuthenticated)
-	{
-		auth.GET("", func(c *gin.Context) {
-			c.String(http.StatusOK, "Hello World")
-		})
+	dummyOauthTok = &oauth2.Token{
+		AccessToken: "Allowed",
+		Expiry: time.Date(2021, 0, 0, 0, 0, 0, 0, time.UTC),
 	}
 }
 
-func TestCheckAuthenticated_ValidUser(t *testing.T) {
-	w := httptest.NewRecorder()
-	session_req, _ := http.NewRequest("GET", "/", nil)
-	auth_req, _ := http.NewRequest("GET", "/auth", nil)
-	engine.ServeHTTP(w, session_req)
-	engine.ServeHTTP(w, auth_req)
+func TestUserIsNotAuthorizedWithJWT(t *testing.T) {
+	dummyRequest.Header = http.Header{
+		"Authorization": {"Bearer" + "Test"},
+	}
 
-	assert.Equal(t, http.StatusOK, w.Code)
-}
+	ok := isUserAuthenticated(dummyRequest)
+	assert.False(t, ok)
+} 
 
-func TestCheckAuthenticated_InvalidUser(t *testing.T) {
-	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/auth", nil)
-	engine.ServeHTTP(w, req)
+func TestUserIsAuthorizedWithJWT(t *testing.T) {
+	dummyRequest.Header = http.Header{
+		"Authorization": {"Bearer " + dummyJWT},
+	}
 
-	assert.Equal(t, http.StatusUnauthorized, w.Code)
+	ok := isUserAuthenticated(dummyRequest)
+	assert.True(t, ok)
 }
 
 func TestMain(m *testing.M) {

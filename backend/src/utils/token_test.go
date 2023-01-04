@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"net/http"
 	"os"
 	"testing"
 	"time"
@@ -12,6 +13,8 @@ import (
 var dummyUserId string
 var dummyNow time.Time
 var dummyTokenSecret string
+var dummyRequest *http.Request
+var dummyJWT = "token"
 
 func setup() {
 	dummyUserId = "testUser"
@@ -21,6 +24,8 @@ func setup() {
 	currentTime = func() time.Time {
 		return dummyNow
 	}
+
+	dummyRequest, _ = http.NewRequest("POST", "/test", nil)
 }
 
 func TestGenerateUser(t *testing.T) {
@@ -36,6 +41,31 @@ func TestGenerateUser(t *testing.T) {
 	assert.True(t, generatedClaims["authorized"].(bool))
 	assert.Equal(t, generatedClaims["user_id"].(string), dummyUserId)
 	assert.Equal(t, int64(generatedClaims["expiry"].(float64)), expectedExpiryTime)
+}
+
+func TestValidJWTInRequest(t *testing.T) {
+	dummyRequest.Header = http.Header{
+		"Authorization": {"Bearer " + dummyJWT},
+	}
+
+	jwt, ok := ExtractUserJWT(dummyRequest)
+	if !ok {
+		t.Fail()
+	}
+
+	assert.Equal(t, "token", jwt)
+}
+
+func TestInvalidJWTInRequest(t *testing.T) {
+	dummyRequest.Header = http.Header{
+		"Authorization": {"Bearer"},
+	}
+
+	_, ok := ExtractUserJWT(dummyRequest)
+	if !ok {
+		return
+	}
+	t.Fail()
 }
 
 func TestMain(m *testing.M) {

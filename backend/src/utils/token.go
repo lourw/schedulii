@@ -2,10 +2,10 @@ package utils
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
@@ -21,17 +21,17 @@ func GenerateUserJWT(user_id string) (string, error) {
 	return token.SignedString([]byte("secret_api_key"))
 }
 
-func ExtractUserJWT(c *gin.Context) (string, error) {
-	bearerToken := c.Request.Header.Get("Authorization")
+func ExtractUserJWT(req *http.Request) (string, bool) {
+	bearerToken := req.Header.Get("Authorization")
 	tokenStrings := strings.Split(bearerToken, " ")
 	if len(tokenStrings) == 2 {
-		return tokenStrings[1], nil
+		return tokenStrings[1], true
 	}
-	return "", fmt.Errorf("no token detected in request")
+	return "", false
 }
 
-func ValidateUserJWT(tokenString string) (*jwt.Token, error) {
-	token, err := jwt.Parse(tokenString, JwtKeyValidator)
+func DecryptJWT(encryptedJWT string) (*jwt.Token, error) {
+	token, err := jwt.Parse(encryptedJWT, JwtKeyValidator)
 	if err != nil {
 		return nil, err
 	}

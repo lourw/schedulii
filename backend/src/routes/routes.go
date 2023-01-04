@@ -22,6 +22,7 @@ func SetupRoutes(engine *gin.Engine) {
 	{
 		googleAuth.GET("/calendars", google.UserCalendarListHandler)
 		googleAuth.GET("/events", google.UserCalendarEventsHandler)
+		googleAuth.GET("/user", google.GoogleUserDataHandler)
 	}
 
 	authorized := engine.Group("/authorized")

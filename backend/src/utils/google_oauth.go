@@ -26,7 +26,11 @@ func ReadGoogleAPICredentials() *oauth2.Config {
 		log.Fatalf("unable to get credentials file at %s/credentials.json", dirname)
 	}
 
-	config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/calendar.readonly")
+	config, err := google.ConfigFromJSON(b, 
+		"https://www.googleapis.com/auth/calendar.readonly",
+		"https://www.googleapis.com/auth/userinfo.profile",
+		"openid email profile",
+	)
 	if err != nil {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}

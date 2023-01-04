@@ -4,9 +4,9 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"time"
 	models "schedulii/src/models"
 	utils "schedulii/src/utils"
+	"time"
 
 	"google.golang.org/api/calendar/v3"
 	"google.golang.org/api/option"
@@ -18,9 +18,7 @@ import (
 func UserCalendarEventsHandler(c *gin.Context) {
 	client, ok := utils.GetGoogleClient(c)
 	if !ok {
-		c.Redirect(http.StatusOK, "/google/googleAuth")
-		c.Abort()
-		return
+		log.Fatalf("No google client or credentials found")
 	}
 
 	calendarEvents := getCalendarEvents(client)

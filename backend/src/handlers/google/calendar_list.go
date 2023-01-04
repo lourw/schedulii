@@ -16,9 +16,7 @@ import (
 func UserCalendarListHandler(c *gin.Context) {
 	client, ok := utils.GetGoogleClient(c)
 	if !ok {
-		c.Redirect(http.StatusOK, "/google/googleAuth")
-		c.Abort()
-		return
+		log.Fatalf("No google client or credentials found")
 	}
 
 	calendars := getUserCalendarList(client)

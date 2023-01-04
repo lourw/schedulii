@@ -41,7 +41,6 @@ func RunGoogleCallback(c *gin.Context) {
 
 	redirect, ok := session.Get("redirect").(string)
 	if !ok {
-		fmt.Printf("HERE I AM")
 		redirect = "/"
 	}
 	c.Redirect(http.StatusFound, redirect)

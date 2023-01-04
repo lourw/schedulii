@@ -7,9 +7,14 @@ import (
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func SetupRoutes(engine *gin.Engine) {
+type Env struct { // undeclared name error if struct isn't here
+	db	*pgxpool.Pool
+}
+
+func SetupRoutes(engine *gin.Engine, env *Env) {
 	// Serve frontend build
 	engine.Use(static.Serve("/", static.LocalFile("../../frontend/build", true)))
 
@@ -38,6 +43,6 @@ func SetupRoutes(engine *gin.Engine) {
 	data := engine.Group("/data")
 	{
 		data.GET("", handlers.DBConnect)
-		data.GET("/createUser", handlers.createUser(env))
+		data.GET("/createUser", handlers.CreateUser(env))
 	}
 }

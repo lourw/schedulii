@@ -11,6 +11,10 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type Env struct {
+	db	*pgxpool.Pool
+}
+
 func retrieveURL(key string) string {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -34,8 +38,14 @@ func DBConnect(c *gin.Context) {
 	defer dbpool.Close()
 }
 
-func (env *Env) createUser(email string) (Users, error) {
-	query := 'INSERT INTO Users VALUES ("gogopher@gmail.com")';
+func CreateUser(env *Env) gin.HandlerFunc {
 
-	// result := env.Pool.QueryRow(context.Background(), query, UserEmail)
+	fn := func(c *gin.Context)  {
+		query := "INSERT INTO Users VALUES ('gogopher@gmail.com')";
+		row := env.db.QueryRow(context.Background(), query)
+		fmt.Println(row)
+		c.String(200, "Query successful")
+	}
+
+	return gin.HandlerFunc(fn)
 }

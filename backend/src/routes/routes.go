@@ -34,4 +34,10 @@ func SetupRoutes(engine *gin.Engine) {
 		login.POST("", handlers.Login)
 		login.POST("/validate", handlers.Validate)
 	}
+
+	data := engine.Group("/data")
+	{
+		data.GET("", handlers.DBConnect)
+		data.GET("/createUser", handlers.createUser(env))
+	}
 }

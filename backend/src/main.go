@@ -10,7 +10,12 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+type Env struct {
+	db *pgx.Pool
+}
 
 func main() {
 	ginEngine := setUpEngine()
@@ -26,10 +31,11 @@ func main() {
 
 func setUpEngine() *gin.Engine {
 	r := gin.Default()
+	env := &Env{db: db}
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("schedulii", store))
 	r.Use(gin.Logger())
 	r.Use(middleware.CORSMiddleware)
-	router.SetupRoutes(r)
+	router.SetupRoutes(r, db)
 	return r
 }

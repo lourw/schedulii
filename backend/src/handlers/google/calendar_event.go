@@ -32,11 +32,11 @@ func getCalendarEvents(client *http.Client) []models.CalendarEvent {
 	}
 
 	today := time.Now().Format(time.RFC3339)
-	one_month := time.Now().AddDate(0, 1, 0).Format(time.RFC3339)
+	furthestDateRetrieved := time.Now().AddDate(0, 1, 0).Format(time.RFC3339)
 
 	// Retrieves the user's events
 	events, err := svc.Events.List("primary").ShowDeleted(false).
-		SingleEvents(true).TimeMin(today).TimeMax(one_month).OrderBy("startTime").Do()
+		SingleEvents(true).TimeMin(today).TimeMax(furthestDateRetrieved).OrderBy("startTime").Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve the user's events for the next month: %v", err)
 	}

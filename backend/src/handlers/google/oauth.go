@@ -1,7 +1,6 @@
 package google
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func RunGoogleConnection(c *gin.Context) {
+func GoogleOauthLoginHandler(c *gin.Context) {
 	session := sessions.Default(c)
 	config := utils.ReadGoogleAPICredentials()
 
@@ -22,7 +21,7 @@ func RunGoogleConnection(c *gin.Context) {
 	c.Abort()
 }
 
-func RunGoogleCallback(c *gin.Context) {
+func GoogleCallbackHandler(c *gin.Context) {
 	session := sessions.Default(c)
 	status := c.Writer.Status()
 	if status != http.StatusOK {
@@ -32,7 +31,7 @@ func RunGoogleCallback(c *gin.Context) {
 	config := utils.ReadGoogleAPICredentials()
 
 	authCode := c.Request.URL.Query().Get("code")
-	tok, err := config.Exchange(context.Background(), authCode)
+	tok, err := config.Exchange(c, authCode)
 	if err != nil {
 		log.Fatalf("Unable to retrieve token from web: %v", err)
 	}

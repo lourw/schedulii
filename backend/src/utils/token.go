@@ -2,16 +2,16 @@ package utils
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
 var currentTime = time.Now
 
-func GenerateToken(user_id string) (string, error) {
+func GenerateUserJWT(user_id string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
 	claims["user_id"] = user_id
@@ -21,24 +21,24 @@ func GenerateToken(user_id string) (string, error) {
 	return token.SignedString([]byte("secret_api_key"))
 }
 
-func ExtractToken(c *gin.Context) (string, error) {
-	bearerToken := c.Request.Header.Get("Authorization")
-	tokenStrings := strings.Split(bearerToken, " ") 
+func ExtractUserJWT(req *http.Request) (string, bool) {
+	bearerToken := req.Header.Get("Authorization")
+	tokenStrings := strings.Split(bearerToken, " ")
 	if len(tokenStrings) == 2 {
-		return tokenStrings[1], nil
+		return tokenStrings[1], true
 	}
-	return "", fmt.Errorf("no token detected in request")
+	return "", false
 }
 
-func ValidateToken(tokenString string) (*jwt.Token, error) {
-	token, err := jwt.Parse(tokenString, JwtKeyValidator)
+func DecryptJWT(encryptedJWT string) (*jwt.Token, error) {
+	token, err := jwt.Parse(encryptedJWT, JwtKeyValidator)
 	if err != nil {
 		return nil, err
 	}
 	return token, nil
 }
 
-func ExtractTokenField(token *jwt.Token, fieldName string) (string, error) {
+func ExtractJWTField(token *jwt.Token, fieldName string) (string, error) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
 		return claims[fieldName].(string), nil

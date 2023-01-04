@@ -8,6 +8,7 @@ import (
 	"os"
 	"schedulii/src/middleware"
 	router "schedulii/src/routes"
+	models "schedulii/src/models"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -16,10 +17,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 )
-
-type Env struct {
-	db	*pgxpool.Pool
-}
 
 func main() {
 	ginEngine := setUpEngine()
@@ -35,9 +32,7 @@ func main() {
 
 func setUpEngine() *gin.Engine {
 	r := gin.Default()
-
 	connectionString := retrieveURL("DATABASE_URL")
-	// Connect to database
 	db, err := pgxpool.New(context.Background(), connectionString)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
@@ -45,8 +40,7 @@ func setUpEngine() *gin.Engine {
 	}
 	fmt.Println("Successfully connected to database!")
 	defer db.Close()
-
-	env := &Env{db: db}
+	env := &models.Env{DB: db}
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("schedulii", store))
 	r.Use(gin.Logger())
@@ -61,4 +55,4 @@ func retrieveURL(key string) string {
 		log.Fatalf("Error loading .env file.")
 	}
 	return os.Getenv(key)
-  }
+}

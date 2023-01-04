@@ -2,19 +2,15 @@ package routes
 
 import (
 	handlers "schedulii/src/handlers"
+	models "schedulii/src/models"
 	google "schedulii/src/handlers/google"
 	"schedulii/src/middleware"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type Env struct { // undeclared name error if struct isn't here
-	db	*pgxpool.Pool
-}
-
-func SetupRoutes(engine *gin.Engine, env *Env) {
+func SetupRoutes(engine *gin.Engine, env *models.Env) {
 	// Serve frontend build
 	engine.Use(static.Serve("/", static.LocalFile("../../frontend/build", true)))
 
@@ -42,7 +38,6 @@ func SetupRoutes(engine *gin.Engine, env *Env) {
 
 	data := engine.Group("/data")
 	{
-		data.GET("", handlers.DBConnect)
 		data.GET("/createUser", handlers.CreateUser(env))
 	}
 }

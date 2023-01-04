@@ -15,10 +15,11 @@ func SetupRoutes(engine *gin.Engine) {
 
 	engine.GET("/health", handlers.HealthCheck)
 
+	engine.GET("/googleAuth", google.RunGoogleConnection)
+	engine.GET("/googleCallback", google.RunGoogleCallback)
 	googleAuth := engine.Group("/google")
+	googleAuth.Use(middleware.CheckGoogleAuthenticated)
 	{
-		googleAuth.GET("/googleAuth", google.RunGoogleConnection)
-		googleAuth.GET("/googleCallback", google.RunGoogleCallback)
 		googleAuth.GET("/calendars", google.UserCalendarListHandler)
 		googleAuth.GET("/events", google.UserCalendarEventsHandler)
 	}

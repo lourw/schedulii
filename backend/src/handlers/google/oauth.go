@@ -6,10 +6,10 @@ import (
 	"log"
 	"net/http"
 	"schedulii/src/utils"
-	
-	"golang.org/x/oauth2"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/oauth2"
 )
 
 func RunGoogleConnection(c *gin.Context) {
@@ -37,7 +37,7 @@ func RunGoogleCallback(c *gin.Context) {
 		log.Fatalf("Unable to retrieve token from web: %v", err)
 	}
 
-	utils.SaveTokenToSession(session, tok)
+	utils.SaveOauthTokenToSession(session, tok)
 
 	redirect, ok := session.Get("redirect").(string)
 	if !ok {

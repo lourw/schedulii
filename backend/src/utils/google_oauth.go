@@ -21,7 +21,7 @@ func ReadGoogleAPICredentials() *oauth2.Config {
 	}
 	dirname := filepath.Dir(filename)
 
-	b, err :=  os.ReadFile(dirname + "/credentials.json")
+	b, err := os.ReadFile(dirname + "/credentials.json")
 	if err != nil {
 		log.Fatalf("unable to get credentials file at %s/credentials.json", dirname)
 	}
@@ -34,7 +34,7 @@ func ReadGoogleAPICredentials() *oauth2.Config {
 	return config
 }
 
-func TokenFromSession(s sessions.Session) (*oauth2.Token, bool) {
+func OauthTokenFromSession(s sessions.Session) (*oauth2.Token, bool) {
 	tok, ok := s.Get("token").(oauth2.Token)
 	if !ok {
 		return nil, false
@@ -43,7 +43,7 @@ func TokenFromSession(s sessions.Session) (*oauth2.Token, bool) {
 	return &tok, tok.Valid()
 }
 
-func SaveTokenToSession(s sessions.Session, token *oauth2.Token) {
+func SaveOauthTokenToSession(s sessions.Session, token *oauth2.Token) {
 	s.Set("token", *token)
 	err := s.Save()
 	if err != nil {
@@ -54,7 +54,7 @@ func SaveTokenToSession(s sessions.Session, token *oauth2.Token) {
 func GetGoogleClient(c *gin.Context) (*http.Client, bool) {
 	config := ReadGoogleAPICredentials()
 	session := sessions.Default(c)
-	tok, valid := TokenFromSession(session)
+	tok, valid := OauthTokenFromSession(session)
 	if !valid {
 		return nil, false
 	}

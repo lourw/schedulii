@@ -24,13 +24,13 @@ func setup() {
 }
 
 func TestGenerateUser(t *testing.T) {
-	generatedToken, _ := GenerateToken(dummyUserId)
+	generatedToken, _ := GenerateUserJWT(dummyUserId)
 	token, err := jwt.Parse(generatedToken, JwtKeyValidator)
 	if err != nil {
 		t.Fail()
 	}
 	generatedClaims := token.Claims.(jwt.MapClaims)
-	
+
 	expectedExpiryTime := dummyNow.Add(time.Hour * 24).Unix()
 
 	assert.True(t, generatedClaims["authorized"].(bool))

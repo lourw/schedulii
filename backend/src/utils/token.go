@@ -11,7 +11,7 @@ import (
 
 var currentTime = time.Now
 
-func GenerateToken(user_id string) (string, error) {
+func GenerateUserJWT(user_id string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
 	claims["user_id"] = user_id
@@ -21,16 +21,16 @@ func GenerateToken(user_id string) (string, error) {
 	return token.SignedString([]byte("secret_api_key"))
 }
 
-func ExtractToken(c *gin.Context) (string, error) {
+func ExtractUserJWT(c *gin.Context) (string, error) {
 	bearerToken := c.Request.Header.Get("Authorization")
-	tokenStrings := strings.Split(bearerToken, " ") 
+	tokenStrings := strings.Split(bearerToken, " ")
 	if len(tokenStrings) == 2 {
 		return tokenStrings[1], nil
 	}
 	return "", fmt.Errorf("no token detected in request")
 }
 
-func ValidateToken(tokenString string) (*jwt.Token, error) {
+func ValidateUserJWT(tokenString string) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenString, JwtKeyValidator)
 	if err != nil {
 		return nil, err
@@ -38,7 +38,7 @@ func ValidateToken(tokenString string) (*jwt.Token, error) {
 	return token, nil
 }
 
-func ExtractTokenField(token *jwt.Token, fieldName string) (string, error) {
+func ExtractJWTField(token *jwt.Token, fieldName string) (string, error) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
 		return claims[fieldName].(string), nil

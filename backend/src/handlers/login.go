@@ -29,7 +29,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateToken(user.Username)
+	token, err := utils.GenerateUserJWT(user.Username)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
@@ -38,17 +38,17 @@ func Login(c *gin.Context) {
 }
 
 func Validate(c *gin.Context) {
-	tokenString, err := utils.ExtractToken(c)
+	tokenString, err := utils.ExtractUserJWT(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
-	token, err := utils.ValidateToken(tokenString)
+	token, err := utils.ValidateUserJWT(tokenString)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
-	userId, err := utils.ExtractTokenField(token, "user_id")
+	userId, err := utils.ExtractJWTField(token, "user_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}

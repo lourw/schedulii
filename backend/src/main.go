@@ -24,7 +24,6 @@ func main() {
 	// needed for the Google Oauth process. Not sure where else to register this.
 	gob.Register(oauth2.Token{})
 
-
 	err := ginEngine.Run(":8080")
 	if err != nil {
 		log.Fatal("Unable to start:", err)
@@ -57,7 +56,6 @@ func setupDatabaseConnection() *pgxpool.Pool {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Println("Successfully connected to database!")
 
 	return db
 }

@@ -15,7 +15,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -44,11 +43,11 @@ func setUpEngine(env *models.Env) *gin.Engine {
 }
 
 func retrieveURL(key string) string {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Error loading .env file.")
+	url, ok := os.LookupEnv(key)
+	if !ok {
+		log.Fatalf("There is no database connection string")
 	}
-	return os.Getenv(key)
+	return url
 }
 
 func setupDatabaseConnection() *pgxpool.Pool {

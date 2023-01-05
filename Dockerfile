@@ -29,7 +29,6 @@ ENV GIN_MODE=release
 WORKDIR /app
 COPY --from=frontend-build /app/build ./frontend/build
 COPY --from=backend-build /app/backend/bin/. ./backend/bin/.
-COPY --from=backend-build /app/backend/src/utils/credentials.json ./backend/src/utils/credentials.json
 
 # Run application
 EXPOSE 8080

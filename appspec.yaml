@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:us-west-2:939401032784:task-definition/schedulii-task-def:3"
+        LoadBalancerInfo:
+          ContainerName: "schedulii-container"
+          ContainerPort: 8080

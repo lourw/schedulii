@@ -20,12 +20,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Create env file
-        run: |
-          cd backend
-          cd src
-          echo "${{ secrets.ENVIRONMENT_VARIABLES }}" > .env
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
         with:

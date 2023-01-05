@@ -5,8 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
-	"runtime"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -15,18 +13,12 @@ import (
 )
 
 func ReadGoogleAPICredentials() *oauth2.Config {
-	_, filename, _, ok := runtime.Caller(0)
+	credentials, ok := os.LookupEnv("GOOGLE_APP_CREDENTIALS")
 	if !ok {
-		log.Fatalf("unable to get the current filename")
-	}
-	dirname := filepath.Dir(filename)
-
-	b, err := os.ReadFile(dirname + "/credentials.json")
-	if err != nil {
-		log.Fatalf("unable to get credentials file at %s/credentials.json", dirname)
+		log.Fatalf("unable to get credentials")
 	}
 
-	config, err := google.ConfigFromJSON(b, 
+	config, err := google.ConfigFromJSON([]byte(credentials), 
 		"https://www.googleapis.com/auth/calendar.readonly",
 		"https://www.googleapis.com/auth/userinfo.profile",
 		"openid email profile",

@@ -19,28 +19,22 @@ import (
 )
 
 func main() {
-	ginEngine := setUpEngine()
+	env := &models.Env{DB: setupDatabaseConnection()}
+	ginEngine := setUpEngine(env)
 
 	// needed for the Google Oauth process. Not sure where else to register this.
 	gob.Register(oauth2.Token{})
+
 
 	err := ginEngine.Run(":8080")
 	if err != nil {
 		log.Fatal("Unable to start:", err)
 	}
+	defer env.DB.Close()
 }
 
-func setUpEngine() *gin.Engine {
+func setUpEngine(env *models.Env) *gin.Engine {
 	r := gin.Default()
-	connectionString := retrieveURL("DATABASE_URL")
-	db, err := pgxpool.New(context.Background(), connectionString)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
-	}
-	fmt.Println("Successfully connected to database!")
-	defer db.Close()
-	env := &models.Env{DB: db}
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("schedulii", store))
 	r.Use(gin.Logger())
@@ -55,4 +49,16 @@ func retrieveURL(key string) string {
 		log.Fatalf("Error loading .env file.")
 	}
 	return os.Getenv(key)
+}
+
+func setupDatabaseConnection() *pgxpool.Pool {
+	connectionString := retrieveURL("DATABASE_URL")
+	db, err := pgxpool.New(context.Background(), connectionString)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Println("Successfully connected to database!")
+
+	return db
 }

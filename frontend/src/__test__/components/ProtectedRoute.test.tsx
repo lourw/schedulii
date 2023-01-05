@@ -2,7 +2,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import ProtectedRoute from "../../components/ProtectedRoute";
-import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import type AuthContextDataType from "../../context/AuthContextDataType";
 

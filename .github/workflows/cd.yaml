@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - SCH-38-setup-github-actions-and-ecr-to-receive-image-artifacts
 
 env:
   AWS_REGION: us-west-2

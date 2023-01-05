@@ -24,11 +24,8 @@ func SetupRoutes(engine *gin.Engine, env *models.Env) {
 	{
 		googleAuth.GET("/calendars", google.UserCalendarListHandler)
 		googleAuth.GET("/events", google.UserCalendarEventsHandler)
-		googleAuth.GET("/user", google.GoogleUserDataHandler)
+		googleAuth.GET("/userInfo", google.UserInfoHandler)
 	}
-
-	authorized := engine.Group("/authorized")
-	authorized.Use(middleware.CheckAuthenticated)
 
 	login := engine.Group("/login")
 	{
@@ -38,6 +35,7 @@ func SetupRoutes(engine *gin.Engine, env *models.Env) {
 	}
 
 	data := engine.Group("/data")
+	data.Use(middleware.CheckAuthenticated)
 	{
 		data.GET("/createUser", database.CreateUser(env))
 	}

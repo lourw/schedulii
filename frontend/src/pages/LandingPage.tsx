@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import React from "react";
 import "../App.css";
+import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
 import type AppContextDataType from "../context/AuthContextDataType";
 
@@ -12,6 +13,7 @@ const LandingPage = (): ReactElement => {
             <div className="header" />
             <div className="title">
                 <span>Schedulii</span>
+                <Navbar />
                 <button className="loginButton" onClick={appContext?.onLogin}>
                     Login with Google
                 </button>

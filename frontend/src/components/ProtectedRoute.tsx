@@ -5,10 +5,10 @@ import { useAuth } from "../context/AuthContext";
 import type AuthProviderPropsType from "../context/AuthProviderPropsType";
 
 const ProtectedRoute = ({ children }: AuthProviderPropsType): ReactElement => {
-    const token = useAuth();
+    const appContext = useAuth();
     const location = useLocation();
 
-    if (!token) {
+    if (!appContext?.token) {
         return <Navigate to="/" replace state={{ from: location }} />;
     }
 

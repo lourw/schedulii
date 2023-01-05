@@ -12,8 +12,6 @@ env:
   ECS_TASK_DEFINITION: .ecsTaskDefinition.json
   CONTAINER_NAME: schedulii-container
 
-
-
 jobs:
   project:
     runs-on: ubuntu-latest

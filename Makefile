@@ -2,6 +2,9 @@ BINARY_NAME=../bin/schedulii
 BACKEND_DIR=./backend/src
 FRONTEND_DIR=./frontend
 
+include .env
+export $(shell sed 's/=.*//' .env)
+
 build_and_run: build run
 
 build: build_frontend build_backend

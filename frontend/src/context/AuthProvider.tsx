@@ -1,4 +1,5 @@
-import type { ReactElement } from "react";
+import type { ReactElement} from "react";
+import { useEffect } from "react";
 import React from "react";
 import { AuthContext } from "./AuthContext";
 import type AppContextDataType from "./AuthContextDataType";
@@ -6,6 +7,18 @@ import type AuthProviderPropsType from "./AuthProviderPropsType";
 
 const AuthProvider = ({ children }: AuthProviderPropsType): ReactElement => {
     const [token, setToken] = React.useState(null);
+
+    useEffect(() => {
+        const localStorageToken = JSON.parse(localStorage.getItem("token") || "null");
+
+        if (localStorageToken) {
+            setToken(localStorageToken);
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("token", JSON.stringify(token));
+    }, [token]);
 
     const handleLogin = async (): Promise<void> => {
         const request = await fetch("http://localhost:8080/login", {

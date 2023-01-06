@@ -1,15 +1,32 @@
+DROP TABLE IF EXISTS BelongsTo;
+DROP TABLE IF EXISTS Events;
+DROP TABLE IF EXISTS Groups;
+DROP TABLE IF EXISTS Users;
+
 CREATE TABLE Users(
-	UserEmail varchar(200) PRIMARY KEY
+    UserEmail varchar(200) PRIMARY KEY
 );
 
-CREATE TABLE Event(
-	EventID int PRIMARY KEY,
-	EventName varchar(100) NOT NULL
+CREATE TABLE Groups(
+    GroupID int PRIMARY KEY,
+    GroupName varchar(100) NOT NULL,
+    GroupURL varchar(200) NOT NULL,
+    AvailabilityStart timestamp NOT NULL,
+    AvailabilityEnd timestamp NOT NULL
 );
 
 CREATE TABLE BelongsTo(
-	EventID int,
-	UserEmail varchar(200),
-	FOREIGN KEY (EventID) References Event ON DELETE CASCADE,
-	FOREIGN KEY (UserEmail) References Users ON DELETE CASCADE
+    GroupID int,
+    UserEmail varchar(200),
+    FOREIGN KEY (GroupID) References Groups ON DELETE CASCADE,
+    FOREIGN KEY (UserEmail) References Users ON DELETE CASCADE
+);
+
+CREATE TABLE Events(
+    GroupID int,
+    EventName varchar(200),
+    StartTime timestamp NOT NULL,
+    EndTime timestamp NOT NULL,
+    PRIMARY KEY (EventName, GroupID),
+    FOREIGN KEY (GroupID) References Groups ON DELETE CASCADE
 );

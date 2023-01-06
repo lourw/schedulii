@@ -3,8 +3,8 @@ package database
 import (
 	"context"
 	"net/http"
-	models "schedulii/src/models"
-
+	models 	"schedulii/src/models"
+	data	"schedulii/src/services/data"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,15 +14,11 @@ func ReadUser(env *models.Env) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 
 		var user models.User
-		err := c.ShouldBindQuery(&user)
+
+		c.ShouldBindQuery(&user)
+		err := env.DB.QueryRow(context.Background(), data.SelectUser(), user.Username).Scan(&user.Username)
 			if err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
-				return
-			}
-		query := "SELECT * FROM UserEmail WHERE UserEmail = ($1)"
-		scanErr := env.DB.QueryRow(context.Background(), query, user.Username).Scan(&user.Username)
-			if scanErr != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"error2": err.Error()})
+				c.JSON(http.StatusBadRequest, "Could not find user.")
 				return
 			}
 		c.JSON(http.StatusOK, user)

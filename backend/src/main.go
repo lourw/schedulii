@@ -61,14 +61,3 @@ func setupDatabaseConnection() *pgxpool.Pool {
 	return db
 }
 
-func setupDatabaseConnection() *pgxpool.Pool {
-	connectionString := retrieveURL("DATABASE_URL")
-	db, err := pgxpool.New(context.Background(), connectionString)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
-	}
-	fmt.Println("Successfully connected to database!")
-
-	return db
-}

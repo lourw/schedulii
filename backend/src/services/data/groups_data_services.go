@@ -25,3 +25,12 @@ func UpdateGroup(env *models.Env, g models.Groups) {
 	}
 	fmt.Println("\nRow updated successfully!")
 }
+
+// func ReadGroup(env *models.Env, g models.Groups) models.Groups {
+// 	query := "SELECT * FROM Groups WHERE GroupID = ($1)"
+// 	err := env.DB.QueryRow(context.Background(), query, g.GroupID).Scan(&g.GroupID, &g.GroupName, &g.GroupURL, &g.AvailableStartHour, &g.AvailableEndHour)
+// 	if err != nil {
+// 		log.Fatalf("Unable to retrieve user info: %v", err)
+// 	}
+// 	return g
+// }

@@ -16,7 +16,10 @@ func ReadGroupHandler(env *models.Env) gin.HandlerFunc {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
             return
         }
-        group := data.ReadGroup(env, g.GroupID)
+        group, err := data.ReadGroup(env, g.GroupID)
+        if err != nil {
+            c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        }
         c.JSON(200, group)
     }
     return gin.HandlerFunc(fn)

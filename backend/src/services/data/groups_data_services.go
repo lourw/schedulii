@@ -2,13 +2,11 @@ package data
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	models "schedulii/src/models"
 )
 
-func CreateGroup(env *models.Env, g models.Groups) {
+func CreateGroup(env *models.Env, g models.Groups) (error) {
 	query := "INSERT INTO Groups VALUES ($1, $2, $3, $4, $5)"
 	_, err := env.DB.Exec(context.Background(),
 		query,
@@ -19,12 +17,12 @@ func CreateGroup(env *models.Env, g models.Groups) {
 		g.AvailableEndHour,
 	)
 	if err != nil {
-		log.Fatalf("Unable to insert value: %v", err)
+		return err
 	}
-	fmt.Println("\nRow inserted successfully!")
+	return nil
 }
 
-func UpdateGroup(env *models.Env, g models.Groups) {
+func UpdateGroup(env *models.Env, g models.Groups) (error){
 	query := `
 		UPDATE Groups
 		SET GroupName = ($2),
@@ -42,12 +40,12 @@ func UpdateGroup(env *models.Env, g models.Groups) {
 		g.AvailableEndHour,
 	)
 	if err != nil {
-		log.Fatalf("Unable to insert value: %v", err)
+		return err
 	}
-	fmt.Println("\nRow updated successfully!")
+	return nil
 }
 
-func ReadGroup(env *models.Env, groupID int) models.Groups {
+func ReadGroup(env *models.Env, groupID int) (*models.Groups, error) {
 	var g models.Groups
     query := "SELECT * FROM Groups WHERE GroupID = ($1)"
     queryResult := env.DB.QueryRow(context.Background(),
@@ -61,7 +59,7 @@ func ReadGroup(env *models.Env, groupID int) models.Groups {
 		&g.AvailableEndHour,
 	)
     if err != nil {
-        log.Fatalf("Unable to retrieve user info: %v", err)
+        return nil, err
     }
-    return g
+    return &g, nil
 }

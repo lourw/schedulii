@@ -2,26 +2,25 @@ package data
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	models "schedulii/src/models"
 )
 
-func CreateUser(env *models.Env, user models.User) {
+func CreateUser(env *models.Env, user models.User) (error) {
 	query := "INSERT INTO Users VALUES ($1)"
 	_, err := env.DB.Exec(context.Background(), query, user.Username)
 	if err != nil {
-		log.Fatalf("Unable to insert value: %v", err)
+		return err
 	}
-	fmt.Println("\nRow inserted successfully!")
+	return nil
 }
 
-func ReadUser(env *models.Env, user models.User) models.User {
+func ReadUser(env *models.Env, user models.User) (*models.User, error) {
+	var u models.User
     query := "SELECT * FROM Users WHERE UserEmail = ($1)"
-    err := env.DB.QueryRow(context.Background(), query, user.Username).Scan(&user.Username)
+    err := env.DB.QueryRow(context.Background(), query, user.Username).Scan(&u.Username)
     if err != nil {
-        log.Fatalf("Unable to retrieve user info: %v", err)
+        return nil, err
     }
-    return user
+    return &u, nil
 }

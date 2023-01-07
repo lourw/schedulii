@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS BelongsTo;
+DROP TABLE IF EXISTS GroupBelongsTo;
 DROP TABLE IF EXISTS Events;
 DROP TABLE IF EXISTS Groups;
 DROP TABLE IF EXISTS Users;
@@ -15,7 +15,7 @@ CREATE TABLE Groups(
     AvailableEndHour int NOT NULL
 );
 
-CREATE TABLE BelongsTo(
+CREATE TABLE GroupBelongsTo(
     GroupID int,
     UserEmail varchar(200),
     FOREIGN KEY (GroupID) References Groups ON DELETE CASCADE,
@@ -23,10 +23,11 @@ CREATE TABLE BelongsTo(
 );
 
 CREATE TABLE Events(
+    EventID int,
     GroupID int,
     EventName varchar(200),
     StartTime timestamp NOT NULL,
     EndTime timestamp NOT NULL,
-    PRIMARY KEY (EventName, GroupID),
+    PRIMARY KEY (EventID),
     FOREIGN KEY (GroupID) References Groups ON DELETE CASCADE
 );

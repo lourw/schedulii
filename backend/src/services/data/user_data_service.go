@@ -18,7 +18,11 @@ func CreateUser(env *models.Env, user models.User) {
 	fmt.Println("\nRow inserted successfully!")
 }
 
-func SelectUser() string {
-	query := "SELECT * FROM Users WHERE UserEmail = ($1)"
-	return query
+func ReadUser(env *models.Env, user models.User) models.User {
+    query := "SELECT * FROM Users WHERE UserEmail = ($1)"
+    err := env.DB.QueryRow(context.Background(), query, user.Username).Scan(&user.Username)
+        if err != nil {
+            log.Fatalf("Unable to retrieve user info: %v", err)
+        }
+    return user
 }

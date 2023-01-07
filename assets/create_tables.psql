@@ -11,8 +11,8 @@ CREATE TABLE Groups(
     GroupID int PRIMARY KEY,
     GroupName varchar(100) NOT NULL,
     GroupURL varchar(200) NOT NULL,
-    AvailabilityStart timestamp NOT NULL,
-    AvailabilityEnd timestamp NOT NULL
+    AvailabilityStart int NOT NULL,
+    AvailabilityEnd int NOT NULL
 );
 
 CREATE TABLE BelongsTo(

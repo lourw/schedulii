@@ -1,21 +1,21 @@
 FROM node:18 as frontend-build
 # Set up npm dependencies
 WORKDIR /app
-COPY ./frontend/package*.json .
+COPY ./frontend/package*.json ./
 RUN npm install
 
 # Build assets for frontend
-COPY ./frontend/. .
+COPY ./frontend/. ./
 RUN npm run build
 
 FROM golang as backend-build
 # Setup golang dependencies
 WORKDIR /app/backend
-COPY ./backend/go* .
+COPY ./backend/go* ./
 RUN go mod download && go mod verify
 
 # Build deployment binary
-COPY ./backend/. .
+COPY ./backend/. ./
 RUN CGO_ENABLED=0 go build -o bin/schedulii ./src/main.go
 
 FROM alpine:latest

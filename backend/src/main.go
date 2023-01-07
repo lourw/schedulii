@@ -1,20 +1,20 @@
 package main
 
 import (
+	"context"
 	"encoding/gob"
 	"fmt"
 	"log"
-	"context"
 	"os"
 	"schedulii/src/middleware"
-	router "schedulii/src/routes"
 	models "schedulii/src/models"
+	router "schedulii/src/routes"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/oauth2"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"golang.org/x/oauth2"
 )
 
 func main() {

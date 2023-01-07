@@ -5,5 +5,5 @@ type Groups struct {
     GroupName string `json:"groupName" form:"groupName"`
     GroupURL string `json:"groupURL" form:"groupURL"`
     AvailableStartHour int `json:"availableStartHour" form:"availableStartHour"`
-    AvailableEndHour int `json:"avaiilableEndHour" form:"avaiilableEndHour"`
+    AvailableEndHour int `json:"availableEndHour" form:"availableEndHour"`
 }

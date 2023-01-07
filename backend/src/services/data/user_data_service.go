@@ -22,3 +22,8 @@ func SelectUser() string {
 	query := "SELECT * FROM Users WHERE UserEmail = ($1)"
 	return query
 }
+
+func SelectUser() string {
+	query := "SELECT * FROM Users WHERE UserEmail = ($1)"
+	return query
+}

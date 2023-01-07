@@ -6,7 +6,7 @@ import (
 	models "schedulii/src/models"
 )
 
-func CreateGroup(env *models.Env, g models.Groups) (error) {
+func CreateGroup(env *models.Env, g models.Groups) error {
 	query := "INSERT INTO Groups VALUES ($1, $2, $3, $4, $5)"
 	_, err := env.DB.Exec(context.Background(),
 		query,
@@ -22,7 +22,7 @@ func CreateGroup(env *models.Env, g models.Groups) (error) {
 	return nil
 }
 
-func UpdateGroup(env *models.Env, g models.Groups) (error){
+func UpdateGroup(env *models.Env, g models.Groups) error {
 	query := `
 		UPDATE Groups
 		SET GroupName = ($2),

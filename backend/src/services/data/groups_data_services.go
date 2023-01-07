@@ -8,11 +8,20 @@ import (
 	models "schedulii/src/models"
 )
 
-func CreateGroup(env *models.Env, group models.Groups) {
+func CreateGroup(env *models.Env, g models.Groups) {
 	query := "INSERT INTO Groups VALUES ($1, $2, $3, $4, $5)"
-	_, err := env.DB.Exec(context.Background(), query, group.GroupID, group.GroupName, group.GroupURL, group.AvailabilityStart, group.AvailabilityEnd)
-		if err != nil {
-			log.Fatalf("Unable to insert value: %v", err)
-		}
-		fmt.Println("\nRow inserted successfully!")
+	_, err := env.DB.Exec(context.Background(), query, g.GroupID, g.GroupName, g.GroupURL, g.AvailableStartHour, g.AvailableEndHour)
+	if err != nil {
+		log.Fatalf("Unable to insert value: %v", err)
+	}
+	fmt.Println("\nRow inserted successfully!")
+}
+
+func UpdateGroup(env *models.Env, g models.Groups) {
+	query := "UPDATE Groups SET GroupName = ($2), GroupURL = ($3), AvailableStartHour = ($4), AvailableEndHour = ($5) WHERE GroupID = ($1)"
+	_, err := env.DB.Exec(context.Background(), query, g.GroupID, g.GroupName, g.GroupURL, g.AvailableStartHour, g.AvailableEndHour)
+	if err != nil {
+		log.Fatalf("Unable to insert value: %v", err)
+	}
+	fmt.Println("\nRow updated successfully!")
 }

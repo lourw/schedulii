@@ -12,10 +12,10 @@ import (
 func CreateUser(env *models.Env, user models.User) {
 	query := "INSERT INTO Users VALUES ($1)"
 	_, err := env.DB.Exec(context.Background(), query, user.Username)
-		if err != nil {
-			log.Fatalf("Unable to insert value: %v", err)
-		}
-		fmt.Println("\nRow inserted successfully!")
+	if err != nil {
+		log.Fatalf("Unable to insert value: %v", err)
+	}
+	fmt.Println("\nRow inserted successfully!")
 }
 
 func SelectUser() string {

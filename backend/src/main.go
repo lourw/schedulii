@@ -1,20 +1,20 @@
 package main
 
 import (
+	"context"
 	"encoding/gob"
 	"fmt"
 	"log"
-	"context"
 	"os"
 	"schedulii/src/middleware"
-	router "schedulii/src/routes"
 	models "schedulii/src/models"
+	router "schedulii/src/routes"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/oauth2"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"golang.org/x/oauth2"
 )
 
 func main() {
@@ -23,7 +23,6 @@ func main() {
 
 	// needed for the Google Oauth process. Not sure where else to register this.
 	gob.Register(oauth2.Token{})
-
 
 	err := ginEngine.Run(":8080")
 	if err != nil {
@@ -60,4 +59,3 @@ func setupDatabaseConnection() *pgxpool.Pool {
 
 	return db
 }
-

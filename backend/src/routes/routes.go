@@ -38,5 +38,6 @@ func SetupRoutes(engine *gin.Engine, env *models.Env) {
 	// data.Use(middleware.CheckAuthenticated)
 	{
 		data.GET("/readUser", database.ReadUserHandler(env))
+		data.GET("/readGroup", database.ReadGroupHandler(env))
 	}
 }

@@ -8,19 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ReadUserHandler(env *models.Env) gin.HandlerFunc {
+func ReadGroupHandler(env *models.Env) gin.HandlerFunc {
     fn := func(c *gin.Context) {
-        var u models.User
-        err := c.ShouldBindQuery(&u)
+        var g models.Groups
+        err := c.ShouldBindQuery(&g)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
             return
         }
-        user, err := data.ReadUser(env, u)
+        group, err := data.ReadGroup(env, g.GroupID)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         }
-        c.JSON(200, user)
+        c.JSON(200, group)
     }
     return gin.HandlerFunc(fn)
 }

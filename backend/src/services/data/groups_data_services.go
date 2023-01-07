@@ -10,7 +10,14 @@ import (
 
 func CreateGroup(env *models.Env, g models.Groups) {
 	query := "INSERT INTO Groups VALUES ($1, $2, $3, $4, $5)"
-	_, err := env.DB.Exec(context.Background(), query, g.GroupID, g.GroupName, g.GroupURL, g.AvailableStartHour, g.AvailableEndHour)
+	_, err := env.DB.Exec(context.Background(),
+		query,
+		g.GroupID,
+		g.GroupName,
+		g.GroupURL,
+		g.AvailableStartHour,
+		g.AvailableEndHour,
+	)
 	if err != nil {
 		log.Fatalf("Unable to insert value: %v", err)
 	}
@@ -18,8 +25,22 @@ func CreateGroup(env *models.Env, g models.Groups) {
 }
 
 func UpdateGroup(env *models.Env, g models.Groups) {
-	query := "UPDATE Groups SET GroupName = ($2), GroupURL = ($3), AvailableStartHour = ($4), AvailableEndHour = ($5) WHERE GroupID = ($1)"
-	_, err := env.DB.Exec(context.Background(), query, g.GroupID, g.GroupName, g.GroupURL, g.AvailableStartHour, g.AvailableEndHour)
+	query := `
+		UPDATE Groups
+		SET GroupName = ($2),
+			GroupURL = ($3),
+			AvailableStartHour = ($4),
+			AvailableEndHour = ($5)
+		WHERE GroupID = ($1)
+	`
+	_, err := env.DB.Exec(context.Background(),
+		query,
+		g.GroupID,
+		g.GroupName,
+		g.GroupURL,
+		g.AvailableStartHour,
+		g.AvailableEndHour,
+	)
 	if err != nil {
 		log.Fatalf("Unable to insert value: %v", err)
 	}
@@ -27,12 +48,20 @@ func UpdateGroup(env *models.Env, g models.Groups) {
 }
 
 func ReadGroup(env *models.Env, groupID int) models.Groups {
+	var g models.Groups
     query := "SELECT * FROM Groups WHERE GroupID = ($1)"
-    var group models.Groups
-    err := env.DB.QueryRow(context.Background(), query, groupID).Scan(&group.GroupID, &group.GroupName, &group.GroupURL, &group.AvailableStartHour, &group.AvailableEndHour)
+    queryResult := env.DB.QueryRow(context.Background(),
+		query,
+		groupID,
+	)
+	err := queryResult.Scan(&g.GroupID,
+		&g.GroupName,
+		&g.GroupURL,
+		&g.AvailableStartHour,
+		&g.AvailableEndHour,
+	)
     if err != nil {
         log.Fatalf("Unable to retrieve user info: %v", err)
     }
-    return group
+    return g
 }
-

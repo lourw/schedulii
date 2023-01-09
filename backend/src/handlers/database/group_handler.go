@@ -2,8 +2,8 @@ package database
 
 import (
 	"net/http"
-	models "schedulii/src/models"
-	data "schedulii/src/services/data"
+	"schedulii/src/models"
+	"schedulii/src/services/data/groups"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +16,7 @@ func ReadGroupHandler(env *models.Env) gin.HandlerFunc {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
             return
         }
-        group, err := data.ReadGroup(env, g.GroupID)
+        group, err := groups.ReadGroup(env, g.GroupID)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         }

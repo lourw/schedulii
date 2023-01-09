@@ -2,8 +2,8 @@ package database
 
 import (
 	"net/http"
-	models "schedulii/src/models"
-	data "schedulii/src/services/data"
+	"schedulii/src/models"
+	"schedulii/src/services/data/users"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +16,7 @@ func ReadUserHandler(env *models.Env) gin.HandlerFunc {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
             return
         }
-        user, err := data.ReadUser(env, u)
+        user, err := users.ReadUser(env, u)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         }

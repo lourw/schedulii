@@ -1,6 +1,12 @@
 package models
 
+import "time"
+
 type Event struct {
-	EventName string `json:"title" binding:"required"`
-	EventId   int    `json:"id" binding:"required"`
+	EventId   int       `json:"eventId" form:"eventId" binding:"required"`
+	GroupId   int       `json:"groupId" form:"groupId"`
+	EventName string    `json:"eventName" form:"eventName"`
+	StartTime time.Time `json:"startTime" form:"startTime"`
+	EndTime   time.Time `json:"endTime" form:"endTime"`
 }
+

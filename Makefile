@@ -7,6 +7,8 @@ export $(shell sed 's/=.*//' .env)
 
 build_and_run: build run
 
+build_run_backend: build_backend run
+
 build: build_frontend build_backend
 
 build_frontend:

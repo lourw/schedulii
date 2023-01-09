@@ -1,12 +1,13 @@
-package events
+package data_srv
 
 import (
 	"context"
 
-	models "schedulii/src/models"
+	"schedulii/src/models"
+	"schedulii/src/models/data_model"
 )
 
-func ReadEvent(env *models.Env, event models.Event) (models.Event, error) {
+func ReadEvent(env *models.Env, event data_model.Event) (data_model.Event, error) {
 	query := "SELECT * FROM Events WHERE eventid = ($1)"
 	queryResult := env.DB.QueryRow(
 		context.Background(),

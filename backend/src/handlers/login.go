@@ -2,14 +2,14 @@ package handlers
 
 import (
 	"net/http"
-	"schedulii/src/models"
+	"schedulii/src/models/data_model"
 	"schedulii/src/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterUser(c *gin.Context) {
-	var user models.User
+	var user data_model.User
 
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
@@ -21,7 +21,7 @@ func RegisterUser(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var user models.User
+	var user data_model.User
 
 	err := c.ShouldBindJSON(&user)
 	if err != nil {

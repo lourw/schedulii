@@ -1,4 +1,4 @@
-package models
+package google_model
 
 // Define a struct that represents a Google calendar
 type Calendar struct {

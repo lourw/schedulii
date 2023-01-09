@@ -2,7 +2,7 @@ package google
 
 import (
 	"net/http"
-	"schedulii/src/services/google"
+	"schedulii/src/services/google_srv"
 	"schedulii/src/utils"
 
 	"github.com/gin-contrib/sessions"
@@ -16,6 +16,6 @@ func UserInfoHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid oauth token"})
 	}
 
-	userInfo := google.GetGoogleUserData(tok)
+	userInfo := google_srv.GetGoogleUserData(tok)
 	c.JSON(http.StatusOK, userInfo)
 }

@@ -3,20 +3,21 @@ package database
 import (
 	"net/http"
 	"schedulii/src/models"
-	"schedulii/src/services/data/users"
+	"schedulii/src/models/data_model"
+	"schedulii/src/services/data_srv/users"
 
 	"github.com/gin-gonic/gin"
 )
 
 func ReadUserHandler(env *models.Env) gin.HandlerFunc {
     fn := func(c *gin.Context) {
-        var u models.User
+        var u data_model.User
         err := c.ShouldBindQuery(&u)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
             return
         }
-        user, err := users.ReadUser(env, u)
+        user, err := data_srv.ReadUser(env, u)
         if err != nil {
             c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         }

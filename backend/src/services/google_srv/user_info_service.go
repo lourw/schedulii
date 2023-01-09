@@ -1,4 +1,4 @@
-package google
+package google_srv
 
 import (
 	"context"

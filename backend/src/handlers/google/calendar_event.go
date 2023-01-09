@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 	"net/http"
-	models "schedulii/src/models"
-	utils "schedulii/src/utils"
+	"schedulii/src/models/google_model"
+	"schedulii/src/utils"
 	"time"
 
 	"google.golang.org/api/calendar/v3"
@@ -25,7 +25,7 @@ func UserCalendarEventsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, calendarEvents)
 }
 
-func getCalendarEvents(client *http.Client) []models.CalendarEvent {
+func getCalendarEvents(client *http.Client) []google_model.CalendarEvent {
 	svc, err := calendar.NewService(context.Background(), option.WithHTTPClient(client))
 	if err != nil {
 		log.Fatalf("Unable to retrieve Calendar client: %v", err)
@@ -41,15 +41,15 @@ func getCalendarEvents(client *http.Client) []models.CalendarEvent {
 		log.Fatalf("Unable to retrieve the user's events for the next month: %v", err)
 	}
 
-	var calendarEvents []models.CalendarEvent
+	var calendarEvents []google_model.CalendarEvent
 	for _, item := range events.Items {
-		ce := models.CalendarEvent{
+		ce := google_model.CalendarEvent{
 			Summary: item.Summary,
-			Start: models.Time{
+			Start: google_model.EventTime{
 				DateTime: item.Start.DateTime,
 				TimeZone: item.Start.TimeZone,
 			},
-			End: models.Time{
+			End: google_model.EventTime{
 				DateTime: item.End.DateTime,
 				TimeZone: item.End.TimeZone,
 			},

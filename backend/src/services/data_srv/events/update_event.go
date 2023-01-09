@@ -1,12 +1,13 @@
-package events
+package data_srv
 
 import (
 	"context"
 
 	"schedulii/src/models"
+	"schedulii/src/models/data_model"
 )
 
-func UpdateEvent(env *models.Env, event models.Event) error {
+func UpdateEvent(env *models.Env, event data_model.Event) error {
 	query := `
 		UPDATE Events
 			SET EventName = ($2),

@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
-	models "schedulii/src/models"
+	"schedulii/src/models/google_model"
 	utils "schedulii/src/utils"
 
 	"google.golang.org/api/calendar/v3"
@@ -23,7 +23,7 @@ func UserCalendarListHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, calendars)
 }
 
-func getUserCalendarList(client *http.Client) []models.Calendar {
+func getUserCalendarList(client *http.Client) []google_model.Calendar {
 	svc, err := calendar.NewService(context.Background(), option.WithHTTPClient(client))
 	if err != nil {
 		log.Fatalf("Unable to retrieve Calendar client: %v", err)
@@ -34,9 +34,9 @@ func getUserCalendarList(client *http.Client) []models.Calendar {
 		log.Fatalf("Unable to retrieve the user's list of calendars: %v", err)
 	}
 
-	var calendars []models.Calendar
+	var calendars []google_model.Calendar
 	for _, item := range calendarList.Items {
-		ce := models.Calendar{
+		ce := google_model.Calendar{
 			Id:       item.Id,
 			Location: item.Location,
 			Summary:  item.Summary,

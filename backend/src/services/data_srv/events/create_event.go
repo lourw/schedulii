@@ -1,12 +1,13 @@
-package events
+package data_srv
 
 import (
 	"context"
 
-	models "schedulii/src/models"
+	"schedulii/src/models"
+	"schedulii/src/models/data_model"
 )
 
-func CreateEvent(env *models.Env, event models.Event) error {
+func CreateEvent(env *models.Env, event data_model.Event) error {
 	query := "INSERT INTO Events VALUES ($1, $2, $3, $4, $5)"
 	_, err := env.DB.Exec(
 		context.Background(),

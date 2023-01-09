@@ -1,12 +1,13 @@
-package groups
+package data_srv
  
 import (
 	"context"
 
 	"schedulii/src/models"
+	"schedulii/src/models/data_model"
 )
 
-func UpdateGroup(env *models.Env, g models.Groups) error {
+func UpdateGroup(env *models.Env, g data_model.Groups) error {
 	query := `
 		UPDATE Groups
 		SET GroupName = ($2),

@@ -29,7 +29,6 @@ func SetupRoutes(engine *gin.Engine, env *models.Env) {
 
 	login := engine.Group("/login")
 	{
-		login.POST("/register", handlers.RegisterUser)
 		login.POST("", handlers.Login)
 		login.POST("/validate", handlers.Validate)
 	}

@@ -1,8 +1,8 @@
-package models
+package google_model
 
 // Define a struct that represents a Google calendar event
 type CalendarEvent struct {
 	Summary string `json:"summary"`
-	Start   Time   `json:"start"`
-	End     Time   `json:"end"`
+	Start   EventTime   `json:"start"`
+	End     EventTime   `json:"end"`
 }

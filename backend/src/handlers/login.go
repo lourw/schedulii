@@ -8,18 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterUser(c *gin.Context) {
-	var user data_model.User
-
-	err := c.ShouldBindJSON(&user)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": "validated"})
-}
-
 func Login(c *gin.Context) {
 	var user data_model.User
 

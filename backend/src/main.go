@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 	"schedulii/src/middleware"
-	models "schedulii/src/models"
-	router "schedulii/src/routes"
+	"schedulii/src/models"
+	"schedulii/src/routes"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -16,6 +16,18 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"golang.org/x/oauth2"
 )
+
+type ScheduliiApp struct {
+	ginEngine *gin.Engine
+	router routes.Router
+}
+
+func NewScheduliiApp(ginEngine *gin.Engine, router routes.Router) ScheduliiApp {
+	return ScheduliiApp{
+		ginEngine: ginEngine,
+		router: router,
+	}
+}
 
 func main() {
 	env := &models.Env{DB: setupDatabaseConnection()}
@@ -33,13 +45,15 @@ func main() {
 }
 
 func setUpEngine(env *models.Env) *gin.Engine {
-	r := gin.Default()
+	e := gin.Default()
+	r := routes.Router{}
+
 	store := cookie.NewStore([]byte("secret"))
-	r.Use(sessions.Sessions("schedulii", store))
-	r.Use(gin.Logger())
-	r.Use(middleware.CORSMiddleware)
-	router.SetupRoutes(r, env)
-	return r
+	e.Use(sessions.Sessions("schedulii", store))
+	e.Use(gin.Logger())
+	e.Use(middleware.CORSMiddleware)
+	r.SetupRoutes(e, env)
+	return e
 }
 
 func retrieveURL(key string) string {

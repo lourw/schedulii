@@ -1,23 +1,32 @@
-package database
+package data_handler
 
 import (
 	"net/http"
-	"schedulii/src/models"
 	"schedulii/src/models/data_model"
-	"schedulii/src/services/data_srv/events"
+	"schedulii/src/services/data_srv"
 
 	"github.com/gin-gonic/gin"
 )
 
-func ReadEventHandler(env *models.Env) gin.HandlerFunc {
+type EventHandler struct {
+	es data_srv.EventService
+}
+
+func NewEventHandler(es data_srv.EventService) EventHandler {
+	return EventHandler{
+		es: es,
+	}
+}
+
+func (eh *EventHandler) HandleReadEvent() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		var event data_model.Event
-		err := c.ShouldBindQuery(&event)
+		var e data_model.Event
+		err := c.ShouldBindQuery(&e)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"query error": err.Error()})
 			return
 		}
-		event, err = data_srv.ReadEvent(env, event)
+		event, err := eh.es.ReadEvent(e)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"read error": err.Error()})
 			return

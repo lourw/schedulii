@@ -1,17 +1,22 @@
 package routes
 
 import (
-	handlers 	"schedulii/src/handlers"
-	models 		"schedulii/src/models"
-	google 		"schedulii/src/handlers/google"
-	database	"schedulii/src/handlers/database"
+	handlers "schedulii/src/handlers"
+	data_handler "schedulii/src/handlers/data_handler"
+	google "schedulii/src/handlers/google"
 	"schedulii/src/middleware"
+	models "schedulii/src/models"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(engine *gin.Engine, env *models.Env) {
+type Router struct {
+	eventHandler data_handler.EventHandler
+	groupHandler data_handler.GroupHandler
+}
+
+func (r *Router) SetupRoutes(engine *gin.Engine, env *models.Env) {
 	// Serve frontend build
 	engine.Use(static.Serve("/", static.LocalFile("../../frontend/build", true)))
 
@@ -36,7 +41,8 @@ func SetupRoutes(engine *gin.Engine, env *models.Env) {
 	data := engine.Group("/data")
 	// data.Use(middleware.CheckAuthenticated)
 	{
-		data.GET("/readUser", database.ReadUserHandler(env))
-		data.GET("/readGroup", database.ReadGroupHandler(env))
+		data.GET("/readUser", data_handler.ReadUserHandler(env))
+		data.GET("/readGroup", r.groupHandler.HandleReadGroup())
+		data.GET("/readEvent", r.eventHandler.HandleReadEvent())
 	}
 }

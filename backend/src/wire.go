@@ -1,17 +1,34 @@
+//+build wireinject
+
 package main
 
 import (
-	"schedulii/src/services/data_srv"
+	"schedulii/src/db"
 	"schedulii/src/handlers/data_handler"
+	"schedulii/src/routes"
+	"schedulii/src/services/data_srv"
 
 	"github.com/google/wire"
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/gin-gonic/gin"
 )
 
-func NewDatabaseConnection() *pgxpool.Pool {
-	return setupDatabaseConnection()
-}
+var AppSet = wire.NewSet(
+	db.NewDatabaseConnection,
+	gin.Default, 
 
-func InitializeHandlers() {
-	wire.Build(NewDatabaseConnection(), data_srv.NewEventService, data_handler.NewEventHandler)
+	data_srv.NewEventService,
+	data_handler.NewEventHandler,
+
+	data_srv.NewGroupService,
+	data_handler.NewGroupHandler,
+
+	data_srv.NewUserService,
+	data_handler.NewUserHandler,
+
+	routes.NewRouter,
+	NewScheduliiApp, 
+)
+func InitializeApp() (ScheduliiApp, error) {
+	wire.Build(AppSet)
+	return ScheduliiApp{}, nil
 }

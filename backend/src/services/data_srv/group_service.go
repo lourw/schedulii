@@ -38,7 +38,10 @@ func (gs *GroupService) CreateGroup(group data_model.Group) error {
 }
 
 func (gs *GroupService) ReadGroup(group data_model.Group) (data_model.Group, error) {
-	query := "SELECT * FROM Groups WHERE GroupID = ($1)"
+	query := `
+		SELECT * FROM groups 
+		WHERE group_id = ($1)
+	`
 	queryResult := gs.db.QueryRow(
 		context.Background(),
 		query,
@@ -47,8 +50,8 @@ func (gs *GroupService) ReadGroup(group data_model.Group) (data_model.Group, err
 	err := queryResult.Scan(
 		&group.GroupID,
 		&group.GroupURL,
-		&group.AvailableStartHour,
 		&group.GroupName,
+		&group.AvailableStartHour,
 		&group.AvailableEndHour,
 	)
 	if err != nil {
@@ -59,12 +62,12 @@ func (gs *GroupService) ReadGroup(group data_model.Group) (data_model.Group, err
 
 func (gs *GroupService) UpdateGroup(group data_model.Group) error {
 	query := `
-		UPDATE Groups
-		SET GroupName = ($2),
-			GroupURL = ($3),
-			AvailableStartHour = ($4),
-			AvailableEndHour = ($5)
-		WHERE GroupID = ($1)
+		UPDATE groups
+		SET group_name = ($2),
+			group_url = ($3),
+			available_start_hour = ($4),
+			available_end_hour = ($5)
+		WHERE group_id = ($1)
 	`
 	_, err := gs.db.Exec(
 		context.Background(),

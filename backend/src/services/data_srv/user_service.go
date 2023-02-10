@@ -19,7 +19,7 @@ func NewUserService(db *pgxpool.Pool) UserService {
 
 func (us *UserService) CreateUser(user data_model.User) error {
 	query := `
-		INSERT INTO Users 
+		INSERT INTO users 
 		VALUES ($1)
 	`
 	_, err := us.db.Exec(
@@ -36,8 +36,8 @@ func (us *UserService) CreateUser(user data_model.User) error {
 func (us *UserService) ReadUser(user data_model.User) (*data_model.User, error) {
 	var u data_model.User
     query := `
-		SELECT * FROM Users 
-		WHERE UserEmail = ($1)
+		SELECT * FROM users 
+		WHERE user_email = ($1)
 	`
     result := us.db.QueryRow(
 		context.Background(), 

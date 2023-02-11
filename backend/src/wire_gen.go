@@ -1,0 +1,33 @@
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/google/wire"
+	"schedulii/src/db"
+	"schedulii/src/handlers/data_handler"
+	"schedulii/src/routes"
+	"schedulii/src/services/data_srv"
+)
+
+// Injectors from wire.go:
+
+func InitializeApp() (ScheduliiApp, error) {
+	pool, err := db.NewDatabaseConnection()
+	if err != nil {
+		return ScheduliiApp{}, err
+	}
+	engine := gin.Default()
+	userService := data_srv.NewUserService(pool)
+	userHandler := data_handler.NewUserHandler(userService)
+	eventService := data_srv.NewEventService(pool)
+	eventHandler := data_handler.NewEventHandler(eventService)
+	groupService := data_srv.NewGroupService(pool)
+	groupHandler := data_handler.NewGroupHandler(groupService)
+	router := routes.NewRouter(engine, userHandler, eventHandler, groupHandler)
+	scheduliiApp := NewScheduliiApp(pool, engine, router)
+	return scheduliiApp, nil
+}
+
+// wire.go:
+
+var AppSet = wire.NewSet(db.NewDatabaseConnection, gin.Default, data_srv.NewEventService, data_handler.NewEventHandler, data_srv.NewGroupService, data_handler.NewGroupHandler, data_srv.NewUserService, data_handler.NewUserHandler, routes.NewRouter, NewScheduliiApp)

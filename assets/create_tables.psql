@@ -1,33 +1,33 @@
-DROP TABLE IF EXISTS GroupBelongsTo;
-DROP TABLE IF EXISTS Events;
-DROP TABLE IF EXISTS Groups;
-DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS group_belongs_to;
+DROP TABLE IF EXISTS events;
+DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS users;
 
-CREATE TABLE Users(
-    UserEmail varchar(200) PRIMARY KEY
+CREATE TABLE users(
+    user_email varchar(200) PRIMARY KEY
 );
 
-CREATE TABLE Groups(
-    GroupID int PRIMARY KEY,
-    GroupName varchar(100) NOT NULL,
-    GroupURL varchar(200) NOT NULL,
-    AvailableStartHour int NOT NULL,
-    AvailableEndHour int NOT NULL
+CREATE TABLE groups(
+    group_id int PRIMARY KEY,
+    group_name varchar(100) NOT NULL,
+    group_url varchar(200) NOT NULL,
+    available_start_hour int NOT NULL,
+    available_end_hour int NOT NULL
 );
 
-CREATE TABLE GroupBelongsTo(
-    GroupID int,
-    UserEmail varchar(200),
-    FOREIGN KEY (GroupID) References Groups ON DELETE CASCADE,
-    FOREIGN KEY (UserEmail) References Users ON DELETE CASCADE
+CREATE TABLE group_belongs_to(
+    group_id int,
+    user_email varchar(200),
+    FOREIGN KEY (group_id) References groups ON DELETE CASCADE,
+    FOREIGN KEY (user_email) References users ON DELETE CASCADE
 );
 
-CREATE TABLE Events(
-    EventID int,
-    GroupID int,
-    EventName varchar(200),
-    StartTime timestamp NOT NULL,
-    EndTime timestamp NOT NULL,
-    PRIMARY KEY (EventID),
-    FOREIGN KEY (GroupID) References Groups ON DELETE CASCADE
+CREATE TABLE events(
+    event_id int,
+    group_id int,
+    event_name varchar(200),
+    start_time timestamp NOT NULL,
+    end_time timestamp NOT NULL,
+    PRIMARY KEY (event_id),
+    FOREIGN KEY (group_id) References groups ON DELETE CASCADE
 );

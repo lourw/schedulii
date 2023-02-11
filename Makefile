@@ -17,7 +17,7 @@ build_frontend:
 
 build_backend:
 	cd ${BACKEND_DIR} && \
-	go build -o ${BINARY_NAME} main.go
+	go build -o ${BINARY_NAME} main.go wire_gen.go app.go
 
 run:
 	cd ${BACKEND_DIR} && \

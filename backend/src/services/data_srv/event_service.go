@@ -1,59 +1,30 @@
 package data_srv
 
 import (
-	"context"
 	"schedulii/src/models/data_model"
-
-	"github.com/jackc/pgx/v5/pgxpool"
+	"schedulii/src/repositories"
 )
 
 type EventService struct {
-	db *pgxpool.Pool 
+	er repositories.EventRepository
 }
 
-func NewEventService(db *pgxpool.Pool) EventService {
+func NewEventService(er repositories.EventRepository) EventService {
 	return EventService{
-		db: db,
+		er: er,
 	}
 }
 
 func (es *EventService) CreateEvent(event data_model.Event) error {
-	query := `
-		INSERT INTO events 
-		VALUES ($1, $2, $3, $4, $5)
-	`
-	_, err := es.db.Exec(
-		context.Background(),
-		query, 
-		event.EventId, 
-		event.GroupId, 
-		event.EventName, 
-		event.StartTime, 
-		event.EndTime,
-	)
+	err := es.er.CreateEvent(event)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (es *EventService) ReadEvent(event data_model.Event) (data_model.Event, error) {
-	query := `
-		SELECT * FROM events 
-		WHERE event_id = ($1)
-	`
-	result := es.db.QueryRow(
-		context.Background(), 
-		query, 
-		event.EventId,
-	)
-	err := result.Scan(
-		&event.EventId,
-		&event.GroupId,
-		&event.EventName,
-		&event.StartTime,
-		&event.EndTime,
-	)
+func (es *EventService) GetEvent(event data_model.Event) (data_model.Event, error) {
+	event, err := es.er.GetEvent(event)
 	if err != nil {
 		return event, err
 	}
@@ -61,21 +32,7 @@ func (es *EventService) ReadEvent(event data_model.Event) (data_model.Event, err
 }
 
 func (es *EventService) UpdateEvent(event data_model.Event) error {
-	query := `
-		UPDATE events
-		SET event_name = ($2),
-			start_time = ($3),
-			end_time = ($4)
-		WHERE event_id = ($1)
-	`
-	_, err := es.db.Exec(
-		context.Background(),
-		query,
-		event.EventId,
-		event.EventName,
-		event.StartTime,
-		event.EndTime,
-	)
+	err := es.er.UpdateEvent(event)
 	if err != nil {
 		return err
 	}

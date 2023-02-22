@@ -1,0 +1,17 @@
+services:
+  db: 
+    image: postgres:15.2
+    env_file: 
+      - .env.test
+    container_name: database
+    restart: always
+    ports: 
+      - "5432:5432"
+    volumes:
+      - ./assets/create_tables.psql:/docker-entrypoint-initdb.d/initdb.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s  

@@ -6,5 +6,7 @@
     "useTabs": false,
     "trailingComma": "none",
     "bracketSpacing": true,
-    "semi": true
+    "semi": true,
+    "arrowParens": "always",
+    "organizeImportsSkipDestructiveCodeActions": true
 }

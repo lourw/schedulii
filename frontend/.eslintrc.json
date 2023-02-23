@@ -23,15 +23,12 @@
         }
     },
     "rules": {
-        "indent": ["error", 4],
         "linebreak-style": ["error", "unix"],
-        "quotes": ["error", "double"],
-        "semi": ["error", "always"],
         "arrow-body-style": ["error", "as-needed"],
         "camelcase": ["error"],
         "no-console": ["warn"],
         "@typescript-eslint/explicit-function-return-type": "warn",
-        "@typescript-eslint/consistent-type-definitions":["error", "type"],
+        "@typescript-eslint/consistent-type-definitions": ["error", "type"],
         "@typescript-eslint/array-type": "error",
         "react/self-closing-comp": [
             "error",

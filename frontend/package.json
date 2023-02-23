@@ -3,9 +3,6 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@testing-library/jest-dom": "^5.16.5",
-        "@testing-library/react": "^13.4.0",
-        "@testing-library/user-event": "^13.5.0",
         "@types/node": "^16.18.10",
         "@types/react": "^18.0.26",
         "@types/react-dom": "^18.0.9",
@@ -22,8 +19,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "lint": "npx eslint --ext .ts,.tsx src/",
-        "lint-fix": "npx prettier --write src/ && npx eslint --fix --ext .ts,.tsx src/",
+        "lint": "eslint --ignore-path .eslintignore --ext .js,.ts,.tsx . && prettier --ignore-path .prettierignore --check \"**/*.+(js|ts|json|tsx)\"",
+        "lint-fix": "eslint --ignore-path .eslintignore --fix --ext .ts,.tsx src/ && prettier --ignore-path .prettierignore --write \"**/*.+(js|ts|json|tsx)\"",
         "eject": "react-scripts eject"
     },
     "browserslist": {
@@ -45,6 +42,10 @@
         "eslint": "^8.30.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-react": "^7.31.11",
-        "prettier": "2.8.1"
+        "prettier": "2.8.1",
+        "prettier-plugin-organize-imports": "^3.2.2",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^13.4.0",
+        "@testing-library/user-event": "^13.5.0"
     }
 }

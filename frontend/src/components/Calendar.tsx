@@ -1,8 +1,7 @@
-import type { ReactElement } from "react";
-import { useEffect } from "react";
-import React from "react";
-import { startOfDay, addMinutes, addHours, addDays } from "date-fns";
+import { addDays, addHours, addMinutes, startOfDay } from "date-fns";
 import formatDate from "date-fns/format";
+import type { ReactElement } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import "./Calendar.css";
 

@@ -1,8 +1,8 @@
-import React from "react";
 import { render } from "@testing-library/react";
+import React from "react";
 
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CreateEventPage from "../../pages/CreateEventPage";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 describe("Create Event Page", () => {
     it("renders CreateEventPage component title", () => {

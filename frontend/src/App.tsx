@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Calendar from "./components/Calendar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";

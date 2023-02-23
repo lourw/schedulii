@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
-import { useEffect } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import type AuthProviderPropsType from "../context/AuthProviderPropsType";
@@ -15,7 +14,7 @@ const ProtectedRoute = ({ children }: AuthProviderPropsType): ReactElement => {
         }
     }, [appContext?.token]);
 
-    return <> { children } </>;
+    return <> {children} </>;
 };
 
 export default ProtectedRoute;

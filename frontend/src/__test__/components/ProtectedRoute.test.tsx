@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import ProtectedRoute from "../../components/ProtectedRoute";
+import React from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "../../components/ProtectedRoute";
 import { AuthContext } from "../../context/AuthContext";
 import type AuthContextDataType from "../../context/AuthContextDataType";
 
@@ -12,8 +12,8 @@ describe("Protected Route", () => {
     beforeEach(() => {
         validContext = {
             token: "invalid-token",
-            onLogin: (): void => { },
-            onLogout: (): void => { },
+            onLogin: (): void => {},
+            onLogout: (): void => {}
         };
     });
 
@@ -23,14 +23,17 @@ describe("Protected Route", () => {
         render(
             <MemoryRouter initialEntries={["/protected"]}>
                 <Routes>
-                    <Route path="/" element={
-                        <p>Home</p>
-                    } />
-                    <Route path="/protected" element={
-                        <AuthContext.Provider value={validContext}>
-                            <ProtectedRoute><p>Child</p></ProtectedRoute>
-                        </AuthContext.Provider>
-                    } />
+                    <Route path="/" element={<p>Home</p>} />
+                    <Route
+                        path="/protected"
+                        element={
+                            <AuthContext.Provider value={validContext}>
+                                <ProtectedRoute>
+                                    <p>Child</p>
+                                </ProtectedRoute>
+                            </AuthContext.Provider>
+                        }
+                    />
                 </Routes>
             </MemoryRouter>
         );
@@ -43,14 +46,17 @@ describe("Protected Route", () => {
         render(
             <MemoryRouter initialEntries={["/protected"]}>
                 <Routes>
-                    <Route path="/" element={
-                        <p>Home</p>
-                    } />
-                    <Route path="/protected" element={
-                        <AuthContext.Provider value={validContext}>
-                            <ProtectedRoute><p>Child</p></ProtectedRoute>
-                        </AuthContext.Provider>
-                    } />
+                    <Route path="/" element={<p>Home</p>} />
+                    <Route
+                        path="/protected"
+                        element={
+                            <AuthContext.Provider value={validContext}>
+                                <ProtectedRoute>
+                                    <p>Child</p>
+                                </ProtectedRoute>
+                            </AuthContext.Provider>
+                        }
+                    />
                 </Routes>
             </MemoryRouter>
         );

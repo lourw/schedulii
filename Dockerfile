@@ -16,7 +16,7 @@ RUN go mod download && go mod verify
 
 # Build deployment binary
 COPY ./backend/. ./
-RUN CGO_ENABLED=0 go build -o bin/schedulii ./src/main.go
+RUN CGO_ENABLED=0 go build -o bin/schedulii ./src/main.go ./src/wire_gen.go ./src/app.go
 
 FROM alpine:latest
 # Configure for golang compatibility

@@ -25,6 +25,7 @@ var AppSet = wire.NewSet(
 	data_srv.NewGroupService,
 	data_handler.NewGroupHandler,
 
+	repositories.NewUserRepository,
 	data_srv.NewUserService,
 	data_handler.NewUserHandler,
 

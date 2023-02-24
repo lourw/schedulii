@@ -29,7 +29,8 @@ func InitializeApp() (ScheduliiApp, error) {
 	eventRepository := repositories.NewEventRepository(pool)
 	eventService := data_srv.NewEventService(eventRepository)
 	eventHandler := data_handler.NewEventHandler(eventService)
-	groupService := data_srv.NewGroupService(pool)
+	groupRepository := repositories.NewGroupRepository(pool)
+	groupService := data_srv.NewGroupService(groupRepository)
 	groupHandler := data_handler.NewGroupHandler(groupService)
 	router := routes.NewRouter(engine, userHandler, eventHandler, groupHandler)
 	scheduliiApp := NewScheduliiApp(pool, engine, router)
@@ -38,4 +39,4 @@ func InitializeApp() (ScheduliiApp, error) {
 
 // wire.go:
 
-var AppSet = wire.NewSet(db.NewDatabaseConnection, gin.Default, repositories.NewEventRepository, data_srv.NewEventService, data_handler.NewEventHandler, data_srv.NewGroupService, data_handler.NewGroupHandler, data_srv.NewUserService, data_handler.NewUserHandler, routes.NewRouter, NewScheduliiApp)
+var AppSet = wire.NewSet(db.NewDatabaseConnection, gin.Default, repositories.NewEventRepository, data_srv.NewEventService, data_handler.NewEventHandler, repositories.NewGroupRepository, data_srv.NewGroupService, data_handler.NewGroupHandler, data_srv.NewUserService, data_handler.NewUserHandler, routes.NewRouter, NewScheduliiApp)

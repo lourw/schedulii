@@ -1,36 +1,22 @@
 package data_srv
 
 import (
-	"context"
 	"schedulii/src/models/data_model"
-
-	"github.com/jackc/pgx/v5/pgxpool"
+	"schedulii/src/repositories"
 )
 
 type GroupService struct {
-	db *pgxpool.Pool
+	gr repositories.GroupRepository
 }
 
-func NewGroupService(db *pgxpool.Pool) GroupService {
+func NewGroupService(gr repositories.GroupRepository) GroupService {
 	return GroupService{
-		db: db,
+		gr: gr,
 	}
 }
 
 func (gs *GroupService) CreateGroup(group data_model.Group) error {
-	query := `
-		INSERT INTO groups 
-		VALUES ()
-	`
-	_, err := gs.db.Exec(
-		context.Background(),
-		query,
-		group.GroupID,
-		group.GroupName,
-		group.GroupURL,
-		group.AvailableStartHour,
-		group.AvailableEndHour,
-	)
+	err := gs.gr.CreateGroup(group)
 	if err != nil {
 		return err
 	}
@@ -38,46 +24,15 @@ func (gs *GroupService) CreateGroup(group data_model.Group) error {
 }
 
 func (gs *GroupService) ReadGroup(group data_model.Group) (data_model.Group, error) {
-	query := `
-		SELECT * FROM groups 
-		WHERE group_id = ($1)
-	`
-	queryResult := gs.db.QueryRow(
-		context.Background(),
-		query,
-		group.GroupID,
-	)
-	err := queryResult.Scan(
-		&group.GroupID,
-		&group.GroupURL,
-		&group.GroupName,
-		&group.AvailableStartHour,
-		&group.AvailableEndHour,
-	)
+	result, err := gs.gr.ReadGroup(group)
 	if err != nil {
 		return group, err
 	}
-	return group, nil
+	return result, nil
 }
 
 func (gs *GroupService) UpdateGroup(group data_model.Group) error {
-	query := `
-		UPDATE groups
-		SET group_name = ($2),
-			group_url = ($3),
-			available_start_hour = ($4),
-			available_end_hour = ($5)
-		WHERE group_id = ($1)
-	`
-	_, err := gs.db.Exec(
-		context.Background(),
-		query,
-		group.GroupID,
-		group.GroupName,
-		group.GroupURL,
-		group.AvailableStartHour,
-		group.AvailableEndHour,
-	)
+	err := gs.gr.UpdateGroup(group)
 	if err != nil {
 		return err
 	}

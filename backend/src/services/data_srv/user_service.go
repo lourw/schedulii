@@ -1,54 +1,32 @@
 package data_srv
 
 import (
-	"context"
 	"schedulii/src/models/data_model"
-
-	"github.com/jackc/pgx/v5/pgxpool"
+	"schedulii/src/repositories"
 )
 
 type UserService struct {
-	db *pgxpool.Pool
+	ur repositories.UserRepository
 }
 
-func NewUserService(db *pgxpool.Pool) UserService {
+func NewUserService(ur repositories.UserRepository) UserService {
 	return UserService{
-		db: db,
+		ur: ur,
 	}
 }
 
 func (us *UserService) CreateUser(user data_model.User) error {
-	query := `
-		INSERT INTO users 
-		VALUES ($1)
-	`
-	_, err := us.db.Exec(
-		context.Background(),
-		query, 
-		user.Username,
-	)
+	err := us.ur.CreateUser(user)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (us *UserService) ReadUser(user data_model.User) (*data_model.User, error) {
-	var u data_model.User
-    query := `
-		SELECT * FROM users 
-		WHERE user_email = ($1)
-	`
-    result := us.db.QueryRow(
-		context.Background(), 
-		query, 
-		user.Username,
-	)
-	err := result.Scan(
-		&u.Username,
-	)
+func (us *UserService) ReadUser(user data_model.User) (data_model.User, error) {
+	result, err := us.ur.ReadUser(user)
     if err != nil {
-        return nil, err
+        return result, err
     }
-    return &u, nil
+    return result, nil
 }

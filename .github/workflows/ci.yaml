@@ -1,4 +1,4 @@
-name: Execute CI Checks
+name: Execute Project Checks
 on: pull_request
 
 jobs:
@@ -10,57 +10,3 @@ jobs:
         uses: amannn/action-semantic-pull-request@v5
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  backend:
-    defaults:
-      run:
-        working-directory: backend
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup Golang
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-
-      - name: Setup Repo
-        uses: actions/checkout@v3
-
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: latest
-          working-directory: backend
-
-      - name: Run Go Vet
-        run: go vet ./src
-
-      - name: Run Tests
-        run: go test ./...
-
-
-  frontend:
-    defaults:
-      run:
-        working-directory: frontend
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Run Linters
-        run: npm run lint
-
-      - name: Run Tests
-        run: npm run test

@@ -1,0 +1,34 @@
+name: Execute Backend CI
+on: 
+  pull_request:
+    paths:
+    - 'backend/**'
+
+jobs:
+  backend:
+    defaults:
+      run:
+        working-directory: backend
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - name: Setup Repo
+        uses: actions/checkout@v3
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          working-directory: backend
+
+      - name: Run Go Vet
+        run: go vet ./src
+
+      - name: Run Tests
+        run: go test ./...

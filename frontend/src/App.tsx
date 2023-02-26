@@ -5,6 +5,7 @@ import Calendar from "./components/Calendar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";
 import CreateEventPage from "./pages/CreateEventPage";
+import CreateGroupPage from "./pages/CreateGroupPage";
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 
@@ -26,6 +27,14 @@ const App = (): ReactElement => (
                     element={
                         <ProtectedRoute>
                             <CreateEventPage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/create-group"
+                    element={
+                        <ProtectedRoute>
+                            <CreateGroupPage />
                         </ProtectedRoute>
                     }
                 />

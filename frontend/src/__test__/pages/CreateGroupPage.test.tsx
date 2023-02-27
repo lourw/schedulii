@@ -2,24 +2,24 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CreateEventPage from "../../pages/CreateEventPage";
+import CreateGroupPage from "../../pages/CreateGroupPage";
 
 const renderComponent = (): void => {
     render(
         <BrowserRouter>
             <Routes>
-                <Route path="*" element={<CreateEventPage />} />
+                <Route path="*" element={<CreateGroupPage />} />
             </Routes>
         </BrowserRouter>
     );
 };
 
-describe("Create Event Page", () => {
+describe("Create Group Page", () => {
     it("renders CreateEventPage component title", () => {
         renderComponent();
     });
 
-    it("renders an EventForm correctly", () => {
+    it("renders a GroupForm correctly", () => {
         renderComponent();
 
         const form = screen.findByRole("form");

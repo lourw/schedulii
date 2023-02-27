@@ -30,6 +30,7 @@ var AppSet = wire.NewSet(
 	data_handler.NewGroupHandler,
 
 	repositories.NewUserRepository,
+	wire.Bind(new(models.Repository[data_model.User]), new(*repositories.UserRepository)),
 	data_srv.NewUserService,
 	data_handler.NewUserHandler,
 

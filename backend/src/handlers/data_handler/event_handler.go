@@ -26,7 +26,7 @@ func (eh *EventHandler) HandleReadEvent() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"query error": err.Error()})
 			return
 		}
-		event, err := eh.es.GetEvent(e)
+		event, err := eh.es.ReadEvent(e)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"read error": err.Error()})
 			return

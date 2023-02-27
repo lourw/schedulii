@@ -1,5 +1,4 @@
 import type { ReactElement } from "react";
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Calendar from "./components/Calendar";
 import ProtectedRoute from "./components/ProtectedRoute";

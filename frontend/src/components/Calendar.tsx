@@ -1,7 +1,7 @@
 import { addDays, addHours, addMinutes, startOfDay } from "date-fns";
 import formatDate from "date-fns/format";
 import type { ReactElement } from "react";
-import React, { useEffect } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import styled from "styled-components";
 import "./Calendar.css";
 
@@ -24,7 +24,7 @@ const Grid = styled.div<{ columns: number; rows: number }>`
 `;
 
 const Calendar = (props: CalendarPropsType): ReactElement => {
-    const [dates, setDates] = React.useState<CalendarDateType>([[new Date(0)]]);
+    const [dates, setDates] = useState<CalendarDateType>([[new Date(0)]]);
     const cellToDate: Map<Element, Date> = new Map();
 
     useEffect((): void => {
@@ -106,13 +106,13 @@ const Calendar = (props: CalendarPropsType): ReactElement => {
             <div key="topleft" />,
             // top row with the dates
             ...dates.map((dayOfTimes, index) =>
-                React.cloneElement(renderDateLabel(dayOfTimes[0]), {
+                cloneElement(renderDateLabel(dayOfTimes[0]), {
                     key: `date-${index}`
                 })
             ),
             // every row below that
             ...dateGridElements.map((element, index) =>
-                React.cloneElement(element, { key: `time-${index}` })
+                cloneElement(element, { key: `time-${index}` })
             )
         ];
     };

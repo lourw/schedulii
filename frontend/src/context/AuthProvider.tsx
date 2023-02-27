@@ -1,11 +1,11 @@
 import type { ReactElement } from "react";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import type AppContextDataType from "./AuthContextDataType";
 import type AuthProviderPropsType from "./AuthProviderPropsType";
 
 const AuthProvider = ({ children }: AuthProviderPropsType): ReactElement => {
-    const [token, setToken] = React.useState(null);
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         const localStorageToken = JSON.parse(

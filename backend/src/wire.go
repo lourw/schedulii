@@ -25,6 +25,7 @@ var AppSet = wire.NewSet(
 	data_handler.NewEventHandler,
 
 	repositories.NewGroupRepository,
+	wire.Bind(new(models.Repository[data_model.Group]), new(*repositories.GroupRepository)),
 	data_srv.NewGroupService,
 	data_handler.NewGroupHandler,
 

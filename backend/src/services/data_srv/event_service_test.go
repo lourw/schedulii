@@ -16,27 +16,25 @@ var dummyEvent data_model.Event
 
 type MockEventRepository struct{}
 
-var createEventMock func(event data_model.Event) error
-var readEventMock func(event data_model.Event) (data_model.Event, error)
-var updateEventMock func(event data_model.Event) error
+var mockCreateEvent func(event data_model.Event) error
+var mockReadEvent func(event data_model.Event) (data_model.Event, error)
+var mockUpdateEvent func(event data_model.Event) error
 
 func (mock *MockEventRepository) Create(event data_model.Event) error {
-	return createEventMock(event)
+	return mockCreateEvent(event)
 }
 
 func (mock *MockEventRepository) Read(event data_model.Event) (data_model.Event, error) {
-	return readEventMock(event)
+	return mockReadEvent(event)
 }
 
 func (mock *MockEventRepository) Update(event data_model.Event) error {
-	return updateEventMock(event)
+	return mockUpdateEvent(event)
 }
 
-func setup() {
+func initEventServiceTest() {
 	mockEventRepository = MockEventRepository{}
-	eventService = EventService{
-		repository: &mockEventRepository,
-	}
+	eventService = NewEventService(&mockEventRepository)
 
 	dummyEventStartTime, startErr := time.Parse(time.RFC822, "02 Jan 06 15:00 PST")
 	dummyEventEndTime, endRrr := time.Parse(time.RFC822, "02 Jan 06 15:30 PST")
@@ -54,15 +52,15 @@ func setup() {
 }
 
 func TestEventService(t *testing.T) {
-	setup()
+	initEventServiceTest()
 
 	t.Run(
 		"Create event returns correctly",
 		func(t *testing.T) {
-			createEventMock = func(event data_model.Event) error {
+			mockCreateEvent = func(event data_model.Event) error {
 				return nil
 			}
-		
+
 			err := eventService.CreateEvent(dummyEvent)
 			assert.Nil(t, err)
 		},
@@ -71,10 +69,10 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Create event throws an error",
 		func(t *testing.T) {
-			createEventMock = func(event data_model.Event) error {
+			mockCreateEvent = func(event data_model.Event) error {
 				return pgx.ErrNoRows
 			}
-		
+
 			err := eventService.CreateEvent(dummyEvent)
 			assert.Error(t, err)
 		},
@@ -83,10 +81,10 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Read event returns correctly",
 		func(t *testing.T) {
-			readEventMock = func(event data_model.Event) (data_model.Event, error) {
+			mockReadEvent = func(event data_model.Event) (data_model.Event, error) {
 				return event, nil
 			}
-		
+
 			result, err := eventService.ReadEvent(dummyEvent)
 			assert.Nil(t, err)
 			assert.Equal(t, result, dummyEvent)
@@ -96,10 +94,10 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Read event returns an error",
 		func(t *testing.T) {
-			readEventMock = func(event data_model.Event) (data_model.Event, error) {
+			mockReadEvent = func(event data_model.Event) (data_model.Event, error) {
 				return event, pgx.ErrNoRows
 			}
-		
+
 			_, err := eventService.ReadEvent(dummyEvent)
 			assert.Error(t, err)
 		},
@@ -108,10 +106,10 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Update event returns successfully",
 		func(t *testing.T) {
-			updateEventMock = func(event data_model.Event) error {
+			mockUpdateEvent = func(event data_model.Event) error {
 				return nil
 			}
-		
+
 			err := eventService.UpdateEvent(dummyEvent)
 			assert.Nil(t, err)
 		},
@@ -120,10 +118,10 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Update event returns an error",
 		func(t *testing.T) {
-			updateEventMock = func(event data_model.Event) error {
+			mockUpdateEvent = func(event data_model.Event) error {
 				return pgx.ErrNoRows
 			}
-		
+
 			err := eventService.UpdateEvent(dummyEvent)
 			assert.Error(t, err)
 		},

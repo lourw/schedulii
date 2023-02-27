@@ -1,22 +1,22 @@
 package data_srv
 
 import (
+	"schedulii/src/models"
 	"schedulii/src/models/data_model"
-	"schedulii/src/repositories"
 )
 
 type GroupService struct {
-	gr repositories.GroupRepository
+	repository models.Repository[data_model.Group]
 }
 
-func NewGroupService(gr repositories.GroupRepository) GroupService {
+func NewGroupService(repository models.Repository[data_model.Group]) GroupService {
 	return GroupService{
-		gr: gr,
+		repository: repository,
 	}
 }
 
 func (gs *GroupService) CreateGroup(group data_model.Group) error {
-	err := gs.gr.CreateGroup(group)
+	err := gs.repository.Create(group)
 	if err != nil {
 		return err
 	}
@@ -24,7 +24,7 @@ func (gs *GroupService) CreateGroup(group data_model.Group) error {
 }
 
 func (gs *GroupService) ReadGroup(group data_model.Group) (data_model.Group, error) {
-	result, err := gs.gr.ReadGroup(group)
+	result, err := gs.repository.Read(group)
 	if err != nil {
 		return group, err
 	}
@@ -32,7 +32,7 @@ func (gs *GroupService) ReadGroup(group data_model.Group) (data_model.Group, err
 }
 
 func (gs *GroupService) UpdateGroup(group data_model.Group) error {
-	err := gs.gr.UpdateGroup(group)
+	err := gs.repository.Update(group)
 	if err != nil {
 		return err
 	}

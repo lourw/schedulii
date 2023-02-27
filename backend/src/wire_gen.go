@@ -42,4 +42,4 @@ func InitializeApp() (ScheduliiApp, error) {
 
 // wire.go:
 
-var AppSet = wire.NewSet(db.NewDatabaseConnection, gin.Default, repositories.NewEventRepository, wire.Bind(new(models.Repository[data_model.Event]), new(*repositories.EventRepository)), data_srv.NewEventService, data_handler.NewEventHandler, repositories.NewGroupRepository, data_srv.NewGroupService, data_handler.NewGroupHandler, repositories.NewUserRepository, data_srv.NewUserService, data_handler.NewUserHandler, routes.NewRouter, NewScheduliiApp)
+var AppSet = wire.NewSet(db.NewDatabaseConnection, gin.Default, repositories.NewEventRepository, wire.Bind(new(models.Repository[data_model.Event]), new(*repositories.EventRepository)), data_srv.NewEventService, data_handler.NewEventHandler, repositories.NewGroupRepository, wire.Bind(new(models.Repository[data_model.Group]), new(*repositories.GroupRepository)), data_srv.NewGroupService, data_handler.NewGroupHandler, repositories.NewUserRepository, data_srv.NewUserService, data_handler.NewUserHandler, routes.NewRouter, NewScheduliiApp)

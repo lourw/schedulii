@@ -1,13 +1,13 @@
 import type { ReactElement } from "react";
 import React from "react";
-import EventForm from "../components/EventForm";
+import GroupForm from "../components/GroupForm";
 import Navbar from "../components/Navbar";
 
-const CreateEventPage = (): ReactElement => (
+const CreateGroupPage = (): ReactElement => (
     <div>
         <Navbar />
-        <EventForm />
+        <GroupForm />
     </div>
 );
 
-export default CreateEventPage;
+export default CreateGroupPage;

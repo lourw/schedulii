@@ -16,7 +16,9 @@ const Navbar = (): ReactElement => {
                     </li>
                     <li>
                         <NavLink to="/create-event"> Create New Event</NavLink>{" "}
-                        {/* this is a placeholder for events page */}
+                    </li>
+                    <li>
+                        <NavLink to="/create-group"> Create New Group</NavLink>{" "}
                     </li>
                     <li>
                         <button onClick={appContext?.onLogout}>Logout</button>

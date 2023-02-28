@@ -12,13 +12,13 @@ FRONTEND_DIR=./frontend
 
 build_and_run: build run
 
-build_run_backend: build_backend run
-
 build: build_frontend build_backend
 
 build_frontend:
 	cd ${FRONTEND_DIR} && \
 	npm run build
+
+build_run_backend: build_backend run
 
 build_backend:
 	cd ${BACKEND_DIR} && \
@@ -34,22 +34,42 @@ clean:
 
 # --- CONTINUOUS INTEGRATION ---
 
-ci_frontend: 
+ci_frontend: lint_frontend test_unit_frontend
+
+# Requires ENV=test when calling make
+ci_backend: lint_backend test_integration
+
+# --- STATIC CODE ANALYSIS ---
+
+lint_fix_frontend:
 	cd ${FRONTEND_DIR} && \
 	npm run lint-fix && \
-	npm test && \
 	cd ..
 
-ci_backend:
+lint_frontend:
+	cd ${FRONTEND_DIR} && \
+	npm run lint && \
+	cd ..
+
+lint_backend:
 	cd ${BACKEND_DIR} && \
 	golangci-lint run && \
 	go vet ./... && \
-	go test ./... && \
 	cd ..
 
 # --- TESTING ---
 
-test_integration: test_only	test_integration_setup ci_backend test_integration_teardown
+test_unit_frontend:
+	cd ${FRONTEND_DIR} && \
+	npm run test -- --watchAll=false && \
+	cd ..
+
+test_unit_backend:
+	cd ${BACKEND_DIR} && \
+	go test ./... && \
+	cd ..
+
+test_integration: test_only	test_integration_setup test_unit_backend test_integration_teardown
 
 test_integration_setup: test_only
 	docker compose up -d

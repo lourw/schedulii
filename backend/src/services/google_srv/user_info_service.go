@@ -3,9 +3,10 @@ package google_srv
 import (
 	"context"
 	"log"
-	utils "schedulii/src/utils"
 
-	oauth2 "golang.org/x/oauth2"
+	"schedulii/src/utils"
+
+	"golang.org/x/oauth2"
 	googleOauth2 "google.golang.org/api/oauth2/v2"
 	"google.golang.org/api/option"
 )
@@ -15,7 +16,7 @@ func GetGoogleUserData(token *oauth2.Token) *googleOauth2.Userinfo {
 	context := context.Background()
 
 	srv, err := googleOauth2.NewService(
-		context, 
+		context,
 		option.WithTokenSource(
 			config.TokenSource(context, token)))
 	if err != nil {
@@ -28,4 +29,4 @@ func GetGoogleUserData(token *oauth2.Token) *googleOauth2.Userinfo {
 	}
 
 	return user
-}	
+}

@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"net/http"
+
 	"schedulii/src/utils"
 
 	"github.com/gin-contrib/sessions"

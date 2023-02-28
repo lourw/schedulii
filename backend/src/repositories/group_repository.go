@@ -48,8 +48,8 @@ func (gr *GroupRepository) Read(group models.Group) (models.Group, error) {
 	)
 	err := queryResult.Scan(
 		&group.GroupID,
-		&group.GroupURL,
 		&group.GroupName,
+		&group.GroupURL,
 		&group.AvailableStartHour,
 		&group.AvailableEndHour,
 	)

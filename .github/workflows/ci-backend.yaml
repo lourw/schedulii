@@ -8,6 +8,7 @@ jobs:
   backend:
 
     runs-on: ubuntu-latest
+    environment: ci
 
     steps:
       - name: Setup Golang
@@ -21,6 +22,8 @@ jobs:
       - name: 'Create env file'
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env.test
+          echo "$URL: {DATABASE_URL}"
+          cat .env.test
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3

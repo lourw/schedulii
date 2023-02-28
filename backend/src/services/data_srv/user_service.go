@@ -1,22 +1,22 @@
 package data_srv
 
 import (
+	"schedulii/src/models"
 	"schedulii/src/models/data_model"
-	"schedulii/src/repositories"
 )
 
 type UserService struct {
-	ur repositories.UserRepository
+	repository models.Repository[data_model.User]
 }
 
-func NewUserService(ur repositories.UserRepository) UserService {
+func NewUserService(repository models.Repository[data_model.User]) UserService {
 	return UserService{
-		ur: ur,
+		repository: repository,
 	}
 }
 
 func (us *UserService) CreateUser(user data_model.User) error {
-	err := us.ur.CreateUser(user)
+	err := us.repository.Create(user)
 	if err != nil {
 		return err
 	}
@@ -24,9 +24,14 @@ func (us *UserService) CreateUser(user data_model.User) error {
 }
 
 func (us *UserService) ReadUser(user data_model.User) (data_model.User, error) {
-	result, err := us.ur.ReadUser(user)
+	result, err := us.repository.Read(user)
     if err != nil {
         return result, err
     }
     return result, nil
+}
+
+
+func (us *UserService) UpdateUser(user data_model.User) error {
+	return nil;
 }

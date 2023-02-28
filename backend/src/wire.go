@@ -5,12 +5,14 @@ package main
 import (
 	"schedulii/src/db"
 	"schedulii/src/handlers/data_handler"
+	"schedulii/src/models"
+	"schedulii/src/models/data_model"
 	"schedulii/src/repositories"
 	"schedulii/src/routes"
 	"schedulii/src/services/data_srv"
 
-	"github.com/google/wire"
 	"github.com/gin-gonic/gin"
+	"github.com/google/wire"
 )
 
 var AppSet = wire.NewSet(
@@ -18,14 +20,17 @@ var AppSet = wire.NewSet(
 	gin.Default, 
 
 	repositories.NewEventRepository,
+	wire.Bind(new(models.Repository[data_model.Event]), new(*repositories.EventRepository)),
 	data_srv.NewEventService,
 	data_handler.NewEventHandler,
 
 	repositories.NewGroupRepository,
+	wire.Bind(new(models.Repository[data_model.Group]), new(*repositories.GroupRepository)),
 	data_srv.NewGroupService,
 	data_handler.NewGroupHandler,
 
 	repositories.NewUserRepository,
+	wire.Bind(new(models.Repository[data_model.User]), new(*repositories.UserRepository)),
 	data_srv.NewUserService,
 	data_handler.NewUserHandler,
 

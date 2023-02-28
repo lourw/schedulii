@@ -11,13 +11,13 @@ type GroupRepository struct {
 	db *pgxpool.Pool
 }
 
-func NewGroupRepository(db *pgxpool.Pool) GroupRepository {
-	return GroupRepository{
+func NewGroupRepository(db *pgxpool.Pool) *GroupRepository {
+	return &GroupRepository{
 		db: db,
 	}
 }
 
-func (gr *GroupRepository) CreateGroup(group data_model.Group) error {
+func (gr *GroupRepository) Create(group data_model.Group) error {
 	query := `
 		INSERT INTO groups
 		VALUES ($1, $2, $3, $4, $5)
@@ -38,7 +38,7 @@ func (gr *GroupRepository) CreateGroup(group data_model.Group) error {
 }
 
 
-func (gr *GroupRepository) ReadGroup(group data_model.Group) (data_model.Group, error) {
+func (gr *GroupRepository) Read(group data_model.Group) (data_model.Group, error) {
 	query := `
 		SELECT * FROM groups 
 		WHERE group_id = ($1)
@@ -61,7 +61,7 @@ func (gr *GroupRepository) ReadGroup(group data_model.Group) (data_model.Group, 
 	return group, nil
 }
 
-func (gr *GroupRepository) UpdateGroup(group data_model.Group) error {
+func (gr *GroupRepository) Update(group data_model.Group) error {
 	query := `
 		UPDATE groups
 		SET group_name = ($2),

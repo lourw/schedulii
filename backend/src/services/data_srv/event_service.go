@@ -1,30 +1,30 @@
 package data_srv
 
 import (
+	"schedulii/src/models"
 	"schedulii/src/models/data_model"
-	"schedulii/src/repositories"
 )
 
 type EventService struct {
-	er repositories.EventRepository
+	repository models.Repository[data_model.Event]
 }
 
-func NewEventService(er repositories.EventRepository) EventService {
+func NewEventService(repository models.Repository[data_model.Event]) EventService {
 	return EventService{
-		er: er,
+		repository: repository,
 	}
 }
 
 func (es *EventService) CreateEvent(event data_model.Event) error {
-	err := es.er.CreateEvent(event)
+	err := es.repository.Create(event)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (es *EventService) GetEvent(event data_model.Event) (data_model.Event, error) {
-	event, err := es.er.GetEvent(event)
+func (es *EventService) ReadEvent(event data_model.Event) (data_model.Event, error) {
+	event, err := es.repository.Read(event)
 	if err != nil {
 		return event, err
 	}
@@ -32,7 +32,7 @@ func (es *EventService) GetEvent(event data_model.Event) (data_model.Event, erro
 }
 
 func (es *EventService) UpdateEvent(event data_model.Event) error {
-	err := es.er.UpdateEvent(event)
+	err := es.repository.Update(event)
 	if err != nil {
 		return err
 	}

@@ -11,13 +11,13 @@ type UserRepository struct {
 	db *pgxpool.Pool
 }
 
-func NewUserRepository(db *pgxpool.Pool) UserRepository {
-	return UserRepository{
+func NewUserRepository(db *pgxpool.Pool) *UserRepository {
+	return &UserRepository{
 		db: db,
 	}
 }
 
-func (ur *UserRepository) CreateUser(user data_model.User) error {
+func (ur *UserRepository) Create(user data_model.User) error {
 	query := `
 		INSERT INTO users 
 		VALUES ($1)
@@ -33,7 +33,7 @@ func (ur *UserRepository) CreateUser(user data_model.User) error {
 	return nil
 }
 
-func (ur *UserRepository) ReadUser(user data_model.User) (data_model.User, error) {
+func (ur *UserRepository) Read(user data_model.User) (data_model.User, error) {
     query := `
 		SELECT * FROM users 
 		WHERE user_email = ($1)
@@ -52,3 +52,6 @@ func (ur *UserRepository) ReadUser(user data_model.User) (data_model.User, error
     return user, nil
 }
 
+func (ur *UserRepository) Update(user data_model.User) error {
+	return nil
+}

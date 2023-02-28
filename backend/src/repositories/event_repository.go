@@ -11,13 +11,13 @@ type EventRepository struct {
 	db *pgxpool.Pool
 }
 
-func NewEventRepository(db *pgxpool.Pool) EventRepository {
-	return EventRepository{
+func NewEventRepository(db *pgxpool.Pool) *EventRepository {
+	return &EventRepository{
 		db: db,
 	}
 }
 
-func (er *EventRepository) CreateEvent(event data_model.Event) error {
+func (er *EventRepository) Create(event data_model.Event) error {
 	query := `
 		INSERT INTO events 
 		VALUES ($1, $2, $3, $4, $5)
@@ -37,7 +37,7 @@ func (er *EventRepository) CreateEvent(event data_model.Event) error {
 	return nil
 }
 
-func (er *EventRepository) GetEvent(event data_model.Event) (data_model.Event, error) {
+func (er *EventRepository) Read(event data_model.Event) (data_model.Event, error) {
 	query := `
 		SELECT * FROM events 
 		WHERE event_id = ($1)
@@ -60,7 +60,7 @@ func (er *EventRepository) GetEvent(event data_model.Event) (data_model.Event, e
 	return event, nil
 }
 
-func (er *EventRepository) UpdateEvent(event data_model.Event) error{
+func (er *EventRepository) Update(event data_model.Event) error {
 	query := `
 		UPDATE events
 		SET event_name = ($2),

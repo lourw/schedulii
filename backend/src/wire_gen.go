@@ -10,12 +10,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	"schedulii/src/db"
-	"schedulii/src/handlers/data_handler"
+	"schedulii/src/handlers"
 	"schedulii/src/models"
-	"schedulii/src/models/data_model"
 	"schedulii/src/repositories"
 	"schedulii/src/routes"
-	"schedulii/src/services/data_srv"
+	"schedulii/src/services"
 )
 
 // Injectors from wire.go:
@@ -27,14 +26,14 @@ func InitializeApp() (ScheduliiApp, error) {
 	}
 	engine := gin.Default()
 	userRepository := repositories.NewUserRepository(pool)
-	userService := data_srv.NewUserService(userRepository)
-	userHandler := data_handler.NewUserHandler(userService)
+	userService := services.NewUserService(userRepository)
+	userHandler := handlers.NewUserHandler(userService)
 	eventRepository := repositories.NewEventRepository(pool)
-	eventService := data_srv.NewEventService(eventRepository)
-	eventHandler := data_handler.NewEventHandler(eventService)
+	eventService := services.NewEventService(eventRepository)
+	eventHandler := handlers.NewEventHandler(eventService)
 	groupRepository := repositories.NewGroupRepository(pool)
-	groupService := data_srv.NewGroupService(groupRepository)
-	groupHandler := data_handler.NewGroupHandler(groupService)
+	groupService := services.NewGroupService(groupRepository)
+	groupHandler := handlers.NewGroupHandler(groupService)
 	router := routes.NewRouter(engine, userHandler, eventHandler, groupHandler)
 	scheduliiApp := NewScheduliiApp(pool, engine, router)
 	return scheduliiApp, nil
@@ -42,4 +41,4 @@ func InitializeApp() (ScheduliiApp, error) {
 
 // wire.go:
 
-var AppSet = wire.NewSet(db.NewDatabaseConnection, gin.Default, repositories.NewEventRepository, wire.Bind(new(models.Repository[data_model.Event]), new(*repositories.EventRepository)), data_srv.NewEventService, data_handler.NewEventHandler, repositories.NewGroupRepository, wire.Bind(new(models.Repository[data_model.Group]), new(*repositories.GroupRepository)), data_srv.NewGroupService, data_handler.NewGroupHandler, repositories.NewUserRepository, wire.Bind(new(models.Repository[data_model.User]), new(*repositories.UserRepository)), data_srv.NewUserService, data_handler.NewUserHandler, routes.NewRouter, NewScheduliiApp)
+var AppSet = wire.NewSet(db.NewDatabaseConnection, gin.Default, repositories.NewEventRepository, wire.Bind(new(models.Repository[models.Event]), new(*repositories.EventRepository)), services.NewEventService, handlers.NewEventHandler, repositories.NewGroupRepository, wire.Bind(new(models.Repository[models.Group]), new(*repositories.GroupRepository)), services.NewGroupService, handlers.NewGroupHandler, repositories.NewUserRepository, wire.Bind(new(models.Repository[models.User]), new(*repositories.UserRepository)), services.NewUserService, handlers.NewUserHandler, routes.NewRouter, NewScheduliiApp)

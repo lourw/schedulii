@@ -2,9 +2,8 @@ package repositories
 
 import (
 	"context"
-	"schedulii/src/models/data_model"
-
 	"github.com/jackc/pgx/v5/pgxpool"
+	"schedulii/src/models"
 )
 
 type GroupRepository struct {
@@ -17,7 +16,7 @@ func NewGroupRepository(db *pgxpool.Pool) *GroupRepository {
 	}
 }
 
-func (gr *GroupRepository) Create(group data_model.Group) error {
+func (gr *GroupRepository) Create(group models.Group) error {
 	query := `
 		INSERT INTO groups
 		VALUES ($1, $2, $3, $4, $5)
@@ -37,8 +36,7 @@ func (gr *GroupRepository) Create(group data_model.Group) error {
 	return nil
 }
 
-
-func (gr *GroupRepository) Read(group data_model.Group) (data_model.Group, error) {
+func (gr *GroupRepository) Read(group models.Group) (models.Group, error) {
 	query := `
 		SELECT * FROM groups 
 		WHERE group_id = ($1)
@@ -61,7 +59,7 @@ func (gr *GroupRepository) Read(group data_model.Group) (data_model.Group, error
 	return group, nil
 }
 
-func (gr *GroupRepository) Update(group data_model.Group) error {
+func (gr *GroupRepository) Update(group models.Group) error {
 	query := `
 		UPDATE groups
 		SET group_name = ($2),

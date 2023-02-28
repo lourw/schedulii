@@ -2,9 +2,8 @@ package repositories
 
 import (
 	"context"
-	"schedulii/src/models/data_model"
-
 	"github.com/jackc/pgx/v5/pgxpool"
+	"schedulii/src/models"
 )
 
 type EventRepository struct {
@@ -17,7 +16,7 @@ func NewEventRepository(db *pgxpool.Pool) *EventRepository {
 	}
 }
 
-func (er *EventRepository) Create(event data_model.Event) error {
+func (er *EventRepository) Create(event models.Event) error {
 	query := `
 		INSERT INTO events 
 		VALUES ($1, $2, $3, $4, $5)
@@ -37,7 +36,7 @@ func (er *EventRepository) Create(event data_model.Event) error {
 	return nil
 }
 
-func (er *EventRepository) Read(event data_model.Event) (data_model.Event, error) {
+func (er *EventRepository) Read(event models.Event) (models.Event, error) {
 	query := `
 		SELECT * FROM events 
 		WHERE event_id = ($1)
@@ -60,7 +59,7 @@ func (er *EventRepository) Read(event data_model.Event) (data_model.Event, error
 	return event, nil
 }
 
-func (er *EventRepository) Update(event data_model.Event) error {
+func (er *EventRepository) Update(event models.Event) error {
 	query := `
 		UPDATE events
 		SET event_name = ($2),

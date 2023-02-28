@@ -1,4 +1,4 @@
-package data_model
+package models
 
 import "time"
 
@@ -9,4 +9,3 @@ type Event struct {
 	StartTime time.Time `json:"startTime" form:"startTime"`
 	EndTime   time.Time `json:"endTime" form:"endTime"`
 }
-

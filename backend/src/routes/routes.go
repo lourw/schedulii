@@ -2,7 +2,6 @@ package routes
 
 import (
 	handlers "schedulii/src/handlers"
-	data_handler "schedulii/src/handlers/data_handler"
 	google "schedulii/src/handlers/google"
 	"schedulii/src/middleware"
 
@@ -11,21 +10,21 @@ import (
 )
 
 type Router struct {
-	ginEngine *gin.Engine
-	userHandler  data_handler.UserHandler
-	eventHandler data_handler.EventHandler
-	groupHandler data_handler.GroupHandler
+	ginEngine    *gin.Engine
+	userHandler  handlers.UserHandler
+	eventHandler handlers.EventHandler
+	groupHandler handlers.GroupHandler
 }
 
 func NewRouter(
 	ginEngine *gin.Engine,
-	userHandler data_handler.UserHandler,
-	eventHandler data_handler.EventHandler,
-	groupHandler data_handler.GroupHandler,
-) (Router) {
+	userHandler handlers.UserHandler,
+	eventHandler handlers.EventHandler,
+	groupHandler handlers.GroupHandler,
+) Router {
 	return Router{
-		ginEngine: ginEngine,
-		userHandler: userHandler,
+		ginEngine:    ginEngine,
+		userHandler:  userHandler,
 		eventHandler: eventHandler,
 		groupHandler: groupHandler,
 	}

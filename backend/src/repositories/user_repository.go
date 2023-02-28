@@ -2,9 +2,8 @@ package repositories
 
 import (
 	"context"
-	"schedulii/src/models/data_model"
-
 	"github.com/jackc/pgx/v5/pgxpool"
+	"schedulii/src/models"
 )
 
 type UserRepository struct {
@@ -17,14 +16,14 @@ func NewUserRepository(db *pgxpool.Pool) *UserRepository {
 	}
 }
 
-func (ur *UserRepository) Create(user data_model.User) error {
+func (ur *UserRepository) Create(user models.User) error {
 	query := `
 		INSERT INTO users 
 		VALUES ($1)
 	`
 	_, err := ur.db.Exec(
 		context.Background(),
-		query, 
+		query,
 		user.Username,
 	)
 	if err != nil {
@@ -33,25 +32,25 @@ func (ur *UserRepository) Create(user data_model.User) error {
 	return nil
 }
 
-func (ur *UserRepository) Read(user data_model.User) (data_model.User, error) {
-    query := `
+func (ur *UserRepository) Read(user models.User) (models.User, error) {
+	query := `
 		SELECT * FROM users 
 		WHERE user_email = ($1)
 	`
-    result := ur.db.QueryRow(
-		context.Background(), 
-		query, 
+	result := ur.db.QueryRow(
+		context.Background(),
+		query,
 		user.Username,
 	)
 	err := result.Scan(
 		&user.Username,
 	)
-    if err != nil {
-        return user, err
-    }
-    return user, nil
+	if err != nil {
+		return user, err
+	}
+	return user, nil
 }
 
-func (ur *UserRepository) Update(user data_model.User) error {
+func (ur *UserRepository) Update(user models.User) error {
 	return nil
 }

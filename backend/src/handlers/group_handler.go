@@ -1,18 +1,17 @@
-package data_handler
+package handlers
 
 import (
-	"net/http"
-	"schedulii/src/models/data_model"
-	"schedulii/src/services/data_srv"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"schedulii/src/models"
+	"schedulii/src/services"
 )
 
 type GroupHandler struct {
-	gs data_srv.GroupService
+	gs services.GroupService
 }
 
-func NewGroupHandler(gs data_srv.GroupService) GroupHandler {
+func NewGroupHandler(gs services.GroupService) GroupHandler {
 	return GroupHandler{
 		gs: gs,
 	}
@@ -20,7 +19,7 @@ func NewGroupHandler(gs data_srv.GroupService) GroupHandler {
 
 func (gh *GroupHandler) HandleReadGroup() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		var g data_model.Group
+		var g models.Group
 		err := c.ShouldBindQuery(&g)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

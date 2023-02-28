@@ -1,7 +1,7 @@
-package data_srv
+package services
 
 import (
-	"schedulii/src/models/data_model"
+	"schedulii/src/models"
 	"testing"
 
 	"github.com/jackc/pgx/v5"
@@ -10,23 +10,23 @@ import (
 
 var groupService GroupService
 var mockGroupRepositority MockGroupRepository
-var dummyGroup data_model.Group
+var dummyGroup models.Group
 
 type MockGroupRepository struct{}
 
-var mockCreateGroup func(group data_model.Group) error
-var mockReadGroup func(group data_model.Group) (data_model.Group, error)
-var mockUpdateGroup func(group data_model.Group) error
+var mockCreateGroup func(group models.Group) error
+var mockReadGroup func(group models.Group) (models.Group, error)
+var mockUpdateGroup func(group models.Group) error
 
-func (mock *MockGroupRepository) Create(group data_model.Group) error {
+func (mock *MockGroupRepository) Create(group models.Group) error {
 	return mockCreateGroup(group)
 }
 
-func (mock *MockGroupRepository) Read(group data_model.Group) (data_model.Group, error) {
+func (mock *MockGroupRepository) Read(group models.Group) (models.Group, error) {
 	return mockReadGroup(group)
 }
 
-func (mock *MockGroupRepository) Update(group data_model.Group) error {
+func (mock *MockGroupRepository) Update(group models.Group) error {
 	return mockUpdateGroup(group)
 }
 
@@ -34,12 +34,12 @@ func initGroupServiceTest() {
 	mockGroupRepositority = MockGroupRepository{}
 	groupService = NewGroupService(&mockGroupRepositority)
 
-	dummyGroup = data_model.Group{
-		GroupID: 1234,
-		GroupName: "DummyGroup",
-		GroupURL: "www.schedulii.test.com",
+	dummyGroup = models.Group{
+		GroupID:            1234,
+		GroupName:          "DummyGroup",
+		GroupURL:           "www.schedulii.test.com",
 		AvailableStartHour: 9,
-		AvailableEndHour: 22,
+		AvailableEndHour:   22,
 	}
 }
 
@@ -49,7 +49,7 @@ func TestGroupService(t *testing.T) {
 	t.Run(
 		"Create group returns successfully",
 		func(t *testing.T) {
-			mockCreateGroup = func(group data_model.Group) error {
+			mockCreateGroup = func(group models.Group) error {
 				return nil
 			}
 
@@ -61,7 +61,7 @@ func TestGroupService(t *testing.T) {
 	t.Run(
 		"Create group errors",
 		func(t *testing.T) {
-			mockCreateGroup = func(group data_model.Group) error {
+			mockCreateGroup = func(group models.Group) error {
 				return pgx.ErrNoRows
 			}
 
@@ -73,7 +73,7 @@ func TestGroupService(t *testing.T) {
 	t.Run(
 		"Read group returns successfully",
 		func(t *testing.T) {
-			mockReadGroup = func(group data_model.Group) (data_model.Group, error) {
+			mockReadGroup = func(group models.Group) (models.Group, error) {
 				return group, nil
 			}
 
@@ -86,7 +86,7 @@ func TestGroupService(t *testing.T) {
 	t.Run(
 		"Read group errors",
 		func(t *testing.T) {
-			mockReadGroup = func(group data_model.Group) (data_model.Group, error) {
+			mockReadGroup = func(group models.Group) (models.Group, error) {
 				return group, pgx.ErrNoRows
 			}
 
@@ -98,7 +98,7 @@ func TestGroupService(t *testing.T) {
 	t.Run(
 		"Update group returns successfully",
 		func(t *testing.T) {
-			mockUpdateGroup = func(group data_model.Group) error {
+			mockUpdateGroup = func(group models.Group) error {
 				return nil
 			}
 
@@ -110,7 +110,7 @@ func TestGroupService(t *testing.T) {
 	t.Run(
 		"Update group errors",
 		func(t *testing.T) {
-			mockUpdateGroup = func(group data_model.Group) error {
+			mockUpdateGroup = func(group models.Group) error {
 				return pgx.ErrNoRows
 			}
 

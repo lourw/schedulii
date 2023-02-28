@@ -1,18 +1,17 @@
-package data_handler
+package handlers
 
 import (
-	"net/http"
-	"schedulii/src/models/data_model"
-	"schedulii/src/services/data_srv"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"schedulii/src/models"
+	"schedulii/src/services"
 )
 
 type UserHandler struct {
-	us data_srv.UserService
+	us services.UserService
 }
 
-func NewUserHandler(us data_srv.UserService) UserHandler {
+func NewUserHandler(us services.UserService) UserHandler {
 	return UserHandler{
 		us: us,
 	}
@@ -20,7 +19,7 @@ func NewUserHandler(us data_srv.UserService) UserHandler {
 
 func (uh *UserHandler) HandleReadUser() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		var u data_model.User
+		var u models.User
 		err := c.ShouldBindQuery(&u)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

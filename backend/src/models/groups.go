@@ -1,4 +1,4 @@
-package data_model
+package models
 
 type Group struct {
 	GroupID            int    `json:"groupID" form:"groupID" binding:"required"`

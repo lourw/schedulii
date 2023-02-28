@@ -1,8 +1,8 @@
-package data_srv
+package services
 
 import (
 	"log"
-	"schedulii/src/models/data_model"
+	"schedulii/src/models"
 	"testing"
 	"time"
 
@@ -12,23 +12,23 @@ import (
 
 var eventService EventService
 var mockEventRepository MockEventRepository
-var dummyEvent data_model.Event
+var dummyEvent models.Event
 
 type MockEventRepository struct{}
 
-var mockCreateEvent func(event data_model.Event) error
-var mockReadEvent func(event data_model.Event) (data_model.Event, error)
-var mockUpdateEvent func(event data_model.Event) error
+var mockCreateEvent func(event models.Event) error
+var mockReadEvent func(event models.Event) (models.Event, error)
+var mockUpdateEvent func(event models.Event) error
 
-func (mock *MockEventRepository) Create(event data_model.Event) error {
+func (mock *MockEventRepository) Create(event models.Event) error {
 	return mockCreateEvent(event)
 }
 
-func (mock *MockEventRepository) Read(event data_model.Event) (data_model.Event, error) {
+func (mock *MockEventRepository) Read(event models.Event) (models.Event, error) {
 	return mockReadEvent(event)
 }
 
-func (mock *MockEventRepository) Update(event data_model.Event) error {
+func (mock *MockEventRepository) Update(event models.Event) error {
 	return mockUpdateEvent(event)
 }
 
@@ -42,7 +42,7 @@ func initEventServiceTest() {
 		log.Fatalf("Error: invalid times in event service setup")
 		return
 	}
-	dummyEvent = data_model.Event{
+	dummyEvent = models.Event{
 		EventId:   1234,
 		GroupId:   1234,
 		EventName: "Sample",
@@ -57,7 +57,7 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Create event returns correctly",
 		func(t *testing.T) {
-			mockCreateEvent = func(event data_model.Event) error {
+			mockCreateEvent = func(event models.Event) error {
 				return nil
 			}
 
@@ -69,7 +69,7 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Create event throws an error",
 		func(t *testing.T) {
-			mockCreateEvent = func(event data_model.Event) error {
+			mockCreateEvent = func(event models.Event) error {
 				return pgx.ErrNoRows
 			}
 
@@ -81,7 +81,7 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Read event returns correctly",
 		func(t *testing.T) {
-			mockReadEvent = func(event data_model.Event) (data_model.Event, error) {
+			mockReadEvent = func(event models.Event) (models.Event, error) {
 				return event, nil
 			}
 
@@ -94,7 +94,7 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Read event returns an error",
 		func(t *testing.T) {
-			mockReadEvent = func(event data_model.Event) (data_model.Event, error) {
+			mockReadEvent = func(event models.Event) (models.Event, error) {
 				return event, pgx.ErrNoRows
 			}
 
@@ -106,7 +106,7 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Update event returns successfully",
 		func(t *testing.T) {
-			mockUpdateEvent = func(event data_model.Event) error {
+			mockUpdateEvent = func(event models.Event) error {
 				return nil
 			}
 
@@ -118,7 +118,7 @@ func TestEventService(t *testing.T) {
 	t.Run(
 		"Update event returns an error",
 		func(t *testing.T) {
-			mockUpdateEvent = func(event data_model.Event) error {
+			mockUpdateEvent = func(event models.Event) error {
 				return pgx.ErrNoRows
 			}
 

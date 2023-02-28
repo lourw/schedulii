@@ -1,5 +1,5 @@
 import type { ChangeEvent, ReactElement } from "react";
-import React from "react";
+import { useState } from "react";
 import "./GroupForm.css";
 
 type FormData = {
@@ -11,7 +11,7 @@ type FormData = {
 };
 
 const GroupForm = (): ReactElement => {
-    const [formData, setFormData] = React.useState<FormData>({
+    const [formData, setFormData] = useState<FormData>({
         groupId: "",
         groupName: "",
         groupUrl: "",

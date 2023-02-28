@@ -1,5 +1,4 @@
 import type { ReactElement } from "react";
-import React from "react";
 import EventForm from "../components/EventForm";
 import Navbar from "../components/Navbar";
 

@@ -37,6 +37,7 @@
                 "html": true
             }
         ],
+        "react/react-in-jsx-scope": "off",
         "@typescript-eslint/consistent-type-imports": [
             "error",
             {

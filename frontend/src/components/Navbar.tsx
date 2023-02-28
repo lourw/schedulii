@@ -1,5 +1,4 @@
 import type { ReactElement } from "react";
-import React from "react";
 import { NavLink } from "react-router-dom";
 import "../components/Navbar.css";
 import { useAuth } from "../context/AuthContext";

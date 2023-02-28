@@ -1,7 +1,6 @@
 package services
 
 import (
-	"log"
 	"schedulii/src/models"
 	"testing"
 	"time"
@@ -36,18 +35,12 @@ func initEventServiceTest() {
 	mockEventRepository = MockEventRepository{}
 	eventService = NewEventService(&mockEventRepository)
 
-	dummyEventStartTime, startErr := time.Parse(time.RFC822, "02 Jan 06 15:00 PST")
-	dummyEventEndTime, endRrr := time.Parse(time.RFC822, "02 Jan 06 15:30 PST")
-	if startErr != nil || endRrr != nil {
-		log.Fatalf("Error: invalid times in event service setup")
-		return
-	}
 	dummyEvent = models.Event{
 		EventId:   1234,
 		GroupId:   1234,
 		EventName: "Sample",
-		StartTime: dummyEventStartTime,
-		EndTime:   dummyEventEndTime,
+		StartTime: time.Date(2023, time.January, 1, 0, 0, 0, 0, time.UTC),
+		EndTime:   time.Date(2023, time.January, 1, 1, 20, 0, 0, time.UTC),
 	}
 }
 

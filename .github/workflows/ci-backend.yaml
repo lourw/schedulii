@@ -6,9 +6,6 @@ on:
 
 jobs:
   backend:
-    defaults:
-      run:
-        working-directory: backend
 
     runs-on: ubuntu-latest
 
@@ -21,6 +18,10 @@ jobs:
       - name: Setup Repo
         uses: actions/checkout@v3
 
+      - name: 'Create env file'
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env.test
+
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
@@ -28,7 +29,7 @@ jobs:
           working-directory: backend
 
       - name: Run Go Vet
-        run: go vet ./src
+        run: cd backend && go vet ./... && cd ..
 
       - name: Run Tests
-        run: go test ./...
+        run: make test_integration ENV=test

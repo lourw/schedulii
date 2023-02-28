@@ -12,7 +12,7 @@ func main() {
 
 	err = app.Run()
 	if err != nil {
-		log.Fatal("Unable to start:", err)
+		log.Fatal("Unable to start app:", err)
 	}
 	defer app.Teardown()
 }

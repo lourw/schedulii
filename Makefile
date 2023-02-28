@@ -66,16 +66,21 @@ test_unit_frontend:
 
 test_unit_backend:
 	cd ${BACKEND_DIR} && \
-	go test ./... && \
+	go test -v ./... && \
 	cd ..
 
-test_integration: test_only	test_integration_setup test_unit_backend test_integration_teardown
+test_integration_backend:
+	cd ${BACKEND_DIR} && \
+	go test -v -tags=integration ./... && \
+	cd ..
+
+test_integration: test_only	test_integration_setup test_integration_backend test_integration_teardown
 
 test_integration_setup: test_only
 	docker compose up -d
 
 test_integration_teardown: test_only
-	docker compose down --volumes
+	docker compose down --volumes --remove-orphans
 
 # When running make commands for testing, set flag to ENV=test
 test_only:

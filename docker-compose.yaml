@@ -1,8 +1,8 @@
 services:
   db: 
     image: postgres:15.2
-    env_file: 
-      - .env.test
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
     container_name: database
     restart: always
     ports: 

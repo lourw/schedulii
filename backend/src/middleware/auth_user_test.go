@@ -20,7 +20,7 @@ func setup() {
 
 	dummyOauthTok = &oauth2.Token{
 		AccessToken: "Allowed",
-		Expiry: time.Date(2021, 0, 0, 0, 0, 0, 0, time.UTC),
+		Expiry:      time.Date(2021, 0, 0, 0, 0, 0, 0, time.UTC),
 	}
 }
 
@@ -31,7 +31,7 @@ func TestUserIsNotAuthorizedWithJWT(t *testing.T) {
 
 	ok := isUserAuthenticated(dummyRequest)
 	assert.False(t, ok)
-} 
+}
 
 func TestUserIsAuthorizedWithJWT(t *testing.T) {
 	dummyRequest.Header = http.Header{

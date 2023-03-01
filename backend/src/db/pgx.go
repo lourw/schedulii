@@ -15,7 +15,7 @@ func NewDatabaseConnection() (*pgxpool.Pool, error) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
-	}	
+	}
 	return db, nil
 }
 

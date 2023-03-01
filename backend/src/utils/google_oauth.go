@@ -18,7 +18,7 @@ func ReadGoogleAPICredentials() *oauth2.Config {
 		log.Fatalf("unable to get credentials")
 	}
 
-	config, err := google.ConfigFromJSON([]byte(credentials), 
+	config, err := google.ConfigFromJSON([]byte(credentials),
 		"https://www.googleapis.com/auth/calendar.readonly",
 		"https://www.googleapis.com/auth/userinfo.profile",
 		"openid email profile",

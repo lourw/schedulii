@@ -34,10 +34,10 @@ func initUserTest() {
 	userCtx = context.Background()
 
 	userTestData = []models.User{
-		models.User{
+		{
 			Username: "User@gmail.com",
 		},
-		models.User{
+		{
 			Username: "User2@gmail.com",
 		},
 	}

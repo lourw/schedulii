@@ -30,6 +30,7 @@ jobs:
         with:
           version: latest
           working-directory: backend
+          args: --enable gofmt
 
       - name: Run Go Vet
         run: cd backend && go vet ./... && cd ..

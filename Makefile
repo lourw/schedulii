@@ -46,6 +46,12 @@ lint_fix_frontend:
 	npm run lint-fix && \
 	cd ..
 
+lint_fix_backend:
+	cd ${BACKEND_DIR} && \
+	printf "Running gofmt on backend code... \n" && \
+    gofmt -s -l -w . && \
+    cd ..
+
 lint_frontend:
 	cd ${FRONTEND_DIR} && \
 	npm run lint && \
@@ -53,7 +59,7 @@ lint_frontend:
 
 lint_backend:
 	cd ${BACKEND_DIR} && \
-	golangci-lint run && \
+	golangci-lint run --enable gofmt && \
 	go vet ./... && \
 	cd ..
 

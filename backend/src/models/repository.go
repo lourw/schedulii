@@ -5,4 +5,3 @@ type Repository[T any] interface {
 	Read(entity T) (T, error)
 	Update(entity T) error
 }
-

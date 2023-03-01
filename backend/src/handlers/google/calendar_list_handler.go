@@ -4,8 +4,9 @@ import (
 	"context"
 	"log"
 	"net/http"
+
 	"schedulii/src/models/google_model"
-	utils "schedulii/src/utils"
+	"schedulii/src/utils"
 
 	"google.golang.org/api/calendar/v3"
 	"google.golang.org/api/option"

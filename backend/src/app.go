@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+
 	"schedulii/src/middleware"
 	"schedulii/src/routes"
 
@@ -13,16 +14,16 @@ import (
 )
 
 type ScheduliiApp struct {
-	db *pgxpool.Pool
+	db        *pgxpool.Pool
 	ginEngine *gin.Engine
-	router routes.Router
+	router    routes.Router
 }
 
 func NewScheduliiApp(db *pgxpool.Pool, ginEngine *gin.Engine, router routes.Router) ScheduliiApp {
 	app := ScheduliiApp{
-		db: db,
+		db:        db,
 		ginEngine: ginEngine,
-		router: router,
+		router:    router,
 	}
 	app.setup()
 	return app

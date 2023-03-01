@@ -1,8 +1,8 @@
 package routes
 
 import (
-	handlers "schedulii/src/handlers"
-	google "schedulii/src/handlers/google"
+	"schedulii/src/handlers"
+	"schedulii/src/handlers/google"
 	"schedulii/src/middleware"
 
 	"github.com/gin-gonic/contrib/static"

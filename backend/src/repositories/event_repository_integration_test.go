@@ -38,14 +38,14 @@ func initEventTests() {
 
 	testGroupId = 123
 	testEventData = []models.Event{
-		models.Event{
+		{
 			EventId:   1234,
 			EventName: "TestEvent",
 			GroupId:   testGroupId,
 			StartTime: time.Date(2023, time.January, 1, 0, 0, 0, 0, time.UTC),
 			EndTime:   time.Date(2023, time.January, 1, 1, 30, 0, 0, time.UTC),
 		},
-		models.Event{
+		{
 			EventId:   1235,
 			EventName: "TestEvent2",
 			GroupId:   testGroupId,

@@ -1,8 +1,9 @@
 package services
 
 import (
-	"schedulii/src/models"
 	"testing"
+
+	"schedulii/src/models"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/assert"

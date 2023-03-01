@@ -2,7 +2,9 @@ package repositories
 
 import (
 	"context"
+
 	"github.com/jackc/pgx/v5/pgxpool"
+
 	"schedulii/src/models"
 )
 

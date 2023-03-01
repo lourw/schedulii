@@ -34,14 +34,14 @@ func initGroupTest() {
 	groupCtx = context.Background()
 
 	groupTestData = []models.Group{
-		models.Group{
+		{
 			GroupID:            1234,
 			GroupName:          "DummyGroup",
 			GroupURL:           "www.schedulii.test.com",
 			AvailableStartHour: 9,
 			AvailableEndHour:   22,
 		},
-		models.Group{
+		{
 			GroupID:            1235,
 			GroupName:          "DummyGroup2",
 			GroupURL:           "www.schedulii.test2.com",

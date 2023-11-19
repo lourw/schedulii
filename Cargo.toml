@@ -1,8 +1,9 @@
-
 [workspace]
 members = [
 	'apps/schedulii_api',
 ]
+resolver = "2"
 
 [profile.release]
 lto = true
+

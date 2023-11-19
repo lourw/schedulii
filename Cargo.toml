@@ -1,0 +1,8 @@
+
+[workspace]
+members = [
+	'apps/schedulii_api',
+]
+
+[profile.release]
+lto = true

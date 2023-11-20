@@ -5,15 +5,13 @@ import Home from '../pages/Home';
 
 export function App() {
   return (
-    <>
-      <div className="m-16">
-        <h1 className="text-4xl mb-8">Schedulii</h1>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Home />} />
-        </Routes>
-      </div>
-    </>
+    <div className="m-16">
+      <h1 className="text-4xl mb-8">Schedulii</h1>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </div>
   );
 }
 

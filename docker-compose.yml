@@ -1,0 +1,29 @@
+services:
+  backend:
+    init: true # Ensure process receives SIGTERM on stop
+    build:
+      context: ./apps/schedulii_api
+    ports:
+      - '9000:9000'
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    container_name: database
+    restart: always
+    user: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./tools/database/schema.sql:/docker-entrypoint-initdb.d/1_initdb.sql
+      - ./tools/database/pre_load.sql:/docker-entrypoint-initdb.d/2_initdb.sql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready', '-d', 'db_prod']
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+
+networks:
+  default:

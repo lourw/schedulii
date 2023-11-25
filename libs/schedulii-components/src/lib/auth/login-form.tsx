@@ -1,21 +1,22 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
     console.log(email);
     if (email.trim().length > 0 && password.trim().length > 0) {
-      navigate("/home");
+      navigate('/home');
     }
   };
 
   return (
     <div>
-      {" "}
+      {' '}
       <h2 className="text-2xl font-bold mb-3">Sign In</h2>
       <form className="space-y-2 flex flex-col" onSubmit={handleLogin}>
         <label className="text-slate-900">Email:</label>
@@ -50,4 +51,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginForm;

@@ -1,1 +1,1 @@
-export * from './lib/schedulii-components';
+export * from './lib/auth/login-form';

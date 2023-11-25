@@ -11,6 +11,8 @@
     "react-router-dom": "^6.19.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
     "@monodon/rust": "^1.2.0",
     "@nx/eslint": "17.1.2",
     "@nx/eslint-plugin": "17.1.2",
@@ -44,6 +46,7 @@
     "tailwindcss": "^3.3.5",
     "typescript": "~5.2.2",
     "vite": "~4.3.9",
+    "vite-plugin-dts": "~2.3.0",
     "vitest": "~0.32.0"
   }
 }

@@ -1,8 +1,8 @@
 use axum::{routing::get, Router, Server};
 use axum_prometheus::PrometheusMetricLayer;
-use std::net::SocketAddr;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
+use std::net::SocketAddr;
 
 #[derive(Clone)]
 struct AppState {

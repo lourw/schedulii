@@ -4,6 +4,13 @@
   "projectType": "application",
   "sourceRoot": "apps/schedulii_api/src",
   "targets": {
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/schedulii_api",
+        "command": "docker build -t schedulii_api .",
+      }
+    },
     "build": {
       "executor": "@monodon/rust:build",
       "outputs": ["{options.target-dir}"],

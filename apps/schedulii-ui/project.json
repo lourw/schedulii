@@ -4,12 +4,22 @@
   "sourceRoot": "apps/schedulii-ui/src",
   "projectType": "application",
   "targets": {
+    "deploy": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "production",
+      "options": {
+        "commands": [
+          "docker build -t schedulii-ui ./apps/schedulii-ui",
+        ]
+      }
+    },
     "build": {
       "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/schedulii-ui"
+        "outputPath": "dist/apps/schedulii-ui",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {

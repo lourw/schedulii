@@ -7,8 +7,7 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "apps/schedulii_api",
-        "command": "docker build -t schedulii_api .",
+        "command": "docker build -t schedulii_api -f ./apps/schedulii_api/Dockerfile .",
       }
     },
     "build": {

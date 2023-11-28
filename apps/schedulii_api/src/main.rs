@@ -1,13 +1,13 @@
 use axum::{routing::get, Router, Server};
 use axum_prometheus::PrometheusMetricLayer;
-use sqlx::postgres::PgPoolOptions;
+// use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
 
-#[derive(Clone)]
-struct AppState {
-    _db_pool: sqlx::PgPool,
-}
+// #[derive(Clone)]
+// struct AppState {
+//     _db_pool: sqlx::PgPool,
+// }
 
 #[tokio::main]
 async fn main() {
@@ -15,20 +15,20 @@ async fn main() {
         Ok(val) => val,
         Err(e) => e.to_string(),
     };
-    let pool = PgPoolOptions::new()
-        .max_connections(5)
-        .connect(&database_url)
-        .await
-        .unwrap();
+    // let pool = PgPoolOptions::new()
+    //     .max_connections(5)
+    //     .connect(&database_url)
+    //     .await
+    //     .unwrap();
 
     let (prometheus_layer, metric_handler) = PrometheusMetricLayer::pair();
-    let state = AppState { _db_pool: pool };
+    // let _state = AppState { _db_pool: pool };
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, World" }))
         .route("/metrics", get(|| async move { metric_handler.render() }))
-        .layer(prometheus_layer)
-        .with_state(state);
+        .layer(prometheus_layer);
+    // .with_state(state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 9000));
     Server::bind(&addr)

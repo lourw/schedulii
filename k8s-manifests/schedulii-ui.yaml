@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schedulii-ui-deployment
+  labels:
+    environment: development
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: schedulii-ui
+  template:
+    metadata:
+      labels:
+        app: schedulii-ui
+    spec:
+      containers:
+        - name: schedulii-ui-pod
+          image: docker.io/library/schedulii-ui
+          imagePullPolicy: IfNotPresent
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schedulii-ui-service
+spec:
+  selector:
+    app: schedulii-ui
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: schedulii-ui-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: schedulii.ui.dev.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: schedulii-ui-service
+                port:
+                  number: 8080

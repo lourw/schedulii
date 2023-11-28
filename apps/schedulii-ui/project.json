@@ -9,7 +9,7 @@
       "defaultConfiguration": "production",
       "options": {
         "commands": [
-          "docker build -t schedulii-ui ./apps/schedulii-ui",
+          "docker build -t schedulii-ui -f ./apps/schedulii-ui/Dockerfile .",
         ]
       }
     },

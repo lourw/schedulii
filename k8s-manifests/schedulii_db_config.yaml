@@ -1,0 +1,53 @@
+apiVersion: v1
+data:
+  01_schema.sql: |
+    DROP TABLE IF EXISTS event_belongs_to;
+    DROP TABLE IF EXISTS events;
+    DROP TABLE IF EXISTS users;
+
+    CREATE TABLE users(
+        user_id SERIAL PRIMARY KEY,
+        first_name VARCHAR(50) NOT NULL,
+        last_name VARCHAR(50) NOT NULL,
+        password VARCHAR(60) NOT NULL,
+        email VARCHAR(200) NOT NULL
+    );
+
+    CREATE TABLE events(
+        event_id SERIAL PRIMARY KEY,
+        event_name VARCHAR(200),
+        start_time TIMESTAMP NOT NULL,
+        end_time TIMESTAMP NOT NULL
+    );
+
+    CREATE TABLE event_belongs_to(
+        user_id INT,
+        event_id INT,
+        FOREIGN KEY (event_id) REFERENCES events ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users ON DELETE CASCADE
+    );
+kind: ConfigMap
+metadata:
+  name: schedulii-postgres-schema
+
+---
+apiVersion: v1
+data:
+  02_pre_load.sql: |
+    INSERT INTO users VALUES (1, 'Charlie', 'Brown', 'password', 'charliebrown@gmail.com');
+    INSERT INTO users VALUES (2, 'Ben', 'Lee', 'password', 'asdf@gmail.com');
+    INSERT INTO users VALUES (3, 'Mason', 'Chung', 'password', 'mchung@gmail.com');
+    INSERT INTO users VALUES (4, 'Rebecca', 'Aster', 'password', 'rebast@gmail.com');
+    INSERT INTO events VALUES (1, 'Ribfest', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
+    INSERT INTO events VALUES (2, 'Racecar Derby', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
+    INSERT INTO events VALUES (3, 'Marathon', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
+    INSERT INTO events VALUES (4, 'Baking Contest', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
+    INSERT INTO events VALUES (5, 'Appointment', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
+    INSERT INTO event_belongs_to VALUES (1, 1);
+    INSERT INTO event_belongs_to VALUES (1, 2);
+    INSERT INTO event_belongs_to VALUES (2, 3);
+    INSERT INTO event_belongs_to VALUES (3, 4);
+    INSERT INTO event_belongs_to VALUES (4, 5);
+kind: ConfigMap
+metadata:
+  name: schedulii-postgres-preload-data

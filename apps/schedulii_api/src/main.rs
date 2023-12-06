@@ -17,7 +17,6 @@ async fn main() {
         Ok(val) => val,
         Err(e) => e.to_string(),
     };
-    print!("Database URL: {}", database_url);
     let pool = PgPoolOptions::new()
         .max_connections(5)
         .connect(&database_url)

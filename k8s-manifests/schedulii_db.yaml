@@ -20,7 +20,7 @@ spec:
   selector:
     matchLabels:
       app: schedulii-postgres
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -29,7 +29,7 @@ spec:
       containers:
         - name: schedulii-postgres
           image: postgres:16.1
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: 'IfNotPresent'
           ports:
             - containerPort: 5432
           env:

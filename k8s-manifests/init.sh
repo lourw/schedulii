@@ -33,8 +33,7 @@ kind load docker-image schedulii_api
 kind load docker-image schedulii-ui
 
 # Apply local kubernetes manifest to deploy app resources (deployment, service, ingress)
-kubectl apply -f schedulii_api.yaml
-kubectl apply -f schedulii-ui.yaml
+kubectl apply -f k8s-manifests
 
 # Apply nginx ingress controller
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml

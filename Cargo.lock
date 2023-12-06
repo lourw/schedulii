@@ -1325,6 +1325,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "axum-prometheus",
+ "dotenvy",
  "sqlx",
  "tokio",
  "tower",

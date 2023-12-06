@@ -18,6 +18,9 @@ spec:
         - name: schedulii-api-pod
           image: docker.io/library/schedulii_api
           imagePullPolicy: IfNotPresent
+          env:
+            - name: DATABASE_URL
+              value: postgresql://postgres@schedulii-postgres-service
 
 ---
 apiVersion: v1

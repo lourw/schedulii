@@ -38,10 +38,19 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
+            - name: init-data
+              mountPath: /docker-entrypoint-initdb.d
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: schedulii-persistent-volume-claim
+        - name: init-data
+          projected:
+            sources:
+              - configMap:
+                  name: schedulii-postgres-schema
+              - configMap:
+                  name: schedulii-postgres-preload-data
 
 ---
 apiVersion: v1

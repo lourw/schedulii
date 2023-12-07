@@ -1,9 +1,9 @@
 mod handlers;
 mod models;
 
-use axum::routing::delete;
 use axum::{
   routing::get,
+  routing::delete;
   Router,
   Server,
   routing::post,

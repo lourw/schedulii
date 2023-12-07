@@ -1,14 +1,13 @@
+mod handlers;
+mod models;
+
 use axum::{routing::get, Router, Server};
 use axum_prometheus::PrometheusMetricLayer;
 use dotenvy::dotenv;
+use models::app_state::AppState;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
-
-#[derive(Clone)]
-struct AppState {
-    _db_pool: sqlx::PgPool,
-}
 
 #[tokio::main]
 async fn main() {
@@ -21,13 +20,14 @@ async fn main() {
         .max_connections(5)
         .connect(&database_url)
         .await
-        .unwrap();
+        .expect("Failed to create connection pool.");
 
     let (prometheus_layer, metric_handler) = PrometheusMetricLayer::pair();
-    let state = AppState { _db_pool: pool };
+    let state = AppState { db_pool: pool };
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, World" }))
+        .route("/events", get(handlers::event_handler::hello_world()))
         .route("/metrics", get(|| async move { metric_handler.render() }))
         .layer(prometheus_layer)
         .with_state(state);
@@ -44,17 +44,11 @@ mod tests {
     use axum::body::Body;
     use axum::http::{Request, StatusCode};
     use axum::{routing::get, Router};
-    use axum_prometheus::PrometheusMetricLayer;
     use tower::ServiceExt;
 
     #[tokio::test]
     async fn main() {
-        let (prometheus_layer, metric_handler) = PrometheusMetricLayer::pair();
-
-        let app = Router::new()
-            .route("/", get(|| async { "Hello World" }))
-            .route("/metrics", get(|| async move { metric_handler.render() }))
-            .layer(prometheus_layer);
+        let app = Router::new().route("/", get(|| async { "Hello World" }));
 
         let response = app
             .oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())

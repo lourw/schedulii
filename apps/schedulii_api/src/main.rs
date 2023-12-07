@@ -27,7 +27,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, World" }))
-        .route("/events", get(handlers::event_handler::hello_world()))
+        .route("/events", get(handlers::event_handler::get_events))
         .route("/metrics", get(|| async move { metric_handler.render() }))
         .layer(prometheus_layer)
         .with_state(state);

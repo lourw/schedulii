@@ -8,6 +8,5 @@ pub async fn get_events(State(state): State<AppState>) -> (StatusCode, Json<Vec<
     let rows = sqlx::query_as::<_, Event>("SELECT * FROM events");
     let events: Vec<Event> = rows.fetch_all(&state.db_pool).await.unwrap();
 
-    println!("{:?}", events);
-    return (StatusCode::OK, Json(events));
+    (StatusCode::OK, Json(events))
 }

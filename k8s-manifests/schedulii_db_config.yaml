@@ -16,8 +16,9 @@ data:
     CREATE TABLE events(
         event_id SERIAL PRIMARY KEY,
         event_name VARCHAR(200),
-        start_time TIMESTAMP NOT NULL,
-        end_time TIMESTAMP NOT NULL
+        start_time TIMESTAMPTZ NOT NULL,
+        end_time TIMESTAMPTZ NOT NULL,
+        location VARCHAR(200)
     );
 
     CREATE TABLE event_belongs_to(
@@ -38,11 +39,11 @@ data:
     INSERT INTO users VALUES (2, 'Ben', 'Lee', 'password', 'asdf@gmail.com');
     INSERT INTO users VALUES (3, 'Mason', 'Chung', 'password', 'mchung@gmail.com');
     INSERT INTO users VALUES (4, 'Rebecca', 'Aster', 'password', 'rebast@gmail.com');
-    INSERT INTO events VALUES (1, 'Ribfest', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
-    INSERT INTO events VALUES (2, 'Racecar Derby', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
-    INSERT INTO events VALUES (3, 'Marathon', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
-    INSERT INTO events VALUES (4, 'Baking Contest', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
-    INSERT INTO events VALUES (5, 'Appointment', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'));
+    INSERT INTO events VALUES (1, 'Ribfest', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'), 'Downtown');
+    INSERT INTO events VALUES (2, 'Racecar Derby', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'), 'Downtown');
+    INSERT INTO events VALUES (3, 'Marathon', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'), 'Downtown');
+    INSERT INTO events VALUES (4, 'Baking Contest', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'), 'Downtown');
+    INSERT INTO events VALUES (5, 'Appointment', ('2024-12-02 15:00:00'), ('2024-12-02 17:30:00'), 'Downtown');
     INSERT INTO event_belongs_to VALUES (1, 1);
     INSERT INTO event_belongs_to VALUES (1, 2);
     INSERT INTO event_belongs_to VALUES (2, 3);

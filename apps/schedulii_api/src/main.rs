@@ -1,7 +1,7 @@
 mod handlers;
 mod models;
 
-use axum::{routing::get, Router, Server};
+use axum::{routing::get, Router, Server, routing::post};
 use axum_prometheus::PrometheusMetricLayer;
 use dotenvy::dotenv;
 use models::app_state::AppState;
@@ -28,6 +28,7 @@ async fn main() {
     let app = Router::new()
         .route("/", get(|| async { "Hello, World" }))
         .route("/events", get(handlers::event_handler::get_events))
+        .route("/events/add", post(handlers::event_handler::add_event))
         .route("/metrics", get(|| async move { metric_handler.render() }))
         .layer(prometheus_layer)
         .with_state(state);

@@ -2,7 +2,9 @@
   "name": "@schedulii/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "npx nx run schedulii-ui:serve & docker compose up database -d & cargo run"
+  },
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.5.2",

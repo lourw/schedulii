@@ -2,6 +2,7 @@
 import Landing from '../pages/Landing';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
+import AddEvent from '../pages/AddEvent';
 
 export function App() {
   return (
@@ -10,6 +11,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/add-event" element={<AddEvent />} />
       </Routes>
     </div>
   );

@@ -16,18 +16,27 @@ pub async fn get_events(State(state): State<AppState>) -> (StatusCode, Json<Vec<
 #[debug_handler]
 pub async fn add_event(
     State(state): State<AppState>,
-    new_event: Json<NewEvent>,
+    Json(new_event): Json<NewEvent>,
 ) -> (StatusCode, Json<String>) {
     // let event_id = Uuid::new_v4();
-    let event_id = 135060;
-    let query = sqlx::query!("INSERT INTO events (event_id, event_name, start_time, end_time, location) VALUES ($1, $2, $3, $4, $5)",
+    let event_id = 131;
+    let result = sqlx::query!("INSERT INTO events (event_id, event_name, start_time, end_time, location) VALUES ($1, $2, $3, $4, $5)",
         event_id,
         new_event.event_name,
         new_event.start_time,
         new_event.end_time,
         new_event.location
-    ).execute(&state.db_pool);
-    println!("AHHHH");
+    ).execute(&state.db_pool)
+    .await;
 
-    (StatusCode::OK, Json("Nice".to_string()))
+    match result {
+        Ok(_) => return (StatusCode::OK, Json("Event added successfully".to_string())),
+        Err(e) => {
+            eprintln!("Failed to execute query: {:?}", e);
+            return (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                Json("Failed to add event".to_string()),
+            );
+        }
+    };
 }

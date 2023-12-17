@@ -12,7 +12,6 @@ pub struct Event {
 }
 
 #[derive(Debug, FromRow, Serialize, Deserialize)]
-
 pub struct NewEvent {
     pub event_name: String,
     pub start_time: DateTime<Utc>,

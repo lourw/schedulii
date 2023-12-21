@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import css from './AddEvent.module.css';
 
 interface AddEventProps {}
 
+interface FormData {
+  eventName: string;
+  startDate: string;
+  endDate: string;
+  earliestTime: string;
+  latestTime: string;
+  location: string;
+}
+
 const AddEvent: React.FC<AddEventProps> = () => {
-  const [formData, setFormData] = useState({
+  const API_URL = import.meta.env.VITE_API_URL;
+  const [formData, setFormData] = useState<FormData>({
     eventName: '',
     startDate: '',
     endDate: '',
@@ -12,10 +23,44 @@ const AddEvent: React.FC<AddEventProps> = () => {
     latestTime: '',
     location: '',
   });
+  const [isFormValid, setIsFormValid] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    setIsFormValid(validateForm());
+  }, [formData]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+
+    if (isFormValid) {
+      try {
+        const response = await fetch(`${API_URL}/events/add`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        navigate('/home');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const isEmptyField = Object.values(formData).some(
+      (field) => field.trim().length === 0
+    );
+
+    const invalidDateRange = formData.endDate < formData.startDate;
+
+    if (isEmptyField || invalidDateRange) {
+      isValid = false;
+    }
+    return isValid;
   };
 
   return (
@@ -85,12 +130,23 @@ const AddEvent: React.FC<AddEventProps> = () => {
           }
         />
 
-        <button
-          className="bg-sky-400 font-medium text-slate-50 px-10 py-2 self-center rounded-full"
-          type="submit"
-        >
-          Submit
-        </button>
+        {isFormValid ? (
+          <button
+            className="bg-sky-400 font-medium text-slate-50 px-10 py-2 self-center rounded-full"
+            type="submit"
+          >
+            Submit
+          </button>
+        ) : (
+          <button
+            className="bg-slate-400 font-medium text-slate-50 px-10 py-2 self-center rounded-full"
+            type="submit"
+            disabled
+          >
+            {' '}
+            Submit{' '}
+          </button>
+        )}
       </form>
     </div>
   );

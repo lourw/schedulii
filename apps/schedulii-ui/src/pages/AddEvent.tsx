@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import css from './AddEvent.module.css';
 
 interface AddEventProps {}
@@ -34,18 +35,19 @@ const AddEvent: React.FC<AddEventProps> = () => {
     e.preventDefault();
 
     if (isFormValid) {
-      try {
-        const response = await fetch(`${API_URL}/events/add`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
+      axios
+        .post(`${API_URL}/events/add`, {
+          event_name: formData.eventName,
+          start_time: new Date(formData.startDate),
+          end_time: new Date(formData.endDate),
+          location: formData.location,
+        })
+        .then((res) => {
+          navigate('/home');
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        navigate('/home');
-      } catch (error) {
-        console.log(error);
-      }
     }
   };
 

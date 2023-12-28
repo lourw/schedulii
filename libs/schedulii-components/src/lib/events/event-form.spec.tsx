@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { EventForm } from '@schedulii/schedulii-components';
+import EventForm from './event-form';
 
 describe('EventForm', () => {
   it('should render successfully', () => {

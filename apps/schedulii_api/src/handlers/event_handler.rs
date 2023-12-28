@@ -1,6 +1,5 @@
 use crate::models::app_state::AppState;
 use crate::models::event::Event;
-use crate::models::event::NewEvent;
 use axum::debug_handler;
 use axum::{extract::Query, extract::State, http::StatusCode, Json};
 use serde::Deserialize;
@@ -16,7 +15,7 @@ pub async fn get_events(State(state): State<AppState>) -> (StatusCode, Json<Vec<
 #[debug_handler]
 pub async fn add_event(
     State(state): State<AppState>,
-    Json(new_event): Json<NewEvent>,
+    Json(new_event): Json<Event>,
 ) -> (StatusCode, Json<String>) {
     let result = sqlx::query!(
         "INSERT INTO events (event_name, start_time, end_time, location) VALUES ($1, $2, $3, $4)",

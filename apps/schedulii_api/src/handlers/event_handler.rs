@@ -28,15 +28,15 @@ pub async fn add_event(
     .await;
 
     match result {
-        Ok(_) => return (StatusCode::OK, Json("Event added successfully".to_string())),
+        Ok(_) => (StatusCode::OK, Json("Event added successfully".to_string())),
         Err(e) => {
             eprintln!("Failed to execute query: {:?}", e);
-            return (
+            (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 Json("Failed to add event".to_string()),
-            );
+            )
         }
-    };
+    }
 }
 
 #[derive(Deserialize)]
@@ -54,10 +54,10 @@ pub async fn delete_event(
         .await;
 
     match result {
-        Ok(_) => return StatusCode::OK,
+        Ok(_) => StatusCode::OK,
         Err(e) => {
             eprintln!("Failed to execute query: {:?}", e);
-            return StatusCode::INTERNAL_SERVER_ERROR;
+            StatusCode::INTERNAL_SERVER_ERROR
         }
     }
 }

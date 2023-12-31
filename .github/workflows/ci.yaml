@@ -43,3 +43,5 @@ jobs:
       - run: npx nx format:check
 
       - run: npx nx affected -t lint,test,build --parallel=3
+        env:
+          GITHUB_TOKEN: ${{ secrets.DATABASE_URL }}

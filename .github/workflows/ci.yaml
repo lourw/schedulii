@@ -38,7 +38,9 @@ jobs:
 
       - name: Setup environment variables
         run: |
-          echo "${{ secrets.DATABASE_URL }}" > .env
+          touch .env
+          echo ${{ secrets.DATABASE_URL }} >> .env
+          cat .env
 
       - run: npx nx format:check
 

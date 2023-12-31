@@ -2,3 +2,5 @@
 /dist
 /coverage
 /.nx/cache
+/.sqlx
+pnpm-lock.yaml

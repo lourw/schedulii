@@ -12,9 +12,10 @@ CREATE TABLE users(
 
 CREATE TABLE events(
     event_id SERIAL PRIMARY KEY,
-    event_name VARCHAR(200),
-    start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP NOT NULL
+    event_name VARCHAR(200) NOT NULL,
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ NOT NULL,
+    location VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE event_belongs_to(

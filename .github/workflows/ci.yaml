@@ -37,11 +37,13 @@ jobs:
       - run: git branch --track main origin/main
         if: github.ref != 'refs/heads/main'
 
+      # echo ${{ secrets.DATABASE_URL }} > .env
+      # echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres" > .env
+      # set SQLX_OFFLINE=true so that sqlx doesn't attempt to connect to the DATABASE_URL
       - name: Setup environment variables
         run: |
           touch .env
-          echo ${{ secrets.DATABASE_URL }} > .env
-          echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres" > .env
+          echo "SQLX_OFFLINE=true" > .env
           cat .env
 
       - run: npx nx format:check

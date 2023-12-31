@@ -17,6 +17,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   ci:
+    environment: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

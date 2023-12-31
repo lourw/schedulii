@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.eventName span {
+  font-size: 13px;
+}
+
+.eventForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background-color: #fff;
+}

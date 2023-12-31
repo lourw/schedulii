@@ -17,6 +17,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   ci:
+    environment: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,6 +37,17 @@ jobs:
       - run: git branch --track main origin/main
         if: github.ref != 'refs/heads/main'
 
+      # echo ${{ secrets.DATABASE_URL }} > .env
+      # echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres" > .env
+      # set SQLX_OFFLINE=true so that sqlx doesn't attempt to connect to the DATABASE_URL
+      - name: Setup environment variables
+        run: |
+          touch .env
+          echo "SQLX_OFFLINE=true" > .env
+          cat .env
+
       - run: npx nx format:check
 
       - run: npx nx affected -t lint,test,build --parallel=3
+        env:
+          GITHUB_TOKEN: ${{ secrets.DATABASE_URL }}

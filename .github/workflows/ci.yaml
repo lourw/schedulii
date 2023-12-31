@@ -40,8 +40,8 @@ jobs:
       - name: Setup environment variables
         run: |
           touch .env
-          echo "hello=man" > .env
           echo ${{ secrets.DATABASE_URL }} > .env
+          echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres" > .env
           cat .env
 
       - run: npx nx format:check

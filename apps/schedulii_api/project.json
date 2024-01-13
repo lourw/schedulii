@@ -7,8 +7,10 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker build -t schedulii_api -f ./apps/schedulii_api/Dockerfile ."
-      }
+        "commands": ["pnpm nps build.schedulii_api"]
+      },
+      "envFile": ".env",
+      "parallel": false
     },
     "build": {
       "executor": "@monodon/rust:build",
@@ -52,6 +54,16 @@
           "release": true
         }
       }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker compose up database -d",
+          "nx run schedulii_api:run"
+        ]
+      },
+      "parallel": false
     }
   },
   "tags": []

@@ -33,14 +33,14 @@ const Home: React.FC<HomeProps> = (props) => {
     };
 
     fetchEvents();
-}, []);
+  }, []);
 
   if (loading) return <div>Loading events...</div>;
   if (error) return <div>Error loading events</div>;
 
   return (
     <div className="events">
-      {events.map(event => (
+      {events.map((event) => (
         <EventCard
           key={event.event_id}
           title={event.event_name}
@@ -50,6 +50,6 @@ const Home: React.FC<HomeProps> = (props) => {
       ))}
     </div>
   );
-}
+};
 
 export default Home;

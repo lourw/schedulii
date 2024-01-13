@@ -10,7 +10,7 @@ tower-http = { version = "0.3.5", features = ["cors"] }
 axum-prometheus = "0.4.0"
 dotenvy = "0.15.7"
 serde = "1.0.193"
-sqlx = {version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "chrono", "uuid"]}
+sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "chrono", "uuid"] }
 chrono = {version = "0.4.19", features = ["serde"]}
 tokio = "1.34.0"
 tower = "0.4.13"

@@ -1,0 +1,6 @@
+scripts:
+  build:
+    schedulii-ui: |
+      docker build -t schedulii-ui -f ./apps/schedulii-ui/Dockerfile .
+    schedulii_api: |
+      docker build --build-arg SQLX_OFFLINE=true -t schedulii_api -f ./apps/schedulii_api/Dockerfile .

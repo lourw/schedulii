@@ -12,3 +12,6 @@ INSERT INTO event_belongs_to VALUES (1, 2);
 INSERT INTO event_belongs_to VALUES (2, 3);
 INSERT INTO event_belongs_to VALUES (3, 4);
 INSERT INTO event_belongs_to VALUES (4, 5);
+
+SELECT setval(pg_get_serial_sequence('users', 'user_id'), (SELECT max(id) FROM users));
+SELECT setval(pg_get_serial_sequence('events', 'event_id'), (SELECT max(id) FROM events));

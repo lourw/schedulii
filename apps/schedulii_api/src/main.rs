@@ -3,7 +3,7 @@ mod models;
 
 use axum::{
   routing::get,
-  routing::delete;
+  routing::delete,
   Router,
   Server,
   routing::post,

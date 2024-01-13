@@ -16,16 +16,19 @@ export function EventCard(props: EventCardProps) {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      hour12: true
+      hour12: true,
     };
 
     return dateObject.toLocaleString('en-US', options);
-  }
+  };
 
   return (
     <div className={styles.container}>
       <p className={styles.title}>{props.title}</p>
-      <p>{formatEventDateTime(props.startTime)} - {formatEventDateTime(props.endTime)}</p>
+      <p>
+        {formatEventDateTime(props.startTime)} -{' '}
+        {formatEventDateTime(props.endTime)}
+      </p>
     </div>
   );
 }

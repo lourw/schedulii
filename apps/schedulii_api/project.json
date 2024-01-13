@@ -7,7 +7,7 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["pnpm nps build.schedulii_api"]
+        "commands": ["npx nps build.schedulii_api"]
       },
       "envFile": ".env",
       "parallel": false

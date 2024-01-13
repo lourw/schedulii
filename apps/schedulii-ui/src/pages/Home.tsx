@@ -25,6 +25,8 @@ const Home: React.FC<HomeProps> = (props) => {
         const data = await response.json();
 
         setEvents(data);
+
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       } catch (err: any) {
         setError(err);
       } finally {

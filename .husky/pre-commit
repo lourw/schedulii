@@ -1,4 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 npx nx format:check
+npx nx affected -t test,lint
+cargo sqlx prepare --check --workspace

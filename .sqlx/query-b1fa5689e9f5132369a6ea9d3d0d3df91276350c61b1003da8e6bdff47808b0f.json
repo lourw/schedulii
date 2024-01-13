@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO events (event_name, start_time, end_time, location) VALUES ($1, $2, $3, $4)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Timestamptz",
+        "Timestamptz",
+        "Varchar"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "b1fa5689e9f5132369a6ea9d3d0d3df91276350c61b1003da8e6bdff47808b0f"
+}

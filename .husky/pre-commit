@@ -1,3 +1,7 @@
-npx nx format:check
+# Fail script when any of the steps error
+set -e
+
+
+pretty-quick --staged
 npx nx affected -t test,lint
 cargo sqlx prepare --check --workspace

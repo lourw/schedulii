@@ -1,8 +1,9 @@
 use crate::models::app_state::AppState;
 use crate::models::event::Event;
 use axum::debug_handler;
-use axum::{extract::Query, extract::State, http::StatusCode, Json};
+use axum::{extract::Json, extract::Query, extract::State, http::StatusCode};
 use serde::Deserialize;
+use sqlx::types::chrono::{DateTime, Utc};
 
 #[debug_handler]
 pub async fn get_events(State(state): State<AppState>) -> (StatusCode, Json<Vec<Event>>) {
@@ -12,10 +13,18 @@ pub async fn get_events(State(state): State<AppState>) -> (StatusCode, Json<Vec<
     (StatusCode::OK, Json(events))
 }
 
+#[derive(Deserialize)]
+pub struct AddEventParams {
+    pub event_name: String,
+    pub start_time: DateTime<Utc>,
+    pub end_time: DateTime<Utc>,
+    pub location: String,
+}
+
 #[debug_handler]
 pub async fn add_event(
     State(state): State<AppState>,
-    Json(new_event): Json<Event>,
+    Json(new_event): Json<AddEventParams>,
 ) -> (StatusCode, Json<String>) {
     let result = sqlx::query!(
         "INSERT INTO events (event_name, start_time, end_time, location) VALUES ($1, $2, $3, $4)",
@@ -40,16 +49,16 @@ pub async fn add_event(
 }
 
 #[derive(Deserialize)]
-pub struct DeleteParams {
-    pub id: i32,
+pub struct DeleteEventParams {
+    pub event_id: i32,
 }
 
 #[debug_handler]
 pub async fn delete_event(
     State(state): State<AppState>,
-    Query(params): Query<DeleteParams>,
+    Query(params): Query<DeleteEventParams>,
 ) -> StatusCode {
-    let result = sqlx::query!("DELETE FROM events WHERE event_id = $1", params.id)
+    let result = sqlx::query!("DELETE FROM events WHERE event_id = $1", params.event_id)
         .execute(&state.db_pool)
         .await;
 

@@ -46,8 +46,12 @@ jobs:
           echo "SQLX_OFFLINE=true" > .env
           cat .env
 
-      - run: npx nx format:check
+      - name: Verify Database Schema
+        run: |
+          cargo install sqlx-cli --no-default-features --features postgres
+          cargo sqlx prepare --check --workspace
 
-      - run: npx nx affected -t lint,test,build --parallel=3
+      - name: Run (Format, Lint, Test, Build) Checks
+        run: npx nx affected -t fmt,lint,test,build --parallel=3
         env:
           GITHUB_TOKEN: ${{ secrets.DATABASE_URL }}

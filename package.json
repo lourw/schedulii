@@ -14,15 +14,6 @@
     "react-router-dom": "^6.19.0",
     "tslib": "^2.6.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*": "npx nx format:check",
-    "": "git add"
-  },
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
@@ -55,6 +46,7 @@
     "husky": "^8.0.0",
     "jsdom": "~22.1.0",
     "lint-staged": "^15.2.0",
+    "nps": "^5.10.0",
     "nx": "17.1.2",
     "postcss": "^8.4.31",
     "prettier": "^2.6.2",

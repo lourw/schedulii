@@ -8,9 +8,7 @@
       "executor": "nx:run-commands",
       "defaultConfiguration": "production",
       "options": {
-        "commands": [
-          "docker build -t schedulii-ui -f ./apps/schedulii-ui/Dockerfile ."
-        ]
+        "commands": ["npx nps build.schedulii-ui"]
       }
     },
     "build": {
@@ -75,6 +73,20 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/schedulii-ui/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "fmt": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "command": "npx prettier --check ."
+      }
+    },
+    "fmt-fix": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "command": "npx prettier --write ."
       }
     }
   },

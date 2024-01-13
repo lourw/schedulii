@@ -6,7 +6,8 @@
 FROM node:20-alpine as build-stage
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN corepack enable && \
+    apk add --update --no-cache python3 build-base # for some reason, node-gyp requires python
 
 # Install node modules and build app
 WORKDIR /app

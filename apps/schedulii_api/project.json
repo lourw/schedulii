@@ -4,11 +4,25 @@
   "projectType": "application",
   "sourceRoot": "apps/schedulii_api/src",
   "targets": {
+    "fmt": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cargo fmt --check"
+      }
+    },
+    "fmt-fix": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cargo fmt"
+      }
+    },
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker build -t schedulii_api -f ./apps/schedulii_api/Dockerfile ."
-      }
+        "commands": ["npx nps build.schedulii_api"]
+      },
+      "envFile": ".env",
+      "parallel": false
     },
     "build": {
       "executor": "@monodon/rust:build",
@@ -52,6 +66,16 @@
           "release": true
         }
       }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker compose up database -d",
+          "nx run schedulii_api:run"
+        ]
+      },
+      "parallel": false
     }
   },
   "tags": []

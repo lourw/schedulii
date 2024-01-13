@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# Fail script when any of the steps error
+set -e
 
-npx nx format:check
+npx nx affected -t fmt,lint,test
+cargo sqlx prepare --check --workspace

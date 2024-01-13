@@ -1,7 +1,5 @@
 # Fail script when any of the steps error
 set -e
 
-
-pretty-quick --staged
-npx nx affected -t test,lint
+npx nx affected -t fmt,lint,test
 cargo sqlx prepare --check --workspace

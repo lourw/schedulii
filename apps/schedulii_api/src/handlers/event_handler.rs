@@ -1,7 +1,7 @@
 use crate::models::app_state::AppState;
 use crate::models::event::Event;
 use axum::debug_handler;
-use axum::{extract::Query, extract::State, http::StatusCode, extract::Json};
+use axum::{extract::Json, extract::Query, extract::State, http::StatusCode};
 use serde::Deserialize;
 use sqlx::types::chrono::{DateTime, Utc};
 
@@ -15,10 +15,10 @@ pub async fn get_events(State(state): State<AppState>) -> (StatusCode, Json<Vec<
 
 #[derive(Deserialize)]
 pub struct AddEventParams {
-  pub event_name: String,
-  pub start_time: DateTime<Utc>,
-  pub end_time: DateTime<Utc>,
-  pub location: String
+    pub event_name: String,
+    pub start_time: DateTime<Utc>,
+    pub end_time: DateTime<Utc>,
+    pub location: String,
 }
 
 #[debug_handler]

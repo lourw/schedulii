@@ -26,7 +26,7 @@ const Home: React.FC<HomeProps> = (props) => {
 
         setEvents(data);
 
-      /* eslint-disable @typescript-eslint/no-explicit-any */
+        /* eslint-disable @typescript-eslint/no-explicit-any */
       } catch (err: any) {
         setError(err);
       } finally {

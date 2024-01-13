@@ -2,21 +2,16 @@ mod handlers;
 mod models;
 
 use axum::{
-  routing::get,
-  routing::delete,
-  Router,
-  Server,
-  routing::post,
-  http::Method,
-  http::header::{CONTENT_TYPE},
+    http::header::CONTENT_TYPE, http::Method, routing::delete, routing::get, routing::post, Router,
+    Server,
 };
-use tower_http::cors::{Any, CorsLayer};
 use axum_prometheus::PrometheusMetricLayer;
 use dotenvy::dotenv;
 use models::app_state::AppState;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
+use tower_http::cors::{Any, CorsLayer};
 
 #[tokio::main]
 async fn main() {
@@ -35,15 +30,18 @@ async fn main() {
     let state = AppState { db_pool: pool };
 
     let cors = CorsLayer::new()
-    .allow_methods([Method::GET, Method::POST])
-    .allow_origin(Any)
-    .allow_headers([CONTENT_TYPE]);
+        .allow_methods([Method::GET, Method::POST])
+        .allow_origin(Any)
+        .allow_headers([CONTENT_TYPE]);
 
     let app = Router::new()
         .route("/", get(|| async { "Hello, World" }))
         .route("/events", get(handlers::event_handler::get_events))
         .route("/events/add", post(handlers::event_handler::add_event))
-        .route("/events/delete", delete(handlers::event_handler::delete_event))
+        .route(
+            "/events/delete",
+            delete(handlers::event_handler::delete_event),
+        )
         .route("/metrics", get(|| async move { metric_handler.render() }))
         .layer(prometheus_layer)
         .layer(cors)

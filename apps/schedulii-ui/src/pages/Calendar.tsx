@@ -46,21 +46,21 @@ const Calendar = () => {
   });
 
   // Classname var
+  const generalDays = 'text-center p-2 pb-4';
   const otherMonths = 'text-xl text-slate-400';
-  const buttons = 'mx-5 p-2 border-4';
+  const buttons = 'text-3xl flex-auto';
 
   // Render calendar
   return (
     <>
       <div>
-        <h1 className="text-3xl">Calendar</h1>
-        <div className="flex">
+        <div className="flex mb-5">
           <button
             className={buttons}
             onClick={() => setCurrentDate(subMonths(currentDate, 1))}
           >
             {' '}
-            Left Button{' '}
+            ◀️{' '}
           </button>
           <h1 className="text-3xl"> {format(currentDate, 'MMMM yyyy')} </h1>
           <button
@@ -68,24 +68,35 @@ const Calendar = () => {
             onClick={() => setCurrentDate(addMonths(currentDate, 1))}
           >
             {' '}
-            Right Button{' '}
+            ▶️{' '}
           </button>
         </div>
       </div>
-      <div className="calendar">
+      <div>
         <div className="grid grid-cols-7 bg-fuchsia-50">
           {daysOfWeek.map((day) => (
-            <div className="text-2xl">{day}</div>
+            <div
+              className={
+                'text-2xl mb-2 pb-2 border-b border-black ' + generalDays
+              }
+            >
+              {day[0]}
+            </div>
           ))}
-
           {datesInLastMonth.map((date) => (
-            <div className={otherMonths}> {format(date, 'd')} </div>
+            <div className={otherMonths + ' ' + generalDays}>
+              {' '}
+              {format(date, 'd')}{' '}
+            </div>
           ))}
 
           {datesInMonth.map((date) => (
             <div
               className={
-                'text-xl ' + (isSameDay(new Date(), date) ? 'font-bold' : '')
+                'text-xl ' +
+                (isSameDay(new Date(), date) ? 'font-bold text-red-800' : '') +
+                ' ' +
+                generalDays
               }
             >
               {' '}
@@ -94,7 +105,10 @@ const Calendar = () => {
           ))}
 
           {datesInNextMonth.map((date) => (
-            <div className={otherMonths}> {format(date, 'd')} </div>
+            <div className={otherMonths + ' ' + generalDays}>
+              {' '}
+              {format(date, 'd')}{' '}
+            </div>
           ))}
         </div>
       </div>
